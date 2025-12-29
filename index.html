@@ -79,13 +79,14 @@
         }
 
         main {
-            margin-top: 80px;
+            margin-top: 0;
         }
 
         .hero-section {
-            height: 600px;
+            height: 100vh;
             position: relative;
             overflow: hidden;
+            margin-top: 80px;
         }
 
         .slideshow {
@@ -175,14 +176,28 @@
 
         section {
             padding: 6rem 4rem;
+        }
+
+        section.animate-in {
             opacity: 0;
             transform: translateY(50px);
             transition: all 0.8s ease;
         }
 
-        section.visible {
+        section.animate-in.visible {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        section.animate-out {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease;
+        }
+
+        section.animate-out.hidden {
+            opacity: 0;
+            transform: translateY(-50px);
         }
 
         .blog-section {
@@ -392,7 +407,7 @@
             </div>
         </section>
 
-        <section class="blog-section">
+        <section class="blog-section animate-in">
             <h2>Latest from Our Blog</h2>
             <div class="blog-card">
                 <h3>Behind the Scenes: Creating Immersive Game Worlds</h3>
@@ -401,7 +416,7 @@
             </div>
         </section>
 
-        <section class="contact-section">
+        <section class="contact-section animate-in">
             <h2>Get in Touch</h2>
             <div class="contact-grid">
                 <div class="contact-card">
@@ -461,20 +476,28 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    entry.target.classList.remove('hidden');
+                } else {
+                    entry.target.classList.remove('visible');
+                    entry.target.classList.add('hidden');
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('section').forEach(section => {
+        document.querySelectorAll('.animate-in').forEach(section => {
             observer.observe(section);
         });
 
-        document.querySelectorAll('nav a').forEach(link => {
+        document.querySelectorAll('nav a, .btn').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const href = link.getAttribute('href');
-                console.log(`Navigation to: ${href}`);
+                window.location.href = href;
             });
+        });
+
+        document.querySelector('.logo').addEventListener('click', () => {
+            window.location.href = '/';
         });
     </script>
 </body>
