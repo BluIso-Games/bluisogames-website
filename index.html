@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<link rel="icon" type="image/png" href="/android-chrome-192x192.png">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -35,6 +34,11 @@
             z-index: 1000;
             border-bottom: 2px solid #c99e66;
             margin: 0;
+            transition: transform 0.3s ease;
+        }
+
+        header.hidden {
+            transform: translateY(-100%);
         }
 
         .logo {
@@ -510,6 +514,27 @@
 
         document.querySelector('.logo').addEventListener('click', () => {
             window.location.href = '/';
+        });
+
+        let lastScroll = 0;
+        let scrollTimeout;
+        const header = document.querySelector('header');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+
+            lastScroll = currentScroll;
+
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                header.classList.remove('hidden');
+            }, 3000);
         });
     </script>
 </body>
