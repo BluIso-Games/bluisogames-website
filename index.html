@@ -17,6 +17,8 @@
             background: #0d0059;
             color: #fff;
             overflow-x: hidden;
+            margin: 0;
+            padding: 0;
         }
 
         header {
@@ -31,12 +33,11 @@
             align-items: center;
             z-index: 1000;
             border-bottom: 2px solid #c99e66;
+            margin: 0;
         }
 
         .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #c99e66;
+            height: 50px;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
@@ -80,14 +81,17 @@
 
         main {
             margin-top: 0;
+            padding: 0;
         }
 
         .hero-section {
             height: 100vh;
             position: relative;
             overflow: hidden;
-            margin-top: 80px;
-            width: 100%;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
         }
 
         .slideshow {
@@ -114,7 +118,7 @@
 
         .slide-content {
             position: absolute;
-            bottom: 80px;
+            bottom: 120px;
             left: 4rem;
             z-index: 10;
             max-width: 600px;
@@ -154,7 +158,7 @@
 
         .slide-controls {
             position: absolute;
-            bottom: 20px;
+            bottom: 60px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -319,9 +323,7 @@
         }
 
         .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #c99e66;
+            height: 40px;
         }
 
         .copyright {
@@ -369,7 +371,7 @@
 </head>
 <body>
     <header>
-        <div class="logo" onclick="window.location.href='/'">BluIso Games</div>
+        <img src="https://via.placeholder.com/200x50/c99e66/0d0059?text=BluIso+Games" alt="BluIso Games" class="logo">
         <nav>
             <a href="/games">Games</a>
             <a href="/blog">Blog</a>
@@ -438,7 +440,7 @@
 
     <footer>
         <div class="footer-content">
-            <div class="footer-logo">BluIso Games</div>
+            <img src="https://via.placeholder.com/200x50/c99e66/0d0059?text=BluIso+Games" alt="BluIso Games" class="footer-logo">
             <div class="copyright">© 2025 BluIso Games. All rights reserved.</div>
         </div>
     </footer>
