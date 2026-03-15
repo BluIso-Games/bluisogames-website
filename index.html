@@ -1,542 +1,606 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BluIso Games</title>
-    <link rel="icon" type="image/png" href="/android-chrome-192x192.png">
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BluIso Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:#00177a; --gold:#c99e66; --black:#000000; --white:#f5f3ee;
+  --gold-light:#e8c98a; --gold-dark:#9a7340; --blue-dark:#000d4a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--blue);color:var(--white);overflow-x:hidden;cursor:none;}
 
-        body {
-            font-family: 'Lora', serif;
-            background: #0d0059;
-            color: #fff;
-            overflow-x: hidden;
-            margin: 0;
-            padding: 0;
-        }
+/* CURSOR */
+#cur{position:fixed;top:0;left:0;z-index:99999;width:0;height:0;
+  border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:13px solid var(--gold);
+  pointer-events:none;transform:translate(-5px,-4px);
+  filter:drop-shadow(0 0 5px rgba(201,158,102,.55));transition:border-bottom-color .15s,filter .15s;}
+#cur.hover{border-bottom-color:var(--gold-light);filter:drop-shadow(0 0 11px rgba(232,201,138,.9));}
+#cur-ring{position:fixed;top:0;left:0;z-index:99998;width:28px;height:28px;
+  border:1px solid rgba(201,158,102,.3);border-radius:50%;pointer-events:none;
+  transform:translate(-50%,-50%);transition:left .09s,top .09s;}
 
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(13, 0, 89, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            border-bottom: 2px solid #c99e66;
-            margin: 0;
-            transition: transform 0.3s ease;
-        }
+/* NOISE */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.28;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");}
 
-        header.hidden {
-            transform: translateY(-100%);
-        }
+/* LOADER */
+#loader{position:fixed;inset:0;z-index:99990;background:var(--black);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .6s,visibility .6s;}
+#loader.gone{opacity:0;visibility:hidden;pointer-events:none;}
+.ld-label{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:8px;color:var(--gold);
+  margin-bottom:40px;opacity:0;animation:fadeIn .5s .3s forwards;}
+.ld-bar-wrap{width:200px;height:1px;background:rgba(201,158,102,.15);overflow:hidden;}
+.ld-bar{width:100%;height:100%;background:linear-gradient(to right,transparent,var(--gold),transparent);
+  transform:translateX(-100%);animation:loadBar 1.5s ease .5s forwards;}
+.ld-sub{margin-top:14px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:4px;color:rgba(201,158,102,.35);}
+@keyframes fadeIn{to{opacity:1;}}
+@keyframes loadBar{to{transform:translateX(100%);}}
 
-        .logo {
-            height: 50px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;padding:0 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(0,23,122,.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(201,158,102,.15);
+  transition:transform .38s cubic-bezier(.4,0,.2,1),background .3s;}
+#nav.hide{transform:translateY(-100%);}
+#nav.solid{background:rgba(0,13,74,.97);}
 
-        .logo:hover {
-            transform: scale(1.1);
-        }
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:none;}
+.logo-mark{width:44px;height:44px;flex-shrink:0;}
+.logo-mark svg{width:100%;height:100%;display:block;}
+.logo-text{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--white);transition:color .2s;}
+.nav-logo:hover .logo-mark{animation:logoGlitch .4s steps(1) infinite;}
+.nav-logo:hover .logo-text{animation:textGlitch .4s steps(1) infinite;color:var(--gold);}
+@keyframes logoGlitch{
+  0%{filter:none;transform:translate(0,0);}
+  10%{filter:drop-shadow(-3px 0 #c99e66) drop-shadow(3px 0 #e8c98a);transform:translate(-2px,0);}
+  20%{filter:drop-shadow(3px 0 #9a7340);transform:translate(2px,-1px);clip-path:inset(10% 0 60% 0);}
+  30%{filter:none;transform:translate(0,0);clip-path:none;}
+  50%{filter:hue-rotate(30deg) brightness(1.5);transform:translate(1px,0);}
+  70%{filter:drop-shadow(-3px 2px #9a7340) brightness(1.2);transform:translate(-2px,1px);}
+  100%{filter:none;transform:translate(0,0);}
+}
+@keyframes textGlitch{
+  0%,100%{text-shadow:none;transform:translate(0,0);}
+  15%{text-shadow:-3px 0 #e8c98a,3px 0 #9a7340;transform:translate(-2px,0);}
+  45%{text-shadow:-2px 1px #e8c98a,4px -1px #9a7340;transform:translate(2px,1px);}
+  60%{text-shadow:3px 0 #c99e66,-3px 0 #fff;transform:translate(-1px,0);}
+}
 
-        nav {
-            display: flex;
-            gap: 3rem;
-        }
+.nav-links{list-style:none;display:flex;}
+.nav-links a{display:block;padding:26px 26px;font-family:'Bebas Neue',sans-serif;
+  font-size:13px;letter-spacing:3px;color:rgba(245,243,238,.65);text-decoration:none;
+  text-transform:uppercase;position:relative;cursor:none;transition:color .25s;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:50%;right:50%;
+  height:2px;background:var(--gold);transition:left .3s,right .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a:hover::after,.nav-links a.active::after{left:18%;right:18%;}
+.nav-links a.active{color:var(--white);}
 
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 500;
-            position: relative;
-            transition: color 0.3s ease;
-        }
+/* PAGES */
+.page{display:none;min-height:100vh;position:relative;z-index:2;}
+.page.active{display:block;}
 
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #c99e66;
-            transition: width 0.3s ease;
-        }
+/* SHARED */
+.section-label{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:5px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:48px;display:flex;align-items:center;gap:16px;}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(201,158,102,.4),transparent);}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;padding:15px 34px;
+  background:var(--gold);color:var(--black);font-family:'Bebas Neue',sans-serif;
+  font-size:13px;letter-spacing:3px;text-decoration:none;text-transform:uppercase;
+  border:none;cursor:none;transition:transform .2s,filter .2s;}
+.btn-primary:hover{transform:translateY(-2px);filter:brightness(1.12);}
+.btn-secondary{display:inline-flex;align-items:center;gap:10px;padding:15px 34px;
+  background:transparent;color:var(--white);font-family:'Bebas Neue',sans-serif;
+  font-size:13px;letter-spacing:3px;text-decoration:none;text-transform:uppercase;
+  border:1px solid rgba(245,243,238,.3);cursor:none;transition:border-color .3s,color .3s;}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold);}
 
-        nav a:hover {
-            color: #c99e66;
-        }
+.page-hero{padding:160px 80px 80px;position:relative;overflow:hidden;}
+.page-hero-bg-text{position:absolute;top:50%;right:20px;transform:translateY(-50%);
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(100px,14vw,200px);
+  color:rgba(201,158,102,.04);letter-spacing:-5px;user-select:none;line-height:1;}
+.page-eyebrow{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:5px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.page-eyebrow::before{content:'//';color:rgba(201,158,102,.4);}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,8vw,100px);line-height:.9;
+  color:var(--white);margin-bottom:24px;}
+.page-subtitle{font-size:15px;line-height:1.7;color:rgba(245,243,238,.5);max-width:500px;font-weight:300;}
 
-        nav a:hover::after {
-            width: 100%;
-        }
+/* HOME HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:140px 0 100px 80px;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(201,158,102,.06) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 80% at 20% 80%,rgba(0,13,74,.8) 0%,transparent 70%),
+    linear-gradient(170deg,#000d4a 0%,#00177a 40%,#001566 100%);}
+.hero-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(201,158,102,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(201,158,102,.05) 1px,transparent 1px);
+  background-size:80px 80px;animation:gridMove 20s linear infinite;}
+@keyframes gridMove{from{background-position:0 0}to{background-position:80px 80px}}
+.hero-scanlines{position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);}
+.hero-bg-text{position:absolute;bottom:-20px;right:-20px;font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(160px,20vw,280px);color:rgba(201,158,102,.04);letter-spacing:-10px;line-height:1;user-select:none;white-space:nowrap;}
+.hero-content{position:relative;z-index:10;max-width:700px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:'Bebas Neue',sans-serif;
+  font-size:11px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:24px;
+  padding:8px 16px;border:1px solid rgba(201,158,102,.3);background:rgba(201,158,102,.05);}
+.hero-eyebrow::before{content:'';width:20px;height:1px;background:var(--gold);}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,9vw,128px);line-height:.9;
+  letter-spacing:-2px;color:var(--white);margin-bottom:28px;text-transform:uppercase;}
+.hero-title span{display:block;
+  background:linear-gradient(135deg,var(--gold-light) 0%,var(--gold) 50%,var(--gold-dark) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-subtitle{font-size:16px;line-height:1.7;color:rgba(245,243,238,.6);max-width:440px;margin-bottom:48px;font-weight:300;}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;}
+.scroll-hint{position:absolute;right:48px;bottom:48px;z-index:10;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.scroll-hint span{font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:4px;color:rgba(201,158,102,.5);writing-mode:vertical-rl;}
+.scroll-line{width:1px;height:60px;background:linear-gradient(var(--gold),transparent);animation:scrollPulse 2s ease-in-out infinite;}
+@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:1}}
 
-        main {
-            margin-top: 0;
-            padding: 0;
-        }
+/* HOME CARDS */
+.announce-section{padding:100px 80px;border-top:1px solid rgba(201,158,102,.1);}
+.announce-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.announce-card{background:rgba(0,13,74,.5);border:1px solid rgba(201,158,102,.1);
+  padding:48px;position:relative;overflow:hidden;transition:border-color .3s,background .3s;}
+.announce-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--gold);transition:height .4s;}
+.announce-card:hover{border-color:rgba(201,158,102,.3);background:rgba(0,21,102,.6);}
+.announce-card:hover::before{height:100%;}
+.card-tag{font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;opacity:.7;}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;color:var(--white);margin-bottom:16px;line-height:1.1;}
+.card-body{font-size:14px;line-height:1.7;color:rgba(245,243,238,.55);font-weight:300;}
+.card-num{position:absolute;bottom:24px;right:32px;font-family:'Bebas Neue',sans-serif;font-size:80px;color:rgba(201,158,102,.06);line-height:1;user-select:none;}
 
-        .hero-section {
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-            width: 100vw;
-            margin-left: calc(-50vw + 50%);
-        }
+/* GAMES */
+.games-section{padding:60px 80px 120px;}
+.reveal-card{border:1px solid rgba(201,158,102,.2);overflow:hidden;background:rgba(0,8,40,.7);
+  display:grid;grid-template-columns:1fr 1fr;min-height:480px;}
+.reveal-left{padding:64px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid rgba(201,158,102,.1);}
+.reveal-right{position:relative;display:flex;align-items:center;justify-content:center;background:rgba(0,4,26,.8);overflow:hidden;}
+.reveal-right::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(201,158,102,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,158,102,.04) 1px,transparent 1px);
+  background-size:40px 40px;animation:gridMove 15s linear infinite;}
+.tba-icon{width:160px;height:160px;border:2px solid rgba(201,158,102,.2);display:flex;align-items:center;justify-content:center;position:relative;z-index:1;}
+.tba-icon::before{content:'';position:absolute;width:1px;height:100%;background:rgba(201,158,102,.2);}
+.tba-icon::after{content:'';position:absolute;width:100%;height:1px;background:rgba(201,158,102,.2);}
+.tba-q{font-family:'Bebas Neue',sans-serif;font-size:80px;color:rgba(201,158,102,.15);z-index:2;}
+.reveal-status{display:inline-flex;align-items:center;gap:8px;font-family:'Bebas Neue',sans-serif;
+  font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;
+  border:1px solid rgba(201,158,102,.3);padding:6px 14px;margin-bottom:24px;width:fit-content;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.reveal-game-title{font-family:'Bebas Neue',sans-serif;font-size:54px;line-height:.95;color:var(--white);margin-bottom:20px;}
+.reveal-game-title span{color:var(--gold);}
+.reveal-desc{font-size:14px;line-height:1.8;color:rgba(245,243,238,.5);font-weight:300;margin-bottom:40px;}
+.reveal-meta{display:flex;gap:40px;}
+.meta-item label{display:block;font-family:'Bebas Neue',sans-serif;font-size:9px;letter-spacing:4px;color:rgba(201,158,102,.5);text-transform:uppercase;margin-bottom:4px;}
+.meta-item span{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;color:var(--white);}
+.glitch-flicker{position:absolute;inset:0;animation:screenGlitch 6s steps(1) infinite;}
+@keyframes screenGlitch{
+  0%,95%,100%{opacity:0}
+  96%{opacity:1;background:rgba(201,158,102,.03);clip-path:inset(30% 0 50% 0);transform:translateX(-4px)}
+  97%{opacity:1;background:rgba(0,13,74,.5);clip-path:inset(60% 0 20% 0);transform:translateX(4px)}
+  98%{opacity:0}
+}
+.stay-tuned-block{margin-top:80px;padding:64px;border:1px solid rgba(201,158,102,.1);background:rgba(0,8,40,.4);text-align:center;}
 
-        .slideshow {
-            position: relative;
-            height: 100%;
-            width: 100%;
-        }
+/* ABOUT */
+.about-section{padding:60px 80px 120px;}
+.mission-block{display:grid;grid-template-columns:1fr 2fr;gap:80px;margin-bottom:100px;
+  padding:64px 0;border-top:1px solid rgba(201,158,102,.15);}
+.mission-left-label{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;padding-top:8px;}
+.mission-statement{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,3.5vw,44px);line-height:1.2;color:var(--white);margin-bottom:32px;}
+.mission-statement em{font-style:normal;
+  background:linear-gradient(135deg,var(--gold-light),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.mission-body{font-size:15px;line-height:1.8;color:rgba(245,243,238,.55);font-weight:300;max-width:560px;}
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:100px;}
+.value-item{padding:48px;border:1px solid rgba(201,158,102,.1);background:rgba(0,13,74,.4);transition:background .3s,border-color .3s;}
+.value-item:hover{background:rgba(0,21,102,.5);border-color:rgba(201,158,102,.25);}
+.value-num{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:4px;color:rgba(201,158,102,.4);margin-bottom:24px;}
+.value-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:var(--white);margin-bottom:16px;}
+.value-desc{font-size:14px;line-height:1.7;color:rgba(245,243,238,.5);font-weight:300;}
+.team-section{padding-top:60px;border-top:1px solid rgba(201,158,102,.1);}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:48px;}
+.team-card{padding:36px 32px;border:1px solid rgba(201,158,102,.1);text-align:center;transition:border-color .3s;}
+.team-card:hover{border-color:rgba(201,158,102,.25);}
+.team-avatar{width:72px;height:72px;background:rgba(201,158,102,.1);border:1px solid rgba(201,158,102,.2);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;}
+.team-avatar span{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);opacity:.5;}
+.team-name{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--white);margin-bottom:6px;}
+.team-role{font-size:11px;letter-spacing:3px;color:rgba(201,158,102,.5);text-transform:uppercase;font-weight:300;}
 
-        .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            background-size: cover;
-            background-position: center;
-        }
+/* BLOG */
+.blog-section{padding:60px 80px 120px;}
+.blog-featured{display:grid;grid-template-columns:2fr 1fr;gap:2px;margin-bottom:2px;}
+.blog-card{border:1px solid rgba(201,158,102,.1);background:rgba(0,13,74,.4);padding:48px;
+  position:relative;overflow:hidden;transition:border-color .3s,background .3s;cursor:none;}
+.blog-card:hover{border-color:rgba(201,158,102,.25);background:rgba(0,21,102,.5);}
+.blog-card::after{content:'→';position:absolute;bottom:32px;right:40px;font-size:20px;
+  color:rgba(201,158,102,.3);transition:color .3s,transform .3s;}
+.blog-card:hover::after{color:var(--gold);transform:translateX(6px);}
+.blog-tag{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:4px;
+  color:var(--black);background:var(--gold);padding:3px 10px;margin-bottom:20px;}
+.blog-date{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:3px;
+  color:rgba(245,243,238,.3);text-transform:uppercase;margin-left:12px;margin-bottom:8px;}
+.blog-title{font-family:'Bebas Neue',sans-serif;font-size:36px;line-height:1.1;color:var(--white);margin-bottom:16px;}
+.blog-excerpt{font-size:14px;line-height:1.7;color:rgba(245,243,238,.5);font-weight:300;}
+.blog-featured-badge{position:absolute;top:24px;right:24px;font-family:'Bebas Neue',sans-serif;
+  font-size:9px;letter-spacing:4px;color:var(--gold);border:1px solid rgba(201,158,102,.3);padding:4px 10px;}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;}
+.newsletter-block{margin-top:80px;padding:64px;border:1px solid rgba(201,158,102,.2);
+  background:rgba(0,8,40,.6);display:flex;align-items:center;justify-content:space-between;gap:48px;}
+.newsletter-block h3{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;color:var(--white);margin-bottom:8px;}
+.newsletter-block p{font-size:14px;color:rgba(245,243,238,.5);font-weight:300;}
+.nl-form{display:flex;}
+.nl-form input{width:280px;padding:14px 20px;background:rgba(0,23,122,.5);
+  border:1px solid rgba(201,158,102,.2);border-right:none;color:var(--white);
+  font-family:'DM Sans',sans-serif;font-size:13px;outline:none;cursor:none;transition:border-color .3s;}
+.nl-form input::placeholder{color:rgba(245,243,238,.25);}
+.nl-form input:focus{border-color:rgba(201,158,102,.5);}
+.nl-form button{padding:14px 28px;background:var(--gold);color:var(--black);border:none;
+  font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:3px;
+  text-transform:uppercase;cursor:none;transition:filter .2s;}
+.nl-form button:hover{filter:brightness(1.12);}
 
-        .slide.active {
-            opacity: 1;
-        }
-
-        .slide-content {
-            position: absolute;
-            bottom: 120px;
-            left: 4rem;
-            z-index: 10;
-            max-width: 600px;
-        }
-
-        .slide-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            color: #c99e66;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-        }
-
-        .slide-content p {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: #c99e66;
-            color: #0d0059;
-            text-decoration: none;
-            font-weight: 700;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            border: 2px solid #c99e66;
-        }
-
-        .btn:hover {
-            background: transparent;
-            color: #c99e66;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(201, 158, 102, 0.4);
-        }
-
-        .slide-controls {
-            position: absolute;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 10;
-        }
-
-        .slide-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .slide-dot.active {
-            background: #c99e66;
-            width: 30px;
-            border-radius: 6px;
-        }
-
-        section {
-            padding: 6rem 4rem;
-        }
-
-        section.animate-in {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
-        }
-
-        section.animate-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        section.animate-out {
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 0.8s ease;
-        }
-
-        section.animate-out.hidden {
-            opacity: 0;
-            transform: translateY(-50px);
-        }
-
-        .blog-section {
-            background: linear-gradient(135deg, #0d0059 0%, #1a0080 100%);
-        }
-
-        .blog-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: #c99e66;
-            text-align: center;
-        }
-
-        .blog-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 3rem;
-            border-radius: 10px;
-            border: 1px solid #c99e66;
-            max-width: 900px;
-            margin: 0 auto;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .blog-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(201, 158, 102, 0.3);
-        }
-
-        .blog-card h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #c99e66;
-        }
-
-        .blog-card p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-
-        .blog-card .read-more {
-            color: #c99e66;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .blog-card .read-more:hover {
-            color: #fff;
-        }
-
-        .contact-section {
-            background: #0d0059;
-        }
-
-        .contact-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #c99e66;
-            text-align: center;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .contact-card {
-            background: linear-gradient(135deg, #0d0059 0%, #1a0080 100%);
-            padding: 2.5rem;
-            border-radius: 10px;
-            border: 1px solid #c99e66;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .contact-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .contact-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #c99e66;
-        }
-
-        .contact-card p {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
-
-        .contact-card a {
-            color: #c99e66;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .contact-card a:hover {
-            color: #fff;
-        }
-
-        footer {
-            background: #0d0059;
-            padding: 3rem 4rem;
-            border-top: 2px solid #c99e66;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-logo {
-            height: 40px;
-        }
-
-        .copyright {
-            color: #fff;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            header {
-                padding: 1rem 2rem;
-            }
-
-            nav {
-                gap: 1.5rem;
-            }
-
-            nav a {
-                font-size: 0.9rem;
-            }
-
-            section {
-                padding: 4rem 2rem;
-            }
-
-            .slide-content {
-                left: 2rem;
-                bottom: 60px;
-            }
-
-            .slide-content h1 {
-                font-size: 2rem;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-        }
-    </style>
+/* FOOTER */
+footer{background:var(--black);border-top:1px solid rgba(201,158,102,.15);padding:80px 80px 48px;position:relative;z-index:2;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:80px;margin-bottom:64px;}
+.footer-brand-name{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;color:var(--white);margin-bottom:16px;display:block;}
+.footer-tagline{font-size:13px;line-height:1.7;color:rgba(245,243,238,.35);font-weight:300;max-width:280px;margin-bottom:32px;}
+.footer-social{display:flex;gap:12px;}
+.social-btn{width:40px;height:40px;border:1px solid rgba(201,158,102,.2);display:flex;align-items:center;justify-content:center;
+  color:rgba(201,158,102,.5);text-decoration:none;cursor:none;transition:border-color .3s,color .3s,background .3s;}
+.social-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,158,102,.08);}
+.social-btn svg{width:16px;height:16px;fill:currentColor;}
+.footer-col h4{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:4px;color:rgba(201,158,102,.5);text-transform:uppercase;margin-bottom:24px;}
+.footer-links{list-style:none;}
+.footer-links li{margin-bottom:12px;}
+.footer-links a{font-size:14px;color:rgba(245,243,238,.4);text-decoration:none;cursor:none;
+  display:flex;align-items:center;gap:8px;transition:color .2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-links a .la{opacity:0;transition:opacity .2s,transform .2s;font-size:12px;}
+.footer-links a:hover .la{opacity:1;transform:translateX(4px);}
+.contact-btn{display:block;width:fit-content;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;
+  color:var(--gold);text-decoration:none;cursor:none;border:1px solid rgba(201,158,102,.2);
+  padding:10px 20px;margin-bottom:12px;transition:background .3s,border-color .3s;}
+.contact-btn:hover{background:rgba(201,158,102,.08);border-color:var(--gold);}
+.contact-email{font-size:12px;color:rgba(245,243,238,.25);text-decoration:none;display:block;cursor:none;transition:color .2s;}
+.contact-email:hover{color:rgba(201,158,102,.6);}
+.footer-bottom{border-top:1px solid rgba(201,158,102,.08);padding-top:32px;display:flex;align-items:center;justify-content:space-between;}
+.footer-copy{font-size:12px;color:rgba(245,243,238,.2);letter-spacing:1px;}
+.footer-legal{display:flex;gap:24px;}
+.footer-legal a{font-size:11px;color:rgba(245,243,238,.2);text-decoration:none;cursor:none;transition:color .2s;}
+.footer-legal a:hover{color:rgba(201,158,102,.5);}
+</style>
 </head>
 <body>
-    <header>
-        <svg class="logo" width="200" height="50" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
-            <rect width="200" height="50" fill="#c99e66"/>
-            <text x="100" y="30" font-family="Lora, serif" font-size="20" font-weight="700" fill="#0d0059" text-anchor="middle">BluIso Games</text>
-        </svg>
-        <nav>
-            <a href="/games">Games</a>
-            <a href="/blog">Blog</a>
-            <a href="/videos">Videos</a>
-            <a href="/contact">Contact</a>
-        </nav>
-    </header>
 
-    <main>
-        <section class="hero-section">
-            <div class="slideshow">
-                <div class="slide active" style="background: linear-gradient(rgba(13, 0, 89, 0.3), rgba(0, 0, 0, 0.7)), url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%221920%22 height=%22600%22><rect fill=%22%230d0059%22 width=%221920%22 height=%22600%22/><text x=%2250%25%22 y=%2250%25%22 font-size=%2248%22 fill=%22%23c99e66%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Lora%22>The Frozen Highlands</text></svg>');">
-                    <div class="slide-content">
-                        <h1>The Frozen Highlands</h1>
-                        <p>Embark on an epic adventure through frozen landscapes and uncover ancient mysteries.</p>
-                        <a href="/TFH" class="btn">View Game</a>
-                    </div>
-                </div>
-                <div class="slide" style="background: linear-gradient(rgba(13, 0, 89, 0.3), rgba(0, 0, 0, 0.7)), url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%221920%22 height=%22600%22><rect fill=%22%231a0080%22 width=%221920%22 height=%22600%22/><text x=%2250%25%22 y=%2250%25%22 font-size=%2248%22 fill=%22%23c99e66%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Lora%22>Shadow Protocol</text></svg>');">
-                    <div class="slide-content">
-                        <h1>Shadow Protocol</h1>
-                        <p>Experience intense tactical gameplay in a world of espionage and intrigue.</p>
-                        <a href="/shadow-protocol" class="btn">View Game</a>
-                    </div>
-                </div>
-                <div class="slide" style="background: linear-gradient(rgba(13, 0, 89, 0.3), rgba(0, 0, 0, 0.7)), url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%221920%22 height=%22600%22><rect fill=%22%23000033%22 width=%221920%22 height=%22600%22/><text x=%2250%25%22 y=%2250%25%22 font-size=%2248%22 fill=%22%23c99e66%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Lora%22>Neon Velocity</text></svg>');">
-                    <div class="slide-content">
-                        <h1>Neon Velocity</h1>
-                        <p>Race through a cyberpunk metropolis at breakneck speeds in this futuristic racer.</p>
-                        <a href="/neon-velocity" class="btn">View Game</a>
-                    </div>
-                </div>
-            </div>
-            <div class="slide-controls">
-                <div class="slide-dot active" data-slide="0"></div>
-                <div class="slide-dot" data-slide="1"></div>
-                <div class="slide-dot" data-slide="2"></div>
-            </div>
-        </section>
+<div id="cur"></div>
+<div id="cur-ring"></div>
 
-        <section class="blog-section animate-in">
-            <h2>Latest from Our Blog</h2>
-            <div class="blog-card">
-                <h3>Behind the Scenes: Creating Immersive Game Worlds</h3>
-                <p>Dive deep into our development process as we explore how we craft the stunning environments and engaging gameplay that define BluIso Games. From concept art to final implementation, discover the passion and innovation that drives our team.</p>
-                <a href="/blog" class="read-more">Read More →</a>
-            </div>
-        </section>
+<div id="loader">
+  <div class="ld-label">BLUISO GAMES</div>
+  <div class="ld-bar-wrap"><div class="ld-bar"></div></div>
+  <div class="ld-sub">INITIALIZING...</div>
+</div>
 
-        <section class="contact-section animate-in">
-            <h2>Get in Touch</h2>
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <h3>Press Inquiries</h3>
-                    <p>For media and press-related questions</p>
-                    <a href="mailto:press@bluisogames.com">press@bluisogames.com</a>
-                </div>
-                <div class="contact-card">
-                    <h3>General Inquiries</h3>
-                    <p>For general questions and information</p>
-                    <a href="mailto:contact@bluisogames.com">contact@bluisogames.com</a>
-                </div>
-            </div>
-        </section>
-    </main>
+<nav id="nav">
+  <a href="/" class="nav-logo" data-nav="home">
+    <div class="logo-mark">
+      <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="22,2 42,12 42,32 22,42 2,32 2,12" stroke="#c99e66" stroke-width="1.5" fill="none"/>
+        <polygon points="22,10 34,17 34,27 22,34 10,27 10,17" stroke="#c99e66" stroke-width="0.8" fill="rgba(201,158,102,0.05)"/>
+        <text x="22" y="27" font-family="Bebas Neue" font-size="13" fill="#c99e66" text-anchor="middle" letter-spacing="1">BI</text>
+      </svg>
+    </div>
+    <span class="logo-text">BLUISO</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/games"   data-nav="games" id="nl-games">Games</a></li>
+    <li><a href="/about"   data-nav="about" id="nl-about">About Us</a></li>
+    <li><a href="/isoinfo" data-nav="blog"  id="nl-blog">IsoInfo</a></li>
+  </ul>
+</nav>
 
-    <footer>
-        <div class="footer-content">
-            <svg class="footer-logo" width="200" height="50" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
-                <rect width="200" height="50" fill="#c99e66"/>
-                <text x="100" y="30" font-family="Lora, serif" font-size="20" font-weight="700" fill="#0d0059" text-anchor="middle">BluIso Games</text>
-            </svg>
-            <div class="copyright">© 2025 BluIso Games. All rights reserved.</div>
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-scanlines"></div>
+    <div class="hero-bg-text">BLUISO</div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Independent Game Studio — Est. 2025</div>
+      <h1 class="hero-title">Worlds<br><span>Worth</span><br>Playing.</h1>
+      <p class="hero-subtitle">BluIso Games crafts immersive, narrative-driven experiences for the next generation of players. Our debut title is in development.</p>
+      <div class="hero-cta">
+        <a href="/games" class="btn-primary" data-nav="games">&#9654; Explore Our Games</a>
+        <a href="/about" class="btn-secondary" data-nav="about">Our Mission</a>
+      </div>
+    </div>
+    <div class="scroll-hint"><div class="scroll-line"></div><span>Scroll</span></div>
+  </div>
+  <div class="announce-section">
+    <div class="section-label">Latest From BluIso</div>
+    <div class="announce-grid">
+      <div class="announce-card"><div class="card-tag">Studio News</div><div class="card-title">BluIso Games Is<br>Officially Announced</div><div class="card-body">We're a new independent studio committed to building worlds that players won't want to leave. Our journey starts here — and we're just getting started.</div><div class="card-num">01</div></div>
+      <div class="announce-card"><div class="card-tag">Development</div><div class="card-title">Debut Title<br>In Preproduction</div><div class="card-body">Our first game is in active preproduction. We can't say much yet — but it's shaping up to be something we're incredibly proud of. Details coming soon.</div><div class="card-num">02</div></div>
+      <div class="announce-card"><div class="card-tag">Blog</div><div class="card-title">Follow the<br>Journey on IsoInfo</div><div class="card-body">We believe in building in public. Check out IsoInfo for dev logs and studio updates. <a href="/isoinfo" data-nav="blog" style="color:var(--gold);text-decoration:none;">Read now →</a></div><div class="card-num">03</div></div>
+      <div class="announce-card"><div class="card-tag">Connect</div><div class="card-title">Join the<br>BluIso Community</div><div class="card-body">Follow us on social media and be among the first to hear about our big reveal. The wait will be worth it. We promise.</div><div class="card-num">04</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- GAMES -->
+<div id="page-games" class="page">
+  <div class="page-hero">
+    <div class="page-hero-bg-text">GAMES</div>
+    <div class="page-hero-content">
+      <div class="page-eyebrow">BluIso Catalog</div>
+      <h1 class="page-title">Our<br>Games</h1>
+      <p class="page-subtitle">Every title we make begins with a simple question: what kind of world do we wish existed? The answer becomes the game.</p>
+    </div>
+  </div>
+  <div class="games-section">
+    <div class="section-label">Debut Title</div>
+    <div class="reveal-card">
+      <div class="reveal-left">
+        <div>
+          <div class="reveal-status"><span class="status-dot"></span> In Preproduction</div>
+          <h2 class="reveal-game-title">Untitled<br><span>BluIso</span><br>Project</h2>
+          <p class="reveal-desc">Our debut title is currently in preproduction. We're building something ambitious — an experience crafted with care, creativity, and an obsession with detail. More information will be revealed when the time is right.</p>
         </div>
-    </footer>
+        <div class="reveal-meta">
+          <div class="meta-item"><label>Status</label><span>Preproduction</span></div>
+          <div class="meta-item"><label>Release</label><span>TBA</span></div>
+          <div class="meta-item"><label>Platform</label><span>TBA</span></div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="tba-icon"><span class="tba-q">?</span></div>
+        <div class="glitch-flicker"></div>
+      </div>
+    </div>
+    <div class="stay-tuned-block">
+      <div class="section-label" style="justify-content:center;">Stay In The Loop</div>
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--white);margin-bottom:16px;">Be First to Know</h3>
+      <p style="font-size:14px;color:rgba(245,243,238,.45);margin-bottom:36px;font-weight:300;max-width:400px;margin-left:auto;margin-right:auto;">Our big reveal is on the horizon. Follow us on social or check out IsoInfo to catch it live.</p>
+      <a href="/isoinfo" class="btn-primary" data-nav="blog">Go to IsoInfo &#8594;</a>
+    </div>
+  </div>
+</div>
 
-    <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.slide-dot');
+<!-- ABOUT -->
+<div id="page-about" class="page">
+  <div class="page-hero">
+    <div class="page-hero-bg-text">ABOUT</div>
+    <div class="page-hero-content">
+      <div class="page-eyebrow">Who We Are</div>
+      <h1 class="page-title">About<br>BluIso</h1>
+      <p class="page-subtitle">A small team with big vision. We're building the kind of games we've always wanted to play.</p>
+    </div>
+  </div>
+  <div class="about-section">
+    <div class="mission-block">
+      <div class="mission-left-label">Our Mission</div>
+      <div>
+        <h2 class="mission-statement">To create <em>worlds that feel alive</em> — games that stay with you long after the credits roll.</h2>
+        <p class="mission-body">At BluIso Games, we believe the best games are the ones that respect their players — offering depth, meaning, and genuine discovery. We're an independent studio founded on the conviction that small teams can make games that matter. Our approach combines meticulous craft with bold creative risks, building experiences that are original, purposeful, and unforgettable.</p>
+      </div>
+    </div>
+    <div class="section-label">Our Values</div>
+    <div class="values-grid">
+      <div class="value-item"><div class="value-num">01 —</div><div class="value-title">Craft Over Speed</div><div class="value-desc">We don't rush. Every mechanic, every line of dialogue, every visual decision is made with intention. We'd rather ship one great thing than many mediocre ones.</div></div>
+      <div class="value-item"><div class="value-num">02 —</div><div class="value-title">Player Respect</div><div class="value-desc">Our games never waste your time. No artificial padding, no manipulative monetization. We build for players who want a real experience.</div></div>
+      <div class="value-item"><div class="value-num">03 —</div><div class="value-title">Original Vision</div><div class="value-desc">We don't chase trends. We follow our creative instincts and build worlds that haven't been built before — because that's the only kind of game worth making.</div></div>
+      <div class="value-item"><div class="value-num">04 —</div><div class="value-title">Open Development</div><div class="value-desc">We build in public. We share our process, our wins, and our mistakes through IsoInfo — because transparency builds trust.</div></div>
+      <div class="value-item"><div class="value-num">05 —</div><div class="value-title">Community First</div><div class="value-desc">Our players are our partners. We listen, we engage, and we build together — the community is part of what makes a BluIso game special.</div></div>
+      <div class="value-item"><div class="value-num">06 —</div><div class="value-title">Sustainability</div><div class="value-desc">We're building a studio for the long run. Sustainable practices, healthy culture, and real creative ambition — these aren't trade-offs. They're requirements.</div></div>
+    </div>
+    <div class="team-section">
+      <div class="section-label">The Team</div>
+      <div class="team-grid">
+        <div class="team-card"><div class="team-avatar"><span>?</span></div><div class="team-name">Placeholder</div><div class="team-role">Studio Director</div></div>
+        <div class="team-card"><div class="team-avatar"><span>?</span></div><div class="team-name">Placeholder</div><div class="team-role">Lead Designer</div></div>
+        <div class="team-card"><div class="team-avatar"><span>?</span></div><div class="team-name">Placeholder</div><div class="team-role">Lead Developer</div></div>
+        <div class="team-card"><div class="team-avatar"><span>?</span></div><div class="team-name">Placeholder</div><div class="team-role">Art Director</div></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        function showSlide(n) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
-            
-            currentSlide = (n + slides.length) % slides.length;
-            
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-        }
+<!-- ISOINFO -->
+<div id="page-blog" class="page">
+  <div class="page-hero">
+    <div class="page-hero-bg-text">ISO</div>
+    <div class="page-hero-content">
+      <div class="page-eyebrow">Dev Log &amp; Studio Blog</div>
+      <h1 class="page-title">Iso<br>Info</h1>
+      <p class="page-subtitle">Behind-the-scenes dispatches from the BluIso studio. Development stories, creative process, and studio life — unfiltered.</p>
+    </div>
+  </div>
+  <div class="blog-section">
+    <div class="section-label">Featured Post</div>
+    <div class="blog-featured">
+      <div class="blog-card" style="min-height:320px;">
+        <div class="blog-featured-badge">Featured</div>
+        <div><span class="blog-tag">Studio News</span><span class="blog-date">March 2025</span></div>
+        <h2 class="blog-title">Welcome to BluIso Games —<br>Our Story Starts Here</h2>
+        <p class="blog-excerpt">Every studio has a founding moment — a decision to stop imagining and start building. This is ours. We're BluIso Games, a new independent studio with one goal: to make games that matter. Here's what we believe in, what we're building toward, and why we think this is the perfect time to start.</p>
+      </div>
+      <div class="blog-card" style="min-height:320px;">
+        <div><span class="blog-tag">Dev Log</span><span class="blog-date">April 2025</span></div>
+        <h2 class="blog-title">Preproduction:<br>How We're Building Our First World</h2>
+        <p class="blog-excerpt">We talk about our process, our inspirations, and how we're approaching the earliest and most critical phase of game development.</p>
+      </div>
+    </div>
+    <div class="section-label" style="margin-top:60px;">All Posts</div>
+    <div class="blog-grid">
+      <div class="blog-card"><div><span class="blog-tag">Design</span><span class="blog-date">May 2025</span></div><h3 class="blog-title" style="font-size:24px;">What Makes a Game World Feel Real?</h3><p class="blog-excerpt">A deep-dive into environmental storytelling and the details that transform a level into a place players believe in.</p></div>
+      <div class="blog-card"><div><span class="blog-tag">Culture</span><span class="blog-date">June 2025</span></div><h3 class="blog-title" style="font-size:24px;">Building an Indie Studio Without Burning Out</h3><p class="blog-excerpt">The unglamorous truth about starting a game studio — and the habits that keep us sane, creative, and moving forward.</p></div>
+      <div class="blog-card"><div><span class="blog-tag">Tech</span><span class="blog-date">July 2025</span></div><h3 class="blog-title" style="font-size:24px;">Choosing Our Engine: The Decision We Agonized Over</h3><p class="blog-excerpt">We weighed our options for months. Here's the breakdown of what we needed, what we chose, and why.</p></div>
+    </div>
+    <div class="newsletter-block">
+      <div><h3>Don't Miss a Post</h3><p>Get IsoInfo drops delivered to your inbox. No spam — just real studio updates.</p></div>
+      <div class="nl-form">
+        <input type="email" placeholder="your@email.com">
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-        function nextSlide() {
-            showSlide(currentSlide + 1);
-        }
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <span class="footer-brand-name">BLUISO GAMES</span>
+      <p class="footer-tagline">An independent game studio building worlds worth playing. Somewhere between preproduction and something great.</p>
+      <div class="footer-social">
+        <a href="https://twitter.com" target="_blank" rel="noopener" class="social-btn" title="Twitter / X">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="social-btn" title="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="https://youtube.com" target="_blank" rel="noopener" class="social-btn" title="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+        <a href="https://tiktok.com" target="_blank" rel="noopener" class="social-btn" title="TikTok">
+          <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul class="footer-links">
+        <li><a href="/"        data-nav="home">Home     <span class="la">&#8594;</span></a></li>
+        <li><a href="/games"   data-nav="games">Games    <span class="la">&#8594;</span></a></li>
+        <li><a href="/about"   data-nav="about">About Us <span class="la">&#8594;</span></a></li>
+        <li><a href="/isoinfo" data-nav="blog">IsoInfo  <span class="la">&#8594;</span></a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="/cdn-cgi/l/email-protection#55363a3b21343621153739203c263a32343830267b363a38" class="contact-btn">&#9993; General Inquiries</a>
+      <a href="/cdn-cgi/l/email-protection#a8d8dacddbdbe8cac4ddc1dbc7cfc9c5cddb86cbc7c5" class="contact-btn">&#128203; Press Inquiries</a>
+      <div style="margin-top:16px;">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:3px;color:rgba(201,158,102,.35);display:block;margin-bottom:6px;">GENERAL</span>
+        <a href="/cdn-cgi/l/email-protection#b5d6dadbc1d4d6c1f5d7d9c0dcc6dad2d4d8d0c69bd6dad8" class="contact-email"><span class="__cf_email__" data-cfemail="690a06071d080a1d290b051c001a060e08040c1a470a0604">[email&#160;protected]</span></a>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:3px;color:rgba(201,158,102,.35);display:block;margin-top:12px;margin-bottom:6px;">PRESS</span>
+        <a href="/cdn-cgi/l/email-protection#acdcdec9dfdfeccec0d9c5dfc3cbcdc1c9df82cfc3c1" class="contact-email"><span class="__cf_email__" data-cfemail="addddfc8dedeedcfc1d8c4dec2caccc0c8de83cec2c0">[email&#160;protected]</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&#169; 2025 BluIso Games. All rights reserved.</span>
+    <div class="footer-legal">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Cookie Policy</a>
+    </div>
+  </div>
+</footer>
 
-        dots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                showSlide(parseInt(dot.dataset.slide));
-            });
-        });
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+(function(){
+  /* ─── PAGE ROUTING ─── */
+  var PAGES = { '/':'home', '/games':'games', '/about':'about', '/isoinfo':'blog' };
+  var PATHS = { home:'/', games:'/games', about:'/about', blog:'/isoinfo' };
+  var TITLES = { home:'BluIso Games', games:'Games — BluIso', about:'About Us — BluIso', blog:'IsoInfo — BluIso' };
 
-        setInterval(nextSlide, 5000);
+  function showPage(id, push){
+    /* hide all */
+    var all = document.querySelectorAll('.page');
+    for(var i=0;i<all.length;i++) all[i].classList.remove('active');
+    /* show target */
+    var pg = document.getElementById('page-'+id);
+    if(pg) pg.classList.add('active');
+    /* nav underline */
+    var links = document.querySelectorAll('.nav-links a');
+    for(var j=0;j<links.length;j++) links[j].classList.remove('active');
+    var nl = document.getElementById('nl-'+id);
+    if(nl) nl.classList.add('active');
+    /* scroll */
+    window.scrollTo(0,0);
+    /* history — wrapped so sandbox/iframe errors never break navigation */
+    if(push){
+      try{
+        var path = PATHS[id] || '/';
+        history.pushState({page:id}, '', path);
+      }catch(e){}
+    }
+    document.title = TITLES[id] || 'BluIso Games';
+  }
 
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -100px 0px'
-        };
+  /* replace initial state safely */
+  try{
+    var initId = PAGES[location.pathname] || 'home';
+    history.replaceState({page:initId},'',location.pathname);
+  }catch(e){ var initId = 'home'; }
+  showPage(initId, false);
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    entry.target.classList.remove('hidden');
-                } else {
-                    entry.target.classList.remove('visible');
-                    entry.target.classList.add('hidden');
-                }
-            });
-        }, observerOptions);
+  /* ─── SINGLE DELEGATED CLICK LISTENER ─── */
+  document.addEventListener('click', function(e){
+    /* walk up from target to find a data-nav anchor */
+    var el = e.target;
+    while(el && el !== document){
+      if(el.hasAttribute && el.hasAttribute('data-nav')){
+        var href = el.getAttribute('href') || '';
+        /* let mailto through */
+        if(href.indexOf('mailto:')===0) return;
+        e.preventDefault();
+        e.stopPropagation();
+        showPage(el.getAttribute('data-nav'), true);
+        return;
+      }
+      el = el.parentNode;
+    }
+  });
 
-        document.querySelectorAll('.animate-in').forEach(section => {
-            observer.observe(section);
-        });
+  /* ─── BACK / FORWARD ─── */
+  window.addEventListener('popstate', function(e){
+    var id = (e.state && e.state.page) ? e.state.page : (PAGES[location.pathname]||'home');
+    showPage(id, false);
+  });
 
-        document.querySelectorAll('nav a, .btn').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const href = link.getAttribute('href');
-                window.location.href = href;
-            });
-        });
+  /* ─── CURSOR ─── */
+  var cur     = document.getElementById('cur');
+  var curRing = document.getElementById('cur-ring');
+  document.addEventListener('mousemove', function(e){
+    cur.style.left     = e.clientX+'px';
+    cur.style.top      = e.clientY+'px';
+    curRing.style.left = e.clientX+'px';
+    curRing.style.top  = e.clientY+'px';
+  });
+  document.addEventListener('mouseover', function(e){
+    var t = e.target.closest('a,button');
+    if(t) cur.classList.add('hover'); else cur.classList.remove('hover');
+  });
 
-        document.querySelector('.logo').addEventListener('click', () => {
-            window.location.href = '/';
-        });
+  /* ─── LOADER ─── */
+  window.addEventListener('load', function(){
+    setTimeout(function(){ document.getElementById('loader').classList.add('gone'); }, 1800);
+  });
 
-        let lastScroll = 0;
-        let scrollTimeout;
-        const header = document.querySelector('header');
+  /* ─── NAV HIDE ON SCROLL ─── */
+  var nav   = document.getElementById('nav');
+  var lastY = 0;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    if(y > lastY && y > 80) nav.classList.add('hide');
+    else                      nav.classList.remove('hide');
+    nav.classList.toggle('solid', y > 20);
+    lastY = y;
+  }, {passive:true});
 
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-
-            if (currentScroll > lastScroll && currentScroll > 100) {
-                header.classList.add('hidden');
-            } else {
-                header.classList.remove('hidden');
-            }
-
-            lastScroll = currentScroll;
-
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                header.classList.remove('hidden');
-            }, 3000);
-        });
-    </script>
+})();
+</script>
 </body>
 </html>
