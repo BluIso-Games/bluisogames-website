@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blu Iso Games</title>
+<title>BluIso Games</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#0D0059;
@@ -18,9 +18,9 @@
   --gold-grad:linear-gradient(120deg,#FFC66A 0%,#E4963B 100%);
   --text:#F1EFFF;
   --text-dim:#A79FDA;
-  --display:'Unbounded',sans-serif;
+  --display:'Manrope',sans-serif;
   --body:'Manrope',sans-serif;
-  --mono:'Space Mono',monospace;
+  --mono:'Manrope',sans-serif;
   --max:1240px;
   --ease:cubic-bezier(.22,1,.36,1);
 }
@@ -57,13 +57,13 @@ nav.main-nav a::after{
 nav.main-nav a:hover,nav.main-nav a.active{color:var(--text)}
 nav.main-nav a.active::after,nav.main-nav a:hover::after{right:0}
 
-/* Logo — top right, returns home */
-.logo{display:flex;align-items:center;gap:12px;flex-direction:row-reverse}
+/* Logo — top left, returns home */
+.logo{display:flex;align-items:center;gap:12px}
 .logo .mark{width:38px;height:38px;flex:none;transition:transform .4s var(--ease)}
 .logo:hover .mark{transform:rotate(90deg)}
 .logo .wordmark{
-  font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.08em;
-  text-align:right;line-height:1.25;
+  font-family:var(--display);font-size:13px;font-weight:800;letter-spacing:.12em;
+  text-align:left;line-height:1.25;
 }
 .logo .wordmark span{
   background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
@@ -104,7 +104,7 @@ nav.main-nav a.active::after,nav.main-nav a:hover::after{right:0}
   clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
 }
 .slide h1{
-  font-family:var(--display);font-weight:600;
+  font-family:var(--display);font-weight:800;
   font-size:clamp(34px,5.4vw,72px);line-height:1.04;letter-spacing:-.01em;
   max-width:13ch;margin-bottom:20px;
 }
@@ -182,7 +182,7 @@ section.block{max-width:var(--max);margin:0 auto;padding:clamp(70px,9vw,120px) c
   content:"";width:9px;height:9px;flex:none;background:var(--gold-grad);
   clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
 }
-h2.title{font-family:var(--display);font-weight:600;font-size:clamp(24px,3.2vw,42px);line-height:1.12;letter-spacing:-.01em}
+h2.title{font-family:var(--display);font-weight:800;font-size:clamp(24px,3.2vw,42px);line-height:1.12;letter-spacing:-.01em}
 .section-link{
   font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
   color:var(--text-dim);white-space:nowrap;padding-bottom:6px;border-bottom:1px solid transparent;
@@ -207,7 +207,7 @@ h2.title{font-family:var(--display);font-weight:600;font-size:clamp(24px,3.2vw,4
   align-self:flex-start;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
   color:var(--gold-1);border:1px solid rgba(255,198,106,.4);border-radius:99px;padding:4px 12px;
 }
-.card-body h3{font-family:var(--display);font-weight:500;font-size:19px;line-height:1.2}
+.card-body h3{font-family:var(--display);font-weight:700;font-size:19px;line-height:1.2}
 .card-body p{color:var(--text-dim);font-size:14.5px;flex:1}
 .card-meta{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);opacity:.8}
 
@@ -236,7 +236,7 @@ h2.title{font-family:var(--display);font-weight:600;font-size:clamp(24px,3.2vw,4
   padding:calc(76px + clamp(60px,9vw,110px)) clamp(20px,5vw,56px) clamp(50px,6vw,80px);
 }
 .about-hero h1,.page-hero h1{
-  font-family:var(--display);font-weight:600;
+  font-family:var(--display);font-weight:800;
   font-size:clamp(32px,4.6vw,60px);line-height:1.06;letter-spacing:-.01em;max-width:18ch;
 }
 .about-hero .lede{max-width:60ch;color:var(--text-dim);font-size:clamp(16px,1.5vw,19px);margin-top:24px}
@@ -253,7 +253,7 @@ h2.title{font-family:var(--display);font-weight:600;font-size:clamp(24px,3.2vw,4
 }
 .pillar:hover{border-color:rgba(255,198,106,.45);transform:translateY(-4px)}
 .pillar .glyph{width:40px;height:40px;margin-bottom:18px}
-.pillar h3{font-family:var(--display);font-weight:500;font-size:17px;margin-bottom:10px}
+.pillar h3{font-family:var(--display);font-weight:700;font-size:17px;margin-bottom:10px}
 .pillar p{color:var(--text-dim);font-size:14.5px}
 
 .stat-band{
@@ -265,7 +265,7 @@ h2.title{font-family:var(--display);font-weight:600;font-size:clamp(24px,3.2vw,4
   display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:32px;
 }
 .stat b{
-  display:block;font-family:var(--display);font-weight:600;font-size:clamp(28px,3vw,40px);
+  display:block;font-family:var(--display);font-weight:800;font-size:clamp(28px,3vw,40px);
   background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
   margin-bottom:6px;
 }
@@ -279,7 +279,7 @@ h2.title{font-family:var(--display);font-weight:600;font-size:clamp(24px,3.2vw,4
   padding:clamp(80px,10vw,130px) clamp(20px,5vw,56px);
 }
 .contact-inner h2{
-  font-family:var(--display);font-weight:600;font-size:clamp(26px,3.6vw,48px);
+  font-family:var(--display);font-weight:800;font-size:clamp(26px,3.6vw,48px);
   line-height:1.1;margin:0 auto 18px;max-width:20ch;
 }
 .contact-inner p{color:var(--text-dim);max-width:52ch;margin:0 auto 36px}
@@ -291,7 +291,7 @@ footer{border-top:1px solid var(--ink-line);background:var(--ink-deep)}
 }
 .footer-brand{display:flex;align-items:center;gap:14px}
 .footer-brand .mark{width:34px;height:34px}
-.footer-brand .wordmark{font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.08em;line-height:1.25}
+.footer-brand .wordmark{font-family:var(--display);font-size:13px;font-weight:800;letter-spacing:.12em;line-height:1.25}
 .footer-brand .wordmark span{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .footer-nav{display:flex;gap:28px;flex-wrap:wrap}
 .footer-nav a{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-dim);transition:color .25s}
@@ -309,6 +309,10 @@ footer{border-top:1px solid var(--ink-line);background:var(--ink-deep)}
   display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
   font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--text-dim);opacity:.7;
 }
+
+/* Label weight now that labels are Manrope */
+nav.main-nav a,.eyebrow,.slide-eyebrow,.card-tag,.news-cat,.news-date,.card-meta,
+.section-link,.footer-nav a,.stat span,.footer-base,.hero-scroll-hint{font-weight:600}
 
 /* ---------- Reduced motion ---------- */
 @media(prefers-reduced-motion:reduce){
@@ -328,12 +332,7 @@ footer{border-top:1px solid var(--ink-line);background:var(--ink-deep)}
 <!-- ================= HEADER ================= -->
 <header id="siteHeader">
   <div class="header-inner">
-    <nav class="main-nav" aria-label="Primary">
-      <a href="#/games" data-route="games">Games</a>
-      <a href="#/about" data-route="about">About</a>
-      <a href="#/the-iso-informant" data-route="informant">The Iso Informant</a>
-    </nav>
-    <a class="logo" href="#/" data-route="home" aria-label="Blu Iso Games — home">
+    <a class="logo" href="#/" data-route="home" aria-label="BluIso Games — home">
       <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
         <defs><linearGradient id="gLogo" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/>
@@ -344,8 +343,13 @@ footer{border-top:1px solid var(--ink-line);background:var(--ink-deep)}
         </g>
         <path d="M24 14l8.5 4.8v9L24 32.5l-8.5-4.7v-9z" fill="url(#gLogo)" opacity=".9"/>
       </svg>
-      <span class="wordmark">BLU ISO<br><span>GAMES</span></span>
+      <span class="wordmark">BLUISO<br><span>GAMES</span></span>
     </a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="#/games" data-route="games">Games</a>
+      <a href="#/about" data-route="about">About</a>
+      <a href="#/the-iso-informant" data-route="informant">The Iso Informant</a>
+    </nav>
   </div>
 </header>
 
@@ -465,7 +469,7 @@ footer{border-top:1px solid var(--ink-line);background:var(--ink-deep)}
       </div>
       <div class="slide-content">
         <div class="slide-eyebrow">Studio Announcement</div>
-        <h1>Blu Iso Publishing Is Here</h1>
+        <h1>BluIso Publishing Is Here</h1>
         <p class="sub">We're opening our doors to independent teams who see the world at a 30° angle. Pitch us your next isometric obsession.</p>
         <a class="btn-gold" href="#/about" data-route="about">About the Studio
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -523,9 +527,9 @@ footer{border-top:1px solid var(--ink-line);background:var(--ink-deep)}
 <!-- ================= ABOUT ================= -->
 <div class="page" id="page-about">
   <div class="about-hero">
-    <div class="eyebrow">About Blu Iso Games</div>
+    <div class="eyebrow">About BluIso Games</div>
     <h1>We see the world at 30 degrees</h1>
-    <p class="lede">Blu Iso Games is an independent studio devoted to isometric worlds — cities, dungeons, and heists rendered with the clarity of a blueprint and the warmth of a sunset. Founded by three level designers who couldn't stop tilting the camera, we build games where every rooftop, alley, and vault is exactly where you'd expect it to be — and hides something you wouldn't.</p>
+    <p class="lede">BluIso Games is an independent studio devoted to isometric worlds — cities, dungeons, and heists rendered with the clarity of a blueprint and the warmth of a sunset. Founded by three level designers who couldn't stop tilting the camera, we build games where every rooftop, alley, and vault is exactly where you'd expect it to be — and hides something you wouldn't.</p>
   </div>
 
   <div class="stat-band">
@@ -572,10 +576,10 @@ footer{border-top:1px solid var(--ink-line);background:var(--ink-deep)}
     <div class="eyebrow">The road so far</div>
     <h2 class="title" style="margin-bottom:clamp(28px,4vw,44px)">A brief history of the grid</h2>
     <div class="news-list">
-      <div class="news-item"><span class="news-date">2017</span><div><h3>Three level designers rent one desk</h3><p>Blu Iso Games is founded in a shared studio space with a single license of a game engine and a very strong opinion about camera angles.</p></div><span class="news-cat">Origin</span></div>
+      <div class="news-item"><span class="news-date">2017</span><div><h3>Three level designers rent one desk</h3><p>BluIso Games is founded in a shared studio space with a single license of a game engine and a very strong opinion about camera angles.</p></div><span class="news-cat">Origin</span></div>
       <div class="news-item"><span class="news-date">2019</span><div><h3>Gridlock ships and finds its people</h3><p>Our debut puzzle title sells modestly, then explodes a year later when speedrunners discover the unintended diagonal-dash. We patch it in as a feature.</p></div><span class="news-cat">Milestone</span></div>
       <div class="news-item"><span class="news-date">2022</span><div><h3>Vaultbreakers goes live</h3><p>Our co-op heist game launches with 40,000 concurrent players on day one and becomes the studio's flagship live title.</p></div><span class="news-cat">Milestone</span></div>
-      <div class="news-item"><span class="news-date">2026</span><div><h3>Neon Delta announced</h3><p>Our most ambitious project — a full open-world isometric city — enters pre-order alongside the launch of Blu Iso Publishing.</p></div><span class="news-cat">Now</span></div>
+      <div class="news-item"><span class="news-date">2026</span><div><h3>Neon Delta announced</h3><p>Our most ambitious project — a full open-world isometric city — enters pre-order alongside the launch of BluIso Publishing.</p></div><span class="news-cat">Now</span></div>
     </div>
   </section>
 </div>
@@ -585,7 +589,7 @@ footer{border-top:1px solid var(--ink-line);background:var(--ink-deep)}
   <div class="page-hero">
     <div class="eyebrow">The Iso Informant</div>
     <h1>News from inside the grid</h1>
-    <p class="lede">Patch notes, dev diaries, release dates, and the occasional confession from the design floor. If it happened at Blu Iso, it's in the Informant.</p>
+    <p class="lede">Patch notes, dev diaries, release dates, and the occasional confession from the design floor. If it happened at BluIso, it's in the Informant.</p>
   </div>
   <section class="block" style="padding-top:clamp(20px,3vw,40px)">
     <div class="news-list" id="allNews"></div>
@@ -616,14 +620,14 @@ footer{border-top:1px solid var(--ink-line);background:var(--ink-deep)}
 
 <footer>
   <div class="footer-inner">
-    <a class="footer-brand" href="#/" data-route="home" aria-label="Blu Iso Games — home">
+    <a class="footer-brand" href="#/" data-route="home" aria-label="BluIso Games — home">
       <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
         <g fill="none" stroke="#FFC66A" stroke-width="2.6" stroke-linejoin="round">
           <path d="M24 4 42 14v20L24 44 6 34V14z"/><path d="M6 14l18 10 18-10M24 24v20"/>
         </g>
         <path d="M24 14l8.5 4.8v9L24 32.5l-8.5-4.7v-9z" fill="#E4963B" opacity=".9"/>
       </svg>
-      <span class="wordmark">BLU ISO<br><span>GAMES</span></span>
+      <span class="wordmark">BLUISO<br><span>GAMES</span></span>
     </a>
 
     <nav class="footer-nav" aria-label="Footer">
@@ -655,7 +659,7 @@ footer{border-top:1px solid var(--ink-line);background:var(--ink-deep)}
     </div>
   </div>
   <div class="footer-base">
-    <span>© 2026 Blu Iso Games. All rights reserved.</span>
+    <span>© 2026 BluIso Games. All rights reserved.</span>
     <span>bluisogames.com</span>
   </div>
 </footer>
@@ -673,10 +677,10 @@ const GAMES = [
 const NEWS = [
   {date:"Jun 28, 2026", cat:"Release", title:"Neon Delta pre-orders are live", desc:"The standard, deluxe, and Grid Architect editions are available now, with early-access weekends for all pre-orders this fall."},
   {date:"Jun 19, 2026", cat:"Update", title:"Vaultbreakers Season 4: The Midnight Ledger", desc:"A new co-op raid, ranked infiltration, and the biggest map in Vaultbreakers history — free for everyone."},
-  {date:"Jun 05, 2026", cat:"Studio", title:"Introducing Blu Iso Publishing", desc:"We're opening our pipeline, tools, and funding to independent teams building isometric worlds. Pitches open July 1."},
+  {date:"Jun 05, 2026", cat:"Studio", title:"Introducing BluIso Publishing", desc:"We're opening our pipeline, tools, and funding to independent teams building isometric worlds. Pitches open July 1."},
   {date:"May 22, 2026", cat:"Dev Diary", title:"How we light a city that has no sky", desc:"Our lead environment artist on faking a sunset in a world where the camera never looks up."},
   {date:"May 08, 2026", cat:"Patch", title:"Gridlock 3.2 — the diagonal-dash turns five", desc:"An anniversary patch for the bug that became a feature, plus 10 new community-designed dioramas."},
-  {date:"Apr 30, 2026", cat:"Studio", title:"Blu Iso crosses 12 million players", desc:"A thank-you letter from the founders, and a look at what the next decade of the grid holds."},
+  {date:"Apr 30, 2026", cat:"Studio", title:"BluIso crosses 12 million players", desc:"A thank-you letter from the founders, and a look at what the next decade of the grid holds."},
 ];
 
 /* ============ Card art ============ */
