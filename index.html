@@ -47,22 +47,25 @@ header.hidden{transform:translateY(-110%)}
   width:100%;height:88px;
   display:flex;align-items:center;justify-content:space-between;gap:24px;
 }
-nav.main-nav{display:flex;align-items:center;gap:clamp(22px,3.6vw,56px)}
-nav.main-nav a,nav.main-nav .nav-drop-btn{
+nav.main-nav{display:flex;align-items:stretch;gap:clamp(22px,3.6vw,56px);height:100%}
+nav.main-nav > a,nav.main-nav .nav-drop-btn{
   font-family:var(--mono);font-size:15px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
   color:var(--text-dim);padding:8px 2px;position:relative;transition:color .25s;
-  white-space:nowrap;display:inline-flex;align-items:center;gap:8px;
+  white-space:nowrap;display:inline-flex;align-items:center;gap:8px;align-self:center;
 }
-nav.main-nav a::after,nav.main-nav .nav-drop-btn::after{
+nav.main-nav > a::after,nav.main-nav .nav-drop-btn::after{
   content:"";position:absolute;left:0;right:100%;bottom:2px;height:2px;
   background:var(--gold-grad);transition:right .3s var(--ease);
 }
-nav.main-nav a:hover,nav.main-nav a.active,
+nav.main-nav > a:hover,nav.main-nav > a.active,
 nav.main-nav .nav-drop-btn:hover,nav.main-nav .nav-drop-btn.active{color:var(--text)}
-nav.main-nav a.active::after,nav.main-nav a:hover::after,
+nav.main-nav > a.active::after,nav.main-nav > a:hover::after,
 nav.main-nav .nav-drop-btn.active::after,nav.main-nav .nav-drop-btn:hover::after{right:0}
 .caret{transition:transform .3s var(--ease)}
 .dropdown.open .caret{transform:rotate(180deg)}
+/* The dropdown wrapper fills the full header height so the pointer never
+   leaves it while travelling from the button down into the panel */
+.dropdown{align-self:stretch;display:flex;align-items:center}
 
 /* Games dropdown */
 .dropdown-panel{
@@ -426,7 +429,7 @@ footer{border-top:1px solid var(--ink-line);background:var(--ink-deep);position:
   .header-inner{height:68px}
   .mark-wrap{width:44px;height:44px}
   nav.main-nav{gap:16px}
-  nav.main-nav a,nav.main-nav .nav-drop-btn{font-size:12px;letter-spacing:.1em}
+  nav.main-nav > a,nav.main-nav .nav-drop-btn{font-size:12px;letter-spacing:.1em}
   .slide h1{max-width:100%}
 }
 </style>
@@ -1083,9 +1086,13 @@ ddBtn.addEventListener("click", e=>{
   e.stopPropagation();
   dd.classList.contains("open") ? closeDropdown() : openDropdown();
 });
+let ddCloseTimer;
 if(window.matchMedia("(hover:hover)").matches){
-  dd.addEventListener("mouseenter", openDropdown);
-  dd.addEventListener("mouseleave", closeDropdown);
+  dd.addEventListener("mouseenter", ()=>{ clearTimeout(ddCloseTimer); openDropdown(); });
+  dd.addEventListener("mouseleave", ()=>{
+    clearTimeout(ddCloseTimer);
+    ddCloseTimer = setTimeout(closeDropdown, 260);
+  });
 }
 document.addEventListener("click", e=>{ if(!dd.contains(e.target)) closeDropdown(); });
 document.addEventListener("keydown", e=>{ if(e.key === "Escape") closeDropdown(); });
