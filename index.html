@@ -515,6 +515,45 @@ footer{border-top:1px solid var(--line);background:rgba(5,0,43,.6);position:rela
   .footer-brand{justify-self:center}
 }
 
+/* ---------- Loading screen ---------- */
+#loader{
+  position:fixed;inset:0;z-index:999;display:grid;place-items:center;
+  background:#05002B;
+  background-image:radial-gradient(900px 700px at 50% 45%, #150A73 0%, #05002B 70%);
+  transition:opacity .65s var(--ease),visibility .65s;
+  cursor:pointer;
+}
+#loader.done{opacity:0;visibility:hidden;pointer-events:none}
+body.is-loading{overflow:hidden}
+.l-stack{display:flex;flex-direction:column;align-items:center;gap:26px}
+.l-mark{
+  position:relative;width:118px;height:118px;
+  clip-path:polygon(50% 8.3%,87.5% 29.2%,87.5% 70.8%,50% 91.7%,12.5% 70.8%,12.5% 29.2%);
+}
+.l-mark svg{width:100%;height:100%;display:block}
+.l-mark::after{
+  content:"";position:absolute;top:-25%;bottom:-25%;left:-70%;width:45%;
+  background:linear-gradient(105deg,transparent 0%,rgba(255,238,205,.95) 50%,transparent 100%);
+  transform:skewX(-20deg);pointer-events:none;
+  animation:gloss .8s var(--ease) 1.15s both;
+}
+.l-draw{stroke-dasharray:1;stroke-dashoffset:1;animation:lDraw .9s var(--ease) forwards}
+.l-draw.p2{animation-delay:.3s}
+@keyframes lDraw{to{stroke-dashoffset:0}}
+.l-facet{opacity:0;animation:lFacet .5s ease .85s forwards}
+@keyframes lFacet{to{opacity:.9}}
+.l-tag{
+  font-size:11px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;
+  background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+  opacity:0;animation:lTag .6s var(--ease) 1.2s forwards;
+}
+@keyframes lTag{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  .l-draw{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
+  .l-facet,.l-tag{opacity:1;animation:none}
+  .l-mark::after{animation:none}
+}
+
 /* ---------- Motion / mobile ---------- */
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}
@@ -528,7 +567,26 @@ footer{border-top:1px solid var(--line);background:rgba(5,0,43,.6);position:rela
 }
 </style>
 </head>
-<body>
+<body class="is-loading">
+
+<!-- ================= LOADING SCREEN ================= -->
+<div id="loader" role="status" aria-label="Loading BluIso Games">
+  <div class="l-stack">
+    <span class="l-mark">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <defs><linearGradient id="gLoad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/>
+        </linearGradient></defs>
+        <g fill="none" stroke="url(#gLoad)" stroke-width="2.6" stroke-linejoin="round">
+          <path class="l-draw" pathLength="1" d="M24 4 42 14v20L24 44 6 34V14z"/>
+          <path class="l-draw p2" pathLength="1" d="M6 14l18 10 18-10M24 24v20"/>
+        </g>
+        <path class="l-facet" d="M24 14l8.5 4.8v9L24 32.5l-8.5-4.7v-9z" fill="url(#gLoad)"/>
+      </svg>
+    </span>
+    <span class="l-tag">We deal in fantasies</span>
+  </div>
+</div>
 
 <!-- ================= HEADER ================= -->
 <header id="siteHeader">
@@ -1278,6 +1336,23 @@ onScroll();
 
 bindTilt(document);
 render();
+
+/* ============ Loading screen ============ */
+(function(){
+  const loader = document.getElementById("loader");
+  if(!loader) return;
+  const finish = ()=>{
+    if(loader.classList.contains("done")) return;
+    loader.classList.add("done");
+    document.body.classList.remove("is-loading");
+    setTimeout(()=>loader.remove(), 750);
+  };
+  setTimeout(finish, reduceMotion ? 250 : 2100);
+  loader.addEventListener("click", finish);
+  document.addEventListener("keydown", function skip(e){
+    if(e.key === "Enter" || e.key === "Escape" || e.key === " "){ finish(); document.removeEventListener("keydown", skip); }
+  });
+})();
 </script>
 </body>
 </html>
