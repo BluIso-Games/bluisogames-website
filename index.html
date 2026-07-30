@@ -9,105 +9,90 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* =========================================================
-   BLUISO IDENTITY SYSTEM v2 — "THE MONUMENT"
-   Signature device: games are shown as isometric monuments —
-   key art projected in true 30° onto a floating iso slab.
-   The page is built from interlocking angled planes,
-   diamond tiles, and vertical chapter rails.
-   ========================================================= */
+/* ==========================================================
+   BLUISO — "WE DEAL IN FANTASIES"
+   Ground-up identity. Every game is a fantasy card on a
+   lamplit table: gold-foil frames on deep blue, an epithet
+   like arcana (№ I — The Fixer), a fanned deck for the
+   catalog, and one card that stays face-down.
+   Derived from the manifesto: fantasy comes first, action
+   creates engagement, games should feel authored.
+   ========================================================== */
 :root{
   --ink:#0D0059;
   --ink-deep:#05002B;
+  --ink-card:#0A0345;
   --ink-raise:#160B78;
   --line:rgba(199,189,255,.14);
   --gold-1:#FFC66A;
   --gold-2:#E4963B;
-  --gold-grad:linear-gradient(120deg,#FFC66A 0%,#E4963B 100%);
+  --gold-grad:linear-gradient(135deg,#FFC66A 0%,#E4963B 100%);
+  --gold-soft:rgba(255,198,106,.45);
   --text:#F4F1FF;
   --dim:#A79FDA;
   --font:'Manrope',sans-serif;
-  --max:1200px;
+  --max:1160px;
   --pad:clamp(20px,5vw,56px);
   --ease:cubic-bezier(.22,1,.36,1);
-  --cut:14px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--ink);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{
+  background:#0D0059;
+  background-image:radial-gradient(1300px 900px at 50% -12%, #1D0E8F 0%, #0D0059 46%, #05002B 100%);
+  background-attachment:fixed;
+  color:var(--text);font-family:var(--font);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer;background:none;border:none;color:inherit}
 img{max-width:100%;display:block}
 ::selection{background:var(--gold-2);color:var(--ink-deep)}
-:focus-visible{outline:2px solid var(--gold-1);outline-offset:3px}
+:focus-visible{outline:2px solid var(--gold-1);outline-offset:3px;border-radius:6px}
 
-/* ---------- Shape language ---------- */
-.btn{
-  display:inline-flex;align-items:center;gap:12px;
-  background:var(--gold-grad);color:var(--ink-deep);
-  font-weight:800;font-size:14px;letter-spacing:.08em;text-transform:uppercase;
-  padding:16px 30px;border:none;
-  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));
-  transition:transform .3s var(--ease);
+/* ---------- Ornaments ---------- */
+.flourish{display:flex;align-items:center;justify-content:center;gap:16px;margin:0 auto}
+.flourish::before,.flourish::after{content:"";height:1px;width:clamp(40px,7vw,90px);background:linear-gradient(90deg,transparent,var(--gold-2))}
+.flourish::after{background:linear-gradient(90deg,var(--gold-2),transparent)}
+.flourish svg{flex:none}
+.eyebrow{
+  font-size:11px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;color:var(--gold-1);
+  text-align:center;
 }
-.btn:hover{transform:translateY(-2px) scale(1.04)}
+.sect-head{text-align:center;margin-bottom:clamp(34px,4.5vw,56px)}
+.sect-head .eyebrow{margin-bottom:16px}
+.sect-head h2{font-weight:800;font-size:clamp(26px,3.4vw,44px);line-height:1.1;letter-spacing:-.015em}
+.sect-head .sub{color:var(--dim);max-width:52ch;margin:14px auto 0;font-size:15.5px}
+.sect-head .flourish{margin-top:22px}
+
+/* ---------- Buttons: card-framed ---------- */
+.btn,.btn-line{
+  position:relative;display:inline-flex;align-items:center;gap:11px;
+  font-weight:800;font-size:13.5px;letter-spacing:.1em;text-transform:uppercase;
+  padding:16px 32px;border-radius:12px;
+}
+.btn{background:var(--gold-grad);color:var(--ink-deep);transition:transform .3s var(--ease),box-shadow .3s}
+.btn::after{content:"";position:absolute;inset:4px;border:1px solid rgba(5,0,43,.4);border-radius:8px;pointer-events:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(228,150,59,.3)}
 .btn svg{transition:transform .3s var(--ease)}
 .btn:hover svg{transform:translateX(4px)}
-.btn-line{
-  display:inline-flex;align-items:center;gap:12px;
-  background:transparent;color:var(--text);
-  font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;
-  padding:15px 28px;
-  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));
-  box-shadow:inset 0 0 0 1.5px rgba(255,198,106,.45);
-  transition:box-shadow .3s,color .3s,background .3s;
-}
-.btn-line:hover{box-shadow:inset 0 0 0 1.5px var(--gold-1);background:rgba(255,198,106,.08)}
-
-.label{
-  font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-1);
-  display:flex;align-items:center;gap:12px;
-}
-.label::before{
-  content:"";width:9px;height:9px;flex:none;background:var(--gold-grad);
-  clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
-}
-
-/* Chapter heads + vertical rails */
-.chapter{display:flex;align-items:baseline;gap:18px;margin-bottom:clamp(30px,4vw,48px)}
-.chapter .num{font-size:clamp(15px,1.4vw,17px);font-weight:800;letter-spacing:.06em;color:transparent;-webkit-text-stroke:1.2px var(--gold-2)}
-.chapter h2{font-weight:800;font-size:clamp(24px,3.1vw,40px);line-height:1.08;letter-spacing:-.015em;text-transform:uppercase}
-.chapter .side{margin-left:auto}
-.side-link{
-  font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
-  border-bottom:1px solid transparent;padding-bottom:5px;white-space:nowrap;
-  transition:color .25s,border-color .25s;
-}
-.side-link:hover{color:var(--gold-1);border-color:var(--gold-1)}
-.vlabel{
-  position:absolute;left:calc(var(--pad) * -0.1);top:8px;
-  writing-mode:vertical-rl;transform:rotate(180deg);
-  font-size:10px;font-weight:800;letter-spacing:.42em;text-transform:uppercase;color:var(--dim);
-  opacity:.55;white-space:nowrap;user-select:none;pointer-events:none;
-}
-@media(max-width:1080px){.vlabel{display:none}}
+.btn-line{color:var(--text);box-shadow:inset 0 0 0 1.5px var(--gold-soft);transition:box-shadow .3s,background .3s}
+.btn-line::after{content:"";position:absolute;inset:4px;border:1px solid rgba(255,198,106,.2);border-radius:8px;pointer-events:none}
+.btn-line:hover{box-shadow:inset 0 0 0 1.5px var(--gold-1);background:rgba(255,198,106,.07)}
 
 /* ---------- Header ---------- */
-body::before{ /* gold hairline crown across the very top */
-  content:"";position:fixed;top:0;left:0;right:0;height:3px;z-index:101;background:var(--gold-grad);
-}
 header{
-  position:fixed;top:3px;left:0;right:0;z-index:100;
+  position:fixed;top:0;left:0;right:0;z-index:100;
   padding:0 clamp(14px,2vw,32px);
   transition:background .4s var(--ease),box-shadow .4s var(--ease),transform .45s var(--ease);
 }
 header.scrolled,header.dd-open{background:rgba(5,0,43,.92);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
-header.hidden{transform:translateY(calc(-110% - 3px))}
+header.hidden{transform:translateY(-110%)}
 .header-inner{width:100%;height:82px;display:flex;align-items:center;justify-content:space-between;gap:24px}
 
 .logo{display:inline-flex}
 .mark-wrap{
-  position:relative;display:block;width:52px;height:52px;
+  position:relative;display:block;width:50px;height:50px;
   clip-path:polygon(50% 8.3%,87.5% 29.2%,87.5% 70.8%,50% 91.7%,12.5% 70.8%,12.5% 29.2%);
 }
 .mark-wrap svg{width:100%;height:100%;display:block}
@@ -119,21 +104,21 @@ header.hidden{transform:translateY(calc(-110% - 3px))}
 .logo:hover .mark-wrap::after,.footer-brand:hover .mark-wrap::after{animation:gloss .85s var(--ease)}
 @keyframes gloss{from{left:-70%}to{left:145%}}
 
-nav.main-nav{display:flex;align-items:stretch;gap:clamp(20px,3.4vw,52px);height:100%}
+nav.main-nav{display:flex;align-items:stretch;gap:clamp(18px,3.2vw,48px);height:100%}
 nav.main-nav > a,nav.main-nav .nav-drop-btn{
-  font-size:13.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
   color:var(--dim);position:relative;transition:color .25s;white-space:nowrap;
-  display:inline-flex;align-items:center;gap:9px;align-self:center;padding:8px 0;
+  display:inline-flex;align-items:center;gap:9px;align-self:center;padding:10px 0 12px;
 }
-nav.main-nav > a::before,nav.main-nav .nav-drop-btn::before{
-  content:"";width:7px;height:7px;flex:none;background:var(--gold-grad);
-  clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
-  opacity:0;transform:scale(.4);transition:opacity .3s,transform .3s var(--ease);
+nav.main-nav > a::after,nav.main-nav .nav-drop-btn::after{
+  content:"";position:absolute;left:20%;right:20%;bottom:4px;height:5px;
+  border-top:1px solid var(--gold-2);border-bottom:1px solid var(--gold-2);
+  opacity:0;transform:scaleX(.4);transition:opacity .3s,transform .35s var(--ease);
 }
 nav.main-nav > a:hover,nav.main-nav > a.active,
 nav.main-nav .nav-drop-btn:hover,nav.main-nav .nav-drop-btn.active{color:var(--text)}
-nav.main-nav > a:hover::before,nav.main-nav > a.active::before,
-nav.main-nav .nav-drop-btn:hover::before,nav.main-nav .nav-drop-btn.active::before{opacity:1;transform:scale(1)}
+nav.main-nav > a:hover::after,nav.main-nav > a.active::after,
+nav.main-nav .nav-drop-btn:hover::after,nav.main-nav .nav-drop-btn.active::after{opacity:1;transform:scaleX(1)}
 .caret{transition:transform .3s var(--ease)}
 .dropdown.open .caret{transform:rotate(180deg)}
 .dropdown{align-self:stretch;display:flex;align-items:center}
@@ -142,240 +127,296 @@ nav.main-nav .nav-drop-btn:hover::before,nav.main-nav .nav-drop-btn.active::befo
   position:absolute;left:0;right:0;top:100%;
   background:rgba(5,0,43,.97);backdrop-filter:blur(16px);
   border-bottom:1px solid var(--line);
-  padding:28px clamp(14px,3vw,44px) 32px;display:none;
+  padding:28px clamp(14px,3vw,44px) 34px;display:none;
 }
 .dropdown.open .dropdown-panel{display:block;animation:ddIn .35s var(--ease)}
 @keyframes ddIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 .drop-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
-.drop-head span{font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-1)}
-.drop-grid{display:flex;gap:22px;overflow-x:auto;padding:6px 2px 10px;scrollbar-width:thin}
-.drop-card{width:196px;flex:none;text-align:center}
-.drop-card .thumb{
-  width:100%;aspect-ratio:2/1;overflow:hidden;position:relative;
-  clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
-  transition:transform .3s var(--ease);
+.drop-head span{font-size:11px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-1)}
+.drop-link{
+  font-size:11.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
+  transition:color .25s;
 }
-.drop-card .thumb svg{position:absolute;inset:0;width:100%;height:100%}
-.drop-card:hover .thumb{transform:translateY(-4px)}
-.drop-card .dc-row{display:flex;align-items:baseline;justify-content:center;gap:8px;margin-top:10px}
-.drop-card .dc-num{font-size:10px;font-weight:800;color:transparent;-webkit-text-stroke:.8px var(--gold-2)}
-.drop-card b{display:block;font-size:13px;font-weight:800;letter-spacing:.02em;transition:color .25s}
-.drop-card:hover b{color:var(--gold-1)}
-.drop-card small{display:block;font-size:9.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-top:2px}
+.drop-link:hover{color:var(--gold-1)}
+.drop-grid{display:flex;gap:20px;overflow-x:auto;padding:8px 2px 12px;scrollbar-width:thin}
+.drop-slot{flex:none;width:128px;transition:transform .3s var(--ease)}
+.drop-slot:hover{transform:translateY(-6px)}
+.drop-slot .card{border-radius:10px}
+.drop-slot .card-epi{font-size:7.5px}
+.drop-slot .card-title{font-size:11px}
+.drop-slot .card-fant{display:none}
+.drop-slot .card-art{margin-bottom:8px}
+.drop-slot .back-epi{font-size:8px}
+
+/* ---------- THE CARD ---------- */
+.card{
+  position:relative;aspect-ratio:5/7;border-radius:16px;
+  background:linear-gradient(160deg,#100756 0%,#0A0345 60%,#080238 100%);
+  box-shadow:0 0 0 1.5px var(--gold-2), 0 24px 60px rgba(0,0,10,.55);
+  padding:clamp(10px,4.5%,18px);
+  display:flex;flex-direction:column;overflow:hidden;
+  transform-style:preserve-3d;will-change:transform;
+}
+.card::before{ /* inner frame */
+  content:"";position:absolute;inset:7px;border:1px solid var(--gold-soft);border-radius:10px;pointer-events:none;
+}
+.card::after{ /* corner pips */
+  content:"";position:absolute;inset:12px;pointer-events:none;border-radius:8px;
+  background:
+    radial-gradient(circle 2.5px at 0 0,var(--gold-1) 98%,transparent),
+    radial-gradient(circle 2.5px at 100% 0,var(--gold-1) 98%,transparent),
+    radial-gradient(circle 2.5px at 0 100%,var(--gold-1) 98%,transparent),
+    radial-gradient(circle 2.5px at 100% 100%,var(--gold-1) 98%,transparent);
+  background-repeat:no-repeat;
+}
+.card-art{
+  position:relative;border-radius:9px;overflow:hidden;aspect-ratio:16/11;flex:none;
+  box-shadow:inset 0 0 0 1px var(--gold-soft);margin-bottom:6%;
+}
+.card-art svg{position:absolute;inset:0;width:100%;height:100%}
+.card-epi{
+  text-align:center;font-size:clamp(8px,.62em,11px);font-weight:800;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--gold-1);margin-bottom:5px;
+}
+.card-title{
+  text-align:center;font-weight:800;font-size:clamp(13px,1.1em,21px);letter-spacing:-.01em;line-height:1.15;
+  margin-bottom:6px;
+}
+.card-fant{
+  text-align:center;color:var(--dim);font-size:clamp(10px,.78em,13.5px);line-height:1.45;
+  margin-top:auto;padding-bottom:4px;
+}
+.card-foil{
+  position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(115deg,transparent 42%,rgba(255,238,205,.3) 50%,transparent 58%);
+  transform:translateX(-130%);
+}
+.card:hover .card-foil{animation:foil .9s var(--ease)}
+@keyframes foil{to{transform:translateX(130%)}}
+
+/* Face-down card */
+.card.is-back{padding:0;align-items:center;justify-content:center}
+.card.is-back > svg{position:absolute;inset:0;width:100%;height:100%}
+.back-epi{
+  position:absolute;bottom:9%;left:0;right:0;text-align:center;
+  font-size:clamp(8px,.62em,11px);font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-1);
+}
 
 /* ---------- Pages ---------- */
 .page{display:none}
 .page.active{display:block;animation:pageIn .5s var(--ease)}
 @keyframes pageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-section.block{position:relative;max-width:var(--max);margin:0 auto;padding:clamp(64px,8vw,110px) var(--pad)}
+section.block{position:relative;max-width:var(--max);margin:0 auto;padding:clamp(70px,9vw,120px) var(--pad)}
 
-/* ---------- THE STAGE: flagship monument, front and center ---------- */
-.stage{
+/* ---------- HOME: Today's Draw ---------- */
+.draw{
   position:relative;min-height:100svh;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:calc(85px + 3vh) var(--pad) 40px;overflow:hidden;text-align:center;
+  padding:calc(82px + 3vh) var(--pad) 54px;text-align:center;overflow:hidden;
 }
-.stage-word{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-78%);
-  font-weight:800;text-transform:uppercase;letter-spacing:-.02em;
-  font-size:clamp(64px,15vw,220px);line-height:.9;white-space:nowrap;
-  color:transparent;-webkit-text-stroke:1.5px rgba(255,198,106,.28);
-  user-select:none;pointer-events:none;
+.table-glow{
+  position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);
+  width:min(900px,120vw);aspect-ratio:1.6/1;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(255,198,106,.14),rgba(255,198,106,.05) 45%,transparent 72%);
 }
-.stage-grid{position:absolute;inset:0;pointer-events:none;opacity:.6}
-.monolith{position:relative;z-index:2;width:min(760px,94vw);will-change:transform;transition:transform .25s ease-out}
-.monolith svg{width:100%;height:auto;display:block;animation:floaty 7s ease-in-out infinite}
-@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
-.stage-plate{
-  position:absolute;z-index:3;top:6%;left:50%;transform:translateX(-50%);
-  font-size:11px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;
-  background:var(--gold-grad);color:var(--ink-deep);padding:8px 18px;
-  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+.sparkles{position:absolute;inset:0;pointer-events:none}
+.draw .eyebrow{margin-bottom:8px}
+.draw-motto{
+  font-weight:800;font-size:clamp(24px,3.4vw,42px);letter-spacing:-.015em;line-height:1.05;margin-bottom:clamp(24px,3.5vh,40px);
 }
-.stage-info{position:relative;z-index:3;margin-top:clamp(-30px,-2vw,-10px);display:flex;flex-direction:column;align-items:center;gap:14px}
-.stage-info h1{
-  font-weight:800;font-size:clamp(30px,4.6vw,54px);letter-spacing:-.02em;text-transform:uppercase;line-height:1;
+.draw-motto em{
+  font-style:normal;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
 }
-.stage-fantasy{color:var(--dim);font-size:clamp(15px,1.6vw,19px);font-weight:600;max-width:48ch}
-.stage-release{
-  font-size:12px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-1);
+.draw-card-wrap{position:relative;z-index:2;perspective:1100px}
+.card-lg{width:clamp(250px,30vh,330px);font-size:19px}
+.draw-plate{
+  display:inline-block;margin-bottom:18px;
+  font-size:10.5px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--ink-deep);background:var(--gold-grad);
+  padding:8px 20px;border-radius:99px;
+}
+.draw-info{position:relative;z-index:2;margin-top:clamp(20px,3vh,32px);display:flex;flex-direction:column;align-items:center;gap:12px}
+.draw-info h1{font-weight:800;font-size:clamp(26px,3.6vw,42px);letter-spacing:-.02em;line-height:1}
+.draw-fantasy{color:var(--dim);font-size:clamp(15px,1.5vw,18px);font-weight:600;max-width:46ch}
+.draw-release{
+  font-size:11.5px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-1);
   display:flex;align-items:center;gap:14px;
 }
-.stage-release::before,.stage-release::after{
-  content:"";width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-2));
+.draw-release::before,.draw-release::after{content:"";width:30px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-2))}
+.draw-release::after{background:linear-gradient(90deg,var(--gold-2),transparent)}
+.draw-ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.bulletin{
+  position:relative;z-index:2;margin-top:clamp(22px,3.5vh,36px);
+  font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+  display:inline-flex;align-items:center;gap:10px;transition:opacity .4s var(--ease);
 }
-.stage-release::after{background:linear-gradient(90deg,var(--gold-2),transparent)}
-.stage-ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:12px}
-.stage-scroll{
-  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;
-  width:11px;height:11px;background:var(--gold-grad);opacity:.8;
-  clip-path:polygon(50% 100%,0 0,100% 0);
-  animation:nudge 2.2s ease-in-out infinite;
-}
-@keyframes nudge{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+.bulletin.swap{opacity:0}
+.bulletin:hover{color:var(--gold-1)}
+.bulletin i{width:6px;height:6px;border-radius:50%;background:var(--gold-grad);flex:none}
 
-/* ---------- Manifesto marquee ---------- */
-.marquee{
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  overflow:hidden;padding:17px 0;background:var(--ink-deep);
+/* ---------- The fanned deck ---------- */
+.deck-stage{position:relative;height:clamp(380px,52vw,520px);margin:0 auto;max-width:1000px;perspective:1400px}
+.fan-slot{
+  position:absolute;left:50%;bottom:24px;width:clamp(150px,19vw,208px);margin-left:calc(clamp(150px,19vw,208px) / -2);
+  transform-origin:50% 130%;
+  transition:transform .45s var(--ease),z-index 0s .1s;
 }
-.marquee-track{display:flex;width:max-content;animation:scrollX 36s linear infinite}
-.marquee:hover .marquee-track{animation-play-state:paused}
-.marquee-track > div{display:flex;align-items:center;gap:34px;padding-right:34px}
-.marquee-track span{font-size:13px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
-.marquee-track i{width:9px;height:9px;flex:none;background:var(--gold-grad);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
-@keyframes scrollX{to{transform:translateX(-50%)}}
+.fan-slot .card{font-size:13px;transition:box-shadow .35s}
+.fan-slot:hover{z-index:20!important}
+.fan-slot:hover .card{box-shadow:0 0 0 1.5px var(--gold-1),0 30px 70px rgba(0,0,10,.65)}
+.deck-stage .fan-slot:nth-child(1){transform:rotate(-22deg) translateY(6px)}
+.deck-stage .fan-slot:nth-child(2){transform:rotate(-13.5deg) translateY(-16px)}
+.deck-stage .fan-slot:nth-child(3){transform:rotate(-4.5deg) translateY(-27px)}
+.deck-stage .fan-slot:nth-child(4){transform:rotate(4.5deg) translateY(-27px)}
+.deck-stage .fan-slot:nth-child(5){transform:rotate(13.5deg) translateY(-16px)}
+.deck-stage .fan-slot:nth-child(6){transform:rotate(22deg) translateY(6px)}
+.deck-stage .fan-slot:nth-child(1):hover{transform:rotate(-22deg) translateY(-30px) scale(1.06)}
+.deck-stage .fan-slot:nth-child(2):hover{transform:rotate(-13.5deg) translateY(-52px) scale(1.06)}
+.deck-stage .fan-slot:nth-child(3):hover{transform:rotate(-4.5deg) translateY(-63px) scale(1.06)}
+.deck-stage .fan-slot:nth-child(4):hover{transform:rotate(4.5deg) translateY(-63px) scale(1.06)}
+.deck-stage .fan-slot:nth-child(5):hover{transform:rotate(13.5deg) translateY(-52px) scale(1.06)}
+.deck-stage .fan-slot:nth-child(6):hover{transform:rotate(22deg) translateY(-30px) scale(1.06)}
+.deck-stage .fan-slot:nth-child(1){z-index:1}.deck-stage .fan-slot:nth-child(2){z-index:2}
+.deck-stage .fan-slot:nth-child(3){z-index:3}.deck-stage .fan-slot:nth-child(4){z-index:4}
+.deck-stage .fan-slot:nth-child(5){z-index:5}.deck-stage .fan-slot:nth-child(6){z-index:6}
+@media(max-width:880px){
+  .deck-stage{height:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:20px;perspective:none}
+  .fan-slot{position:static;width:auto;margin:0;transform:none!important}
+}
 
-/* ---------- Angled planes ---------- */
-.plane{position:relative;padding:clamp(40px,6vw,80px) 0}
-.plane::before{
-  content:"";position:absolute;inset:0;
-  clip-path:polygon(0 0,100% clamp(24px,3.5vw,54px),100% 100%,0 calc(100% - clamp(24px,3.5vw,54px)));
+/* Hand list (scannable index under the fan) */
+.hand-list{max-width:820px;margin:clamp(30px,4vw,50px) auto 0}
+a.hand-row{
+  display:grid;grid-template-columns:64px 1fr auto;gap:clamp(14px,2.5vw,30px);align-items:baseline;
+  padding:18px 10px;border-top:1px solid var(--line);
+  transition:background .3s,padding-left .3s var(--ease);border-radius:8px;
 }
-.plane > *{position:relative}
-.plane-gold::before{background:var(--gold-grad)}
-.plane-gold{color:var(--ink)}
-.plane-deep::before{background:var(--ink-deep);box-shadow:inset 0 0 0 1px var(--line)}
+a.hand-row:last-child{border-bottom:1px solid var(--line)}
+a.hand-row:hover{background:rgba(255,255,255,.03);padding-left:20px}
+.hr-num{font-size:13px;font-weight:800;letter-spacing:.12em;color:var(--gold-2);opacity:.85}
+a.hand-row h3{font-weight:800;font-size:clamp(15.5px,1.6vw,18px);letter-spacing:-.01em;display:inline;transition:color .25s}
+a.hand-row:hover h3{color:var(--gold-1)}
+.hr-fant{color:var(--dim);font-size:14px;display:block;margin-top:2px}
+.hr-tag{
+  font-size:9.5px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-1);
+  box-shadow:inset 0 0 0 1px rgba(255,198,106,.4);border-radius:99px;padding:6px 14px;white-space:nowrap;
+}
 
-/* Gold manifesto content */
-.gold-inner{max-width:var(--max);margin:0 auto;padding:clamp(56px,7vw,96px) var(--pad)}
-.g-label{
-  font-size:11px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--ink);
-  display:flex;align-items:center;gap:12px;margin-bottom:26px;
+/* ---------- Gold mission band (kept & promoted) ---------- */
+.gold-band{background:var(--gold-grad);color:var(--ink);position:relative;overflow:hidden}
+.gold-band::before{
+  content:"";position:absolute;inset:0;opacity:.16;pointer-events:none;
+  background-image:radial-gradient(circle 1.4px, #0D0059 99%, transparent), radial-gradient(circle 1.4px, #0D0059 99%, transparent);
+  background-size:34px 34px;background-position:0 0,17px 17px;
 }
-.g-label::before{content:"";width:9px;height:9px;background:var(--ink);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
-.gold-inner h2{
-  font-weight:800;font-size:clamp(28px,4.4vw,58px);line-height:1.02;letter-spacing:-.02em;text-transform:uppercase;
-  max-width:16ch;margin-bottom:clamp(34px,4vw,54px);
+.gold-inner{position:relative;max-width:900px;margin:0 auto;padding:clamp(70px,9vw,120px) var(--pad);text-align:center}
+.gold-inner .g-eyebrow{
+  font-size:11px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;margin-bottom:24px;
+  display:flex;align-items:center;justify-content:center;gap:16px;
 }
-.creed-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:clamp(22px,3vw,40px)}
-.creed{border-top:2px solid var(--ink);padding-top:18px}
-.creed .c-num{font-size:13px;font-weight:800;letter-spacing:.1em;opacity:.65;display:block;margin-bottom:8px}
-.creed h3{font-weight:800;font-size:16.5px;text-transform:uppercase;margin-bottom:8px}
-.creed p{font-size:14px;line-height:1.6;font-weight:600;opacity:.85}
+.gold-inner .g-eyebrow::before,.gold-inner .g-eyebrow::after{content:"";height:1px;width:44px;background:var(--ink);opacity:.5}
+.gold-inner p.mission-text{
+  font-weight:800;font-size:clamp(22px,3.2vw,40px);line-height:1.3;letter-spacing:-.015em;
+}
+.gold-inner p.mission-text b{
+  background:var(--ink);color:var(--gold-1);padding:0 12px;border-radius:8px;white-space:nowrap;
+}
 .btn-ink{
-  display:inline-flex;align-items:center;gap:12px;margin-top:clamp(34px,4vw,50px);
+  position:relative;display:inline-flex;align-items:center;gap:11px;margin-top:clamp(30px,4vw,44px);
   background:var(--ink);color:var(--gold-1);
-  font-weight:800;font-size:14px;letter-spacing:.08em;text-transform:uppercase;padding:16px 30px;
-  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));
-  transition:transform .3s var(--ease);
+  font-weight:800;font-size:13.5px;letter-spacing:.1em;text-transform:uppercase;
+  padding:16px 32px;border-radius:12px;
+  transition:transform .3s var(--ease),box-shadow .3s;
 }
-.btn-ink:hover{transform:translateY(-2px) scale(1.04)}
+.btn-ink::after{content:"";position:absolute;inset:4px;border:1px solid rgba(255,198,106,.35);border-radius:8px;pointer-events:none}
+.btn-ink:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(5,0,43,.35)}
 
-/* ---------- Transmissions ---------- */
-.tx-wrap{position:relative;max-width:var(--max);margin:0 auto;padding:clamp(40px,5vw,70px) var(--pad)}
-.transmission{
-  position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,4vw,56px);align-items:center;
-  min-height:340px;
-}
-.tx-copy{transition:opacity .35s var(--ease);text-align:left}
-.tx-copy.fading{opacity:0}
-.tx-num{font-size:clamp(44px,5.4vw,76px);font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:1.6px rgba(255,198,106,.55);margin-bottom:14px}
-.tx-copy .label{margin-bottom:14px}
-.tx-copy h3{font-weight:800;font-size:clamp(24px,3vw,40px);line-height:1.08;letter-spacing:-.015em;text-transform:uppercase;margin-bottom:14px}
-.tx-copy p{color:var(--dim);max-width:46ch;margin-bottom:26px}
-.tx-art{
-  position:relative;aspect-ratio:2/1;overflow:hidden;align-self:center;width:100%;
-  clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
-  transition:opacity .35s var(--ease);
-}
-.tx-art.fading{opacity:0}
-.tx-art svg{position:absolute;inset:0;width:100%;height:100%}
-.tx-ticks{display:flex;gap:12px;margin-top:4px}
-.tick{
-  width:12px;height:12px;padding:0;background:rgba(255,255,255,.22);
-  clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
-  transition:background .3s,transform .3s var(--ease);
-}
-.tick.active{background:var(--gold-grad);transform:scale(1.25)}
-@media(max-width:880px){.transmission{grid-template-columns:1fr}.tx-art{max-width:420px;justify-self:center}}
-
-/* ---------- Fantasy Files ---------- */
-.file-list{display:flex;flex-direction:column}
-a.file-row{
-  display:grid;grid-template-columns:60px 176px 1fr auto;gap:clamp(16px,2.6vw,34px);align-items:center;
-  padding:20px 8px;border-top:1px solid var(--line);
+/* ---------- The Iso Informant ---------- */
+a.news-item{
+  display:grid;grid-template-columns:64px 112px 1fr auto;gap:clamp(14px,2.6vw,34px);align-items:baseline;
+  padding:24px 10px;border-top:1px solid var(--line);border-radius:8px;
   transition:background .3s,padding-left .3s var(--ease);
 }
-a.file-row:last-child{border-bottom:1px solid var(--line)}
-a.file-row:hover{background:rgba(255,255,255,.03);padding-left:18px}
-.fr-num{font-size:22px;font-weight:800;color:transparent;-webkit-text-stroke:1.1px var(--gold-2)}
-.fr-thumb{
-  width:176px;aspect-ratio:2/1;position:relative;overflow:hidden;
-  clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
+a.news-item:last-child{border-bottom:1px solid var(--line)}
+a.news-item:hover{background:rgba(255,255,255,.03);padding-left:20px}
+.ni-num{font-size:13px;font-weight:800;letter-spacing:.12em;color:var(--gold-2);opacity:.85}
+.news-date{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+a.news-item h3{font-weight:800;font-size:clamp(16px,1.6vw,19px);margin-bottom:4px;transition:color .25s;letter-spacing:-.01em}
+a.news-item:hover h3{color:var(--gold-1)}
+a.news-item p{color:var(--dim);font-size:14.5px;max-width:62ch}
+.ni-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px;white-space:nowrap}
+.news-cat{font-size:10px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-1)}
+.read-time{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+@media(max-width:720px){
+  a.news-item{grid-template-columns:1fr;gap:6px}
+  .ni-side{flex-direction:row;align-items:baseline;gap:14px}
+  .ni-num{display:none}
 }
-.fr-thumb svg{position:absolute;inset:0;width:100%;height:100%;transition:transform .7s var(--ease)}
-a.file-row:hover .fr-thumb svg{transform:scale(1.1)}
-.fr-body h3{font-weight:800;font-size:clamp(17px,1.8vw,22px);letter-spacing:-.01em;text-transform:uppercase;transition:color .25s}
-a.file-row:hover .fr-body h3{color:var(--gold-1)}
-.fr-body .fantasy{color:var(--dim);font-size:14.5px;margin-top:3px;display:block}
-.fr-body .fantasy b{color:var(--gold-1);font-size:10px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;margin-right:8px}
-.fr-side{display:flex;align-items:center;gap:18px}
-.fr-tag{
-  font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-1);
-  box-shadow:inset 0 0 0 1px rgba(255,198,106,.4);padding:6px 13px;white-space:nowrap;
-  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+.sect-foot{text-align:center;margin-top:clamp(26px,3.5vw,40px)}
+.ghost-link{
+  font-size:12px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);
+  border-bottom:1px solid transparent;padding-bottom:6px;transition:color .25s,border-color .25s;
 }
-.fr-arrow{color:var(--dim);transition:color .25s,transform .3s var(--ease)}
-a.file-row:hover .fr-arrow{color:var(--gold-1);transform:translateX(5px)}
-@media(max-width:760px){
-  a.file-row{grid-template-columns:44px 1fr auto}
-  .fr-thumb{display:none}
-  .fr-num{font-size:17px}
-}
+.ghost-link:hover{color:var(--gold-1);border-color:var(--gold-1)}
 
 /* ---------- Page heroes ---------- */
-.page-hero{position:relative;max-width:var(--max);margin:0 auto;padding:calc(85px + clamp(56px,8vw,100px)) var(--pad) clamp(20px,3vw,40px)}
-.page-hero h1{
-  font-weight:800;font-size:clamp(34px,5.6vw,72px);line-height:.98;letter-spacing:-.025em;text-transform:uppercase;max-width:14ch;
-  margin-top:22px;
+.page-hero{position:relative;max-width:var(--max);margin:0 auto;padding:calc(82px + clamp(56px,8vw,96px)) var(--pad) clamp(24px,3vw,44px);text-align:center}
+.page-hero h1{font-weight:800;font-size:clamp(32px,5vw,60px);line-height:1.02;letter-spacing:-.02em;margin-top:20px}
+.page-hero h1 em{
+  font-style:normal;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
 }
-.page-hero h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.8px var(--gold-1)}
-.page-hero .lede{max-width:58ch;color:var(--dim);font-size:clamp(15px,1.5vw,18px);margin-top:24px}
+.page-hero .lede{max-width:56ch;color:var(--dim);font-size:clamp(15px,1.5vw,18px);margin:22px auto 0}
+.page-hero .flourish{margin-top:26px}
 
 /* ---------- Individual game page ---------- */
-.game-stage{
-  position:relative;padding:calc(85px + clamp(10px,2vw,26px)) var(--pad) 0;
-  display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden;
+.game-spread{
+  max-width:1040px;margin:0 auto;
+  padding:calc(82px + clamp(30px,5vw,60px)) var(--pad) 0;
+  display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:clamp(34px,5vw,72px);align-items:center;
 }
-.game-stage .stage-word{transform:translate(-50%,-92%);font-size:clamp(52px,11vw,150px)}
-.game-stage .monolith{width:min(680px,92vw)}
-.game-hero-bar{
-  max-width:1000px;margin:0 auto;width:100%;
-  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;
-  padding:clamp(22px,3.4vw,38px) var(--pad) 0;
+.game-spread .draw-card-wrap{justify-self:center;perspective:1100px}
+.game-spread .card{width:100%;font-size:18px}
+.gs-info{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.gs-epi{
+  font-size:11px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;color:var(--gold-1);
 }
-.release{justify-self:start;text-align:left}
-.release span{display:block;font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
-.release b{display:block;font-weight:800;font-size:clamp(18px,2.2vw,28px);letter-spacing:-.01em;text-transform:uppercase}
-.platforms{justify-self:end;text-align:right}
-.platforms span{display:block;font-size:12.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.9;line-height:2}
-@media(max-width:760px){
-  .game-hero-bar{grid-template-columns:1fr;justify-items:center;gap:20px}
-  .release,.platforms{justify-self:center;text-align:center}
+.gs-info h1{font-weight:800;font-size:clamp(30px,4vw,50px);letter-spacing:-.02em;line-height:1.02}
+.gs-fantasy{color:var(--dim);font-size:clamp(15px,1.5vw,18px);font-weight:600;max-width:44ch}
+.gs-release{margin-top:8px}
+.gs-release span{display:block;font-size:10.5px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
+.gs-release b{display:block;font-weight:800;font-size:clamp(18px,2vw,25px);letter-spacing:-.01em;text-transform:uppercase}
+.gs-platforms{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.gs-platforms span{
+  font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  box-shadow:inset 0 0 0 1px var(--line);border-radius:99px;padding:7px 15px;color:var(--text);opacity:.9;
 }
-.fantasy-pull{max-width:860px;margin:0 auto;padding:clamp(22px,3vw,36px) var(--pad) 0}
-.fantasy-pull .lbl{font-size:11px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-1);display:block;margin-bottom:12px}
-.fantasy-pull p{font-size:clamp(21px,2.6vw,32px);font-weight:800;line-height:1.25;letter-spacing:-.015em;max-width:26ch}
-.game-bio{max-width:860px;padding-top:clamp(18px,2.4vw,30px)}
-.game-bio p{color:#CFC9F2;font-size:clamp(16px,1.35vw,18px);line-height:1.85;margin-bottom:24px;max-width:70ch}
+.gs-info .btn{margin-top:10px}
+@media(max-width:840px){
+  .game-spread{grid-template-columns:1fr;text-align:center}
+  .gs-info{align-items:center}
+  .game-spread .card{max-width:300px}
+}
+.game-bio{max-width:820px;padding-top:clamp(40px,5vw,64px)}
+.game-bio .sect-head{margin-bottom:clamp(24px,3vw,36px)}
+.game-bio p{color:#CFC9F2;font-size:clamp(16px,1.35vw,18px);line-height:1.85;margin-bottom:24px}
+.game-bio p:first-of-type{color:var(--text);font-weight:500}
 
 /* ---------- Media carousel ---------- */
-.showcase{position:relative;max-width:1000px;margin:0 auto}
+.showcase{position:relative;max-width:960px;margin:0 auto}
 .capsule{
-  position:relative;overflow:hidden;aspect-ratio:16/9;background:var(--ink-raise);
-  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));
-  box-shadow:inset 0 0 0 1px var(--line);
+  position:relative;overflow:hidden;aspect-ratio:16/9;background:var(--ink-card);
+  border-radius:16px;
+  box-shadow:0 0 0 1.5px var(--gold-2),0 20px 55px rgba(0,0,10,.5);
 }
+.capsule::before{content:"";position:absolute;inset:7px;border:1px solid var(--gold-soft);border-radius:10px;pointer-events:none;z-index:3}
 .capsule .art-layer{position:absolute;inset:0;transition:opacity .35s var(--ease)}
 .capsule .art-layer.fading{opacity:0}
 .capsule svg{position:absolute;inset:0;width:100%;height:100%}
 .arrow{
   position:absolute;top:50%;transform:translateY(-50%);z-index:4;
-  width:52px;height:52px;display:grid;place-items:center;color:var(--text);
-  background:rgba(5,0,43,.72);backdrop-filter:blur(6px);
-  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);
+  width:52px;height:52px;display:grid;place-items:center;color:var(--text);border-radius:50%;
+  background:rgba(5,0,43,.75);backdrop-filter:blur(6px);
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.25);
   transition:box-shadow .3s,background .3s,transform .3s var(--ease);
 }
 .arrow:hover{box-shadow:inset 0 0 0 1.5px var(--gold-1);background:rgba(228,150,59,.25)}
@@ -383,110 +424,91 @@ a.file-row:hover .fr-arrow{color:var(--gold-1);transform:translateX(5px)}
 .arrow.right{right:-26px}
 .arrow.left:hover{transform:translateY(-50%) translateX(-3px)}
 .arrow.right:hover{transform:translateY(-50%) translateX(3px)}
-@media(max-width:1100px){.arrow.left{left:12px}.arrow.right{right:12px}}
+@media(max-width:1060px){.arrow.left{left:12px}.arrow.right{right:12px}}
 .showcase-counter{
-  position:absolute;top:16px;right:20px;z-index:4;
-  font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--text);background:rgba(5,0,43,.6);box-shadow:inset 0 0 0 1px var(--line);
-  padding:7px 15px;backdrop-filter:blur(6px);
-  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
-}
-
-/* ---------- Informant ---------- */
-a.news-item{
-  display:grid;grid-template-columns:56px 112px 1fr auto;gap:clamp(14px,2.6vw,34px);align-items:baseline;
-  padding:24px 8px;border-top:1px solid var(--line);
-  transition:background .3s,padding-left .3s var(--ease);
-}
-a.news-item:last-child{border-bottom:1px solid var(--line)}
-a.news-item:hover{background:rgba(255,255,255,.03);padding-left:18px}
-.ni-num{font-size:15px;font-weight:800;color:transparent;-webkit-text-stroke:1px var(--gold-2)}
-.news-date{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-a.news-item h3{font-weight:800;font-size:clamp(16px,1.6vw,19px);margin-bottom:4px;transition:color .25s;letter-spacing:-.01em}
-a.news-item:hover h3{color:var(--gold-1)}
-a.news-item p{color:var(--dim);font-size:14.5px;max-width:62ch}
-.ni-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px;white-space:nowrap}
-.news-cat{font-size:10px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-1)}
-.read-time{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
-@media(max-width:720px){
-  a.news-item{grid-template-columns:1fr;gap:6px}
-  .ni-side{flex-direction:row;align-items:baseline;gap:14px}
-  .ni-num{display:none}
+  position:absolute;top:18px;right:22px;z-index:4;
+  font-size:10.5px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--text);background:rgba(5,0,43,.65);box-shadow:inset 0 0 0 1px var(--line);
+  padding:8px 16px;border-radius:99px;backdrop-filter:blur(6px);
 }
 
 /* ---------- Article ---------- */
-.article-hero{max-width:840px;margin:0 auto;padding:calc(85px + clamp(46px,7vw,84px)) var(--pad) clamp(14px,2vw,26px)}
+.article-hero{max-width:800px;margin:0 auto;padding:calc(82px + clamp(46px,7vw,80px)) var(--pad) clamp(14px,2vw,26px);text-align:center}
 .back-link{
-  font-size:11.5px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
-  display:inline-flex;align-items:center;gap:9px;margin-bottom:34px;transition:color .25s;
+  font-size:11px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);
+  display:inline-flex;align-items:center;gap:9px;margin-bottom:30px;transition:color .25s;
 }
 .back-link:hover{color:var(--gold-1)}
-.article-hero h1{font-weight:800;font-size:clamp(28px,4vw,50px);line-height:1.06;letter-spacing:-.02em;margin:16px 0 18px}
-.article-meta{font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
-.article-body{max-width:840px;margin:0 auto;padding:clamp(22px,3vw,38px) var(--pad) clamp(76px,9vw,116px)}
-.article-body p{color:#CFC9F2;font-size:clamp(16px,1.35vw,18px);line-height:1.85;margin-bottom:26px;max-width:70ch}
+.article-hero .eyebrow{margin-bottom:6px}
+.article-hero h1{font-weight:800;font-size:clamp(27px,3.8vw,46px);line-height:1.08;letter-spacing:-.02em;margin:14px 0 16px}
+.article-meta{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.article-hero .flourish{margin-top:24px}
+.article-body{max-width:760px;margin:0 auto;padding:clamp(26px,3.5vw,44px) var(--pad) clamp(76px,9vw,116px)}
+.article-body p{color:#CFC9F2;font-size:clamp(16px,1.35vw,18px);line-height:1.9;margin-bottom:26px}
 .article-body p:first-of-type{color:var(--text);font-size:clamp(17px,1.5vw,20px);font-weight:600}
 
 /* ---------- About / Manifesto ---------- */
-.creed-full{max-width:840px;margin:0 auto;padding:clamp(10px,2vw,20px) var(--pad) 0}
-.creed-item{border-top:1px solid var(--line);padding:clamp(30px,4vw,46px) 0}
+.creed-full{max-width:800px;margin:0 auto;padding:clamp(10px,2vw,20px) var(--pad) 0}
+.creed-item{border-top:1px solid var(--line);padding:clamp(32px,4.5vw,50px) 0;text-align:center}
 .creed-item:last-child{border-bottom:1px solid var(--line)}
-.creed-item .ci-head{display:flex;align-items:baseline;gap:18px;margin-bottom:16px}
-.creed-item .ci-num{font-size:clamp(20px,2.4vw,30px);font-weight:800;color:transparent;-webkit-text-stroke:1.2px var(--gold-2)}
-.creed-item h3{font-weight:800;font-size:clamp(19px,2.3vw,28px);letter-spacing:-.01em;text-transform:uppercase}
-.creed-item p{color:#CFC9F2;font-size:clamp(15px,1.3vw,17px);line-height:1.8;max-width:66ch;margin-bottom:14px}
-.creed-item p:last-child{margin-bottom:0}
-.creed-item p b{color:var(--gold-1);font-weight:800}
-.mission{max-width:840px;margin:clamp(50px,6vw,80px) auto 0;padding:0 var(--pad)}
-.mission-card{
-  background:var(--gold-grad);color:var(--ink);
-  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));
-  padding:clamp(30px,4vw,52px);
+.creed-item .ci-num{
+  display:inline-block;font-size:12px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-2);
+  margin-bottom:12px;
 }
-.mission-card .lbl{font-size:11px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;margin-bottom:16px;display:block}
-.mission-card p{font-weight:800;font-size:clamp(18px,2.2vw,27px);line-height:1.35;letter-spacing:-.01em;max-width:32ch}
-.stat-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--ink-deep);margin-top:clamp(60px,8vw,100px)}
+.creed-item h3{font-weight:800;font-size:clamp(20px,2.4vw,29px);letter-spacing:-.015em;margin-bottom:16px}
+.creed-item p{color:#CFC9F2;font-size:clamp(15px,1.3vw,17px);line-height:1.8;max-width:62ch;margin:0 auto 14px}
+.creed-item p:last-child{margin-bottom:0}
+.creed-item p b{
+  background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800;
+}
+.stat-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(5,0,43,.5);margin-top:clamp(64px,8vw,100px)}
 .stat-band-inner{
   max-width:var(--max);margin:0 auto;padding:clamp(38px,5vw,60px) var(--pad);
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:32px;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:32px;text-align:center;
 }
 .stat b{
   display:block;font-weight:800;font-size:clamp(28px,3vw,40px);
   background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:4px;
 }
-.stat span{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.stat span{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.timeline{max-width:820px;margin:0 auto}
 .timeline .t-item{
-  display:grid;grid-template-columns:110px 1fr auto;gap:clamp(16px,3vw,40px);align-items:baseline;
-  padding:24px 8px;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:96px 1fr auto;gap:clamp(16px,3vw,36px);align-items:baseline;
+  padding:24px 10px;border-top:1px solid var(--line);
 }
 .timeline .t-item:last-child{border-bottom:1px solid var(--line)}
 .timeline h3{font-weight:800;font-size:clamp(16px,1.6vw,19px);margin-bottom:4px;letter-spacing:-.01em}
-.timeline p{color:var(--dim);font-size:14.5px;max-width:62ch}
+.timeline p{color:var(--dim);font-size:14.5px;max-width:60ch}
 @media(max-width:700px){.timeline .t-item{grid-template-columns:1fr;gap:6px}.timeline .news-cat{order:-1}}
 
 /* ---------- Footer ---------- */
-footer{border-top:1px solid var(--line);background:var(--ink-deep);position:relative;overflow:hidden}
-.footer-iso{position:absolute;inset:0;opacity:.35;pointer-events:none}
+footer{border-top:1px solid var(--line);background:rgba(5,0,43,.6);position:relative}
 .footer-inner{
   position:relative;width:100%;
   padding:clamp(46px,6vw,68px) clamp(14px,2vw,32px) 38px;
   display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;
 }
 .footer-brand{justify-self:start;display:inline-flex}
-.footer-brand .mark-wrap{width:58px;height:58px}
+.footer-brand .mark-wrap{width:56px;height:56px}
 .footer-center{justify-self:center;display:flex;flex-direction:column;align-items:center;gap:28px}
 .socials{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .socials a{
-  width:46px;height:46px;display:grid;place-items:center;color:var(--text);
-  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+  position:relative;width:46px;height:46px;display:grid;place-items:center;color:var(--text);border-radius:12px;
   box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.22);
   transition:color .3s,box-shadow .3s,transform .3s var(--ease),background .3s;
 }
+.socials a::after{content:"";position:absolute;inset:4px;border:1px solid rgba(255,255,255,.1);border-radius:8px;pointer-events:none;transition:border-color .3s}
 .socials a:hover{color:var(--ink-deep);box-shadow:none;background:var(--gold-grad);transform:translateY(-3px)}
+.socials a:hover::after{border-color:rgba(5,0,43,.35)}
 .socials svg{width:20px;height:20px;fill:currentColor}
 .footer-base{
-  position:relative;width:100%;padding:0 clamp(14px,2vw,32px) 34px;text-align:center;
-  font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);opacity:.7;
+  position:relative;width:100%;padding:0 clamp(14px,2vw,32px) 36px;text-align:center;
+  font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);opacity:.7;
+}
+.footer-motto{
+  text-align:center;padding-bottom:8px;
+  font-size:11px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;
+  background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
 }
 @media(max-width:820px){
   .footer-inner{grid-template-columns:1fr;justify-items:center;gap:30px}
@@ -497,7 +519,6 @@ footer{border-top:1px solid var(--line);background:var(--ink-deep);position:rela
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}
   html{scroll-behavior:auto}
-  .marquee-track,.monolith svg,.stage-scroll{animation:none}
 }
 @media(max-width:640px){
   .header-inner{height:64px}
@@ -533,8 +554,8 @@ footer{border-top:1px solid var(--line);background:var(--ink-deep);position:rela
         </button>
         <div class="dropdown-panel" role="menu">
           <div class="drop-head">
-            <span>Fantasy Files</span>
-            <a class="side-link" href="#/games" data-route="games">View All →</a>
+            <span>The Deck</span>
+            <a class="drop-link" href="#/games" data-route="games">See every card →</a>
           </div>
           <div class="drop-grid" id="dropGrid"></div>
         </div>
@@ -549,140 +570,114 @@ footer{border-top:1px solid var(--line);background:var(--ink-deep);position:rela
 <!-- ================= HOME ================= -->
 <div class="page" id="page-home">
 
-  <!-- THE STAGE: flagship monument -->
-  <section class="stage" id="stage">
-    <svg class="stage-grid" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <g stroke="#FFC66A" stroke-width="1" opacity=".07">
-        <path d="M-100 860 L700 460 L1500 860"/><path d="M-100 760 L700 360 L1500 760"/>
-        <path d="M-100 960 L700 560 L1500 960"/>
-        <path d="M240 900 L1040 500"/><path d="M1160 900 L360 500"/>
-        <path d="M520 900 L1320 500"/><path d="M880 900 L80 500"/>
+  <!-- TODAY'S DRAW -->
+  <section class="draw" id="draw">
+    <div class="table-glow" aria-hidden="true"></div>
+    <svg class="sparkles" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g fill="#FFC66A">
+        <circle cx="180" cy="150" r="1.5" opacity=".7"/><circle cx="420" cy="90" r="1.1" opacity=".45"/>
+        <circle cx="1220" cy="140" r="1.5" opacity=".7"/><circle cx="990" cy="70" r="1.1" opacity=".4"/>
+        <circle cx="120" cy="520" r="1.2" opacity=".4"/><circle cx="1300" cy="480" r="1.2" opacity=".45"/>
+        <circle cx="260" cy="760" r="1.4" opacity=".5"/><circle cx="1150" cy="790" r="1.4" opacity=".5"/>
+        <circle cx="700" cy="60" r="1.3" opacity=".55"/><circle cx="620" cy="840" r="1.1" opacity=".4"/>
       </g>
     </svg>
-    <div class="stage-word" id="stageWord" aria-hidden="true">NEON DELTA</div>
-    <span class="stage-plate" id="stagePlate">File 01 · Flagship</span>
-    <div class="monolith" id="stageMonolith"></div>
-    <div class="stage-info">
-      <h1 id="stageTitle">Neon Delta</h1>
-      <p class="stage-fantasy" id="stageFantasy"></p>
-      <div class="stage-release" id="stageRelease"></div>
-      <div class="stage-ctas">
-        <a class="btn" id="stageCta" href="#" target="_blank" rel="noopener">Pre-Order Now</a>
-        <a class="btn-line" id="stageFile" href="#/games/neon-delta">Open the File</a>
+    <div class="eyebrow">BluIso Games</div>
+    <div class="draw-motto">We deal in <em>fantasies.</em></div>
+    <span class="draw-plate" id="drawPlate">Today's Draw</span>
+    <div class="draw-card-wrap">
+      <a id="drawCardLink" href="#/games/neon-delta" aria-label="Open Neon Delta"><span id="drawCard"></span></a>
+    </div>
+    <div class="draw-info">
+      <h1 id="drawTitle">Neon Delta</h1>
+      <p class="draw-fantasy" id="drawFantasy"></p>
+      <div class="draw-release" id="drawRelease"></div>
+      <div class="draw-ctas">
+        <a class="btn" id="drawCta" href="#" target="_blank" rel="noopener">Pre-Order Now</a>
+        <a class="btn-line" id="drawOpen" href="#/games/neon-delta">Turn the Card</a>
       </div>
     </div>
-    <span class="stage-scroll" aria-hidden="true"></span>
+    <a class="bulletin" id="bulletin" href="#/the-iso-informant"><i></i><span id="bulletinText"></span></a>
   </section>
 
-  <!-- Manifesto marquee -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track" id="marqueeTrack"></div>
-  </div>
-
-  <!-- Fantasy Files -->
+  <!-- THE DECK -->
   <section class="block">
-    <span class="vlabel">Chapter 01 — The Catalog</span>
-    <div class="chapter">
-      <span class="num">01</span>
-      <h2>Fantasy Files</h2>
-      <div class="side"><a class="side-link" href="#/games" data-route="games">All files →</a></div>
+    <div class="sect-head">
+      <div class="eyebrow">The Deck</div>
+      <h2>Six fantasies. One house.</h2>
+      <p class="sub">Every BluIso game begins with a question — what fantasy are we delivering? Each answer becomes a card. Draw one.</p>
+      <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
     </div>
-    <div class="file-list" id="homeFiles"></div>
+    <div class="deck-stage" id="homeDeck"></div>
+    <div class="sect-foot"><a class="ghost-link" href="#/games" data-route="games">See every card →</a></div>
   </section>
 
-  <!-- Gold manifesto plane -->
-  <div class="plane plane-gold">
+  <!-- GOLD MISSION BAND -->
+  <div class="gold-band">
     <div class="gold-inner">
-      <div class="g-label">The BluIso Manifesto</div>
-      <h2>Games should not become fun eventually.</h2>
-      <div class="creed-grid">
-        <div class="creed"><span class="c-num">01</span><h3>Locked in. Immediately.</h3><p>The first moments matter. The first mechanic matters. Excitement within minutes — not hours.</p></div>
-        <div class="creed"><span class="c-num">02</span><h3>Action creates engagement</h3><p>Action is momentum. Decision-making. Tension. Discovery. Players should always be doing.</p></div>
-        <div class="creed"><span class="c-num">03</span><h3>Fantasy comes first</h3><p>Every BluIso game begins with one question: what fantasy are we delivering?</p></div>
-        <div class="creed"><span class="c-num">04</span><h3>Every minute matters</h3><p>No bloat, no friction, no five-hour on-ramps. Every system serves the fantasy.</p></div>
-      </div>
-      <a class="btn-ink" href="#/about" data-route="about">The full manifesto
+      <div class="g-eyebrow">Our Mission</div>
+      <p class="mission-text">BluIso creates <b>immediately engaging</b> action experiences built around unique player fantasies — highly authored games that respect player time, prioritize excitement, and feel unmistakably BluIso.</p>
+      <a class="btn-ink" href="#/about" data-route="about">Read the Manifesto
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
   </div>
 
-  <!-- Transmissions plane -->
-  <div class="plane plane-deep">
-    <div class="tx-wrap">
-      <span class="vlabel">Chapter 02 — Signals</span>
-      <div class="chapter">
-        <span class="num">02</span>
-        <h2>Transmissions</h2>
-        <div class="side"><a class="side-link" href="#/the-iso-informant" data-route="informant">All dispatches →</a></div>
-      </div>
-      <div class="transmission">
-        <div class="tx-copy" id="txCopy">
-          <div class="tx-num" id="txNum">T-01</div>
-          <div class="label" id="txLabel"></div>
-          <h3 id="txTitle"></h3>
-          <p id="txDesc"></p>
-          <a class="btn" id="txCta" href="#"></a>
-          <div class="tx-ticks" id="txTicks" role="tablist" aria-label="Transmissions"></div>
-        </div>
-        <div class="tx-art" id="txArt" aria-hidden="true"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Latest dispatches -->
+  <!-- THE ISO INFORMANT -->
   <section class="block">
-    <span class="vlabel">Chapter 03 — The Record</span>
-    <div class="chapter">
-      <span class="num">03</span>
-      <h2>The Iso Informant</h2>
-      <div class="side"><a class="side-link" href="#/the-iso-informant" data-route="informant">All stories →</a></div>
+    <div class="sect-head">
+      <div class="eyebrow">The Iso Informant</div>
+      <h2>Word from the house</h2>
+      <p class="sub">Patch notes, dev diaries, and the occasional confession from the design floor. Read-times included — every minute should matter.</p>
+      <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
     </div>
     <div id="homeNews"></div>
+    <div class="sect-foot"><a class="ghost-link" href="#/the-iso-informant" data-route="informant">All stories →</a></div>
   </section>
 </div>
 
-<!-- ================= GAMES OVERVIEW ================= -->
+<!-- ================= GAMES / THE DECK ================= -->
 <div class="page" id="page-games">
   <div class="page-hero">
-    <div class="label">Games</div>
-    <h1>The Fantasy <em>Files</em></h1>
-    <p class="lede">Every BluIso game begins with one question: what fantasy are we delivering? Six answers so far. Open a file to see its full page.</p>
+    <div class="eyebrow">Games</div>
+    <h1>The <em>Deck</em></h1>
+    <p class="lede">Six fantasies and counting. Shooters, horrors, kingdoms, machines — the genre changes, the philosophy doesn't. Draw a card to open its page.</p>
+    <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
   </div>
-  <section class="block" style="padding-top:clamp(22px,3vw,42px)">
-    <div class="file-list" id="allFiles"></div>
+  <section class="block" style="padding-top:clamp(20px,3vw,40px)">
+    <div class="deck-stage" id="allDeck"></div>
+    <div class="hand-list" id="handList"></div>
   </section>
 </div>
 
 <!-- ================= INDIVIDUAL GAME ================= -->
 <div class="page" id="page-game">
-  <div class="game-stage">
-    <div class="stage-word" id="ghWord" aria-hidden="true"></div>
-    <span class="stage-plate" id="ghFile" style="position:static;transform:none;margin-bottom:18px">File 01</span>
-    <div class="monolith" id="ghMonolith"></div>
-  </div>
-  <div class="game-hero-bar">
-    <div class="release">
-      <span id="ghReleaseLabel">Coming</span>
-      <b id="ghReleaseValue">Winter 2026</b>
+  <div class="game-spread">
+    <div class="draw-card-wrap"><span id="gameCard"></span></div>
+    <div class="gs-info">
+      <span class="gs-epi" id="gsEpi"></span>
+      <h1 id="gsTitle"></h1>
+      <p class="gs-fantasy" id="gsFantasy"></p>
+      <div class="gs-release">
+        <span id="gsReleaseLabel"></span>
+        <b id="gsReleaseValue"></b>
+      </div>
+      <div class="gs-platforms" id="gsPlatforms"></div>
+      <a class="btn" id="gsCta" href="#" target="_blank" rel="noopener">Wishlist Now</a>
     </div>
-    <a class="btn" id="ghCta" href="#" target="_blank" rel="noopener">Wishlist Now</a>
-    <div class="platforms" id="ghPlatforms"></div>
   </div>
 
-  <div class="fantasy-pull">
-    <span class="lbl">The fantasy</span>
-    <p id="ghFantasy"></p>
-  </div>
-
-  <section class="block game-bio" style="padding-top:clamp(18px,2.4vw,30px)">
-    <span class="vlabel">The File</span>
-    <div id="ghBio"></div>
+  <section class="block game-bio" style="padding-bottom:clamp(30px,4vw,50px)">
+    <div class="sect-head">
+      <div class="eyebrow">The Fantasy in Full</div>
+      <div class="flourish" style="margin-top:16px"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
+    </div>
+    <div id="gsBio"></div>
   </section>
 
   <section class="block" style="padding-top:0">
-    <div class="chapter">
-      <span class="num" id="ghMediaNum">F-01</span>
+    <div class="sect-head">
+      <div class="eyebrow">Glimpses</div>
       <h2>Screens &amp; Trailer</h2>
     </div>
     <div class="showcase">
@@ -703,71 +698,79 @@ footer{border-top:1px solid var(--line);background:var(--ink-deep);position:rela
 <!-- ================= ABOUT / MANIFESTO ================= -->
 <div class="page" id="page-about">
   <div class="page-hero">
-    <div class="label">About BluIso Games</div>
+    <div class="eyebrow">About BluIso Games</div>
     <h1>The BluIso <em>Manifesto</em></h1>
     <p class="lede">Founded 2017. Forty-eight developers. One philosophy, written down so we can be held to it.</p>
+    <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
   </div>
 
   <div class="creed-full">
     <div class="creed-item">
-      <div class="ci-head"><span class="ci-num">01</span><h3>Locked in… immediately.</h3></div>
+      <span class="ci-num">№ 1</span>
+      <h3>Locked in… immediately.</h3>
       <p>We believe games should capture players from the very beginning. The first moments matter. The first mechanic matters. The first encounter matters. Players should feel excitement, curiosity, tension, or joy within minutes — not hours.</p>
       <p><b>We reject the idea that games must become fun eventually.</b></p>
     </div>
     <div class="creed-item">
-      <div class="ci-head"><span class="ci-num">02</span><h3>Action creates engagement.</h3></div>
+      <span class="ci-num">№ 2</span>
+      <h3>Action creates engagement.</h3>
       <p>Action is not limited to combat. Action is momentum. Decision-making. Tension. Discovery. Movement. Risk.</p>
       <p>Whether it's surviving a slasher, chasing criminals, controlling elemental powers, or fighting with a severed hand, our games are built around active participation.</p>
       <p><b>Players should always be doing, feeling, deciding, reacting.</b></p>
     </div>
     <div class="creed-item">
-      <div class="ci-head"><span class="ci-num">03</span><h3>Fantasy comes first.</h3></div>
+      <span class="ci-num">№ 3</span>
+      <h3>Fantasy comes first.</h3>
       <p>Every BluIso game begins with a question: <b>what fantasy are we delivering?</b></p>
       <p>The goal is not realism for its own sake. Complexity for its own sake. Systems for their own sake. The goal is making players feel like they are living a unique fantasy that only that game can provide.</p>
     </div>
     <div class="creed-item">
-      <div class="ci-head"><span class="ci-num">04</span><h3>We respect player time.</h3></div>
+      <span class="ci-num">№ 4</span>
+      <h3>We respect player time.</h3>
       <p>We do not believe games need five hours to become interesting. We avoid unnecessary friction, excessive tutorials, bloated inventories, complicated build systems, and mechanics that distract from the core experience.</p>
       <p>Every system should support the fantasy. Every mechanic should support engagement. <b>Every minute should matter.</b></p>
     </div>
     <div class="creed-item">
-      <div class="ci-head"><span class="ci-num">05</span><h3>Games should feel authored.</h3></div>
+      <span class="ci-num">№ 5</span>
+      <h3>Games should feel authored.</h3>
       <p>Our games are not designed by committee or trends. Each project should have a strong identity, a clear voice, and a point of view.</p>
       <p>We strive to create games that feel handcrafted and intentional — <b>experiences that could only come from BluIso.</b></p>
     </div>
     <div class="creed-item">
-      <div class="ci-head"><span class="ci-num">06</span><h3>Variety is strength.</h3></div>
+      <span class="ci-num">№ 6</span>
+      <h3>Variety is strength.</h3>
       <p>Genre does not define us. Our games may be shooters, horror games, action adventures, fantasy worlds, platformers, or experiences yet to be imagined.</p>
       <p>The fantasy changes. The setting changes. The perspective changes. <b>But our philosophy remains the same.</b></p>
     </div>
     <div class="creed-item">
-      <div class="ci-head"><span class="ci-num">07</span><h3>We believe in thrills.</h3></div>
+      <span class="ci-num">№ 7</span>
+      <h3>We believe in thrills.</h3>
       <p>Games should make players lean forward. They should create excitement, tension, satisfaction, wonder, fear, adrenaline, curiosity, and joy.</p>
       <p>We want players to sit down and quickly realize: <b>"I need to see where this goes."</b></p>
     </div>
   </div>
 
-  <div class="mission">
-    <div class="mission-card">
-      <span class="lbl">Our mission</span>
-      <p>BluIso creates immediately engaging action experiences built around unique player fantasies — highly authored games that respect player time, prioritize excitement, and feel unmistakably BluIso.</p>
+  <div class="gold-band" style="margin-top:clamp(60px,8vw,100px)">
+    <div class="gold-inner">
+      <div class="g-eyebrow">Our Mission</div>
+      <p class="mission-text">BluIso creates <b>immediately engaging</b> action experiences built around unique player fantasies — highly authored games that respect player time, prioritize excitement, and feel unmistakably BluIso.</p>
     </div>
   </div>
 
   <div class="stat-band">
     <div class="stat-band-inner">
-      <div class="stat"><b>2017</b><span>Studio founded</span></div>
-      <div class="stat"><b>6</b><span>Titles shipped</span></div>
+      <div class="stat"><b>2017</b><span>The house founded</span></div>
+      <div class="stat"><b>6</b><span>Cards in the deck</span></div>
       <div class="stat"><b>48</b><span>Developers worldwide</span></div>
       <div class="stat"><b>12M+</b><span>Players locked in</span></div>
     </div>
   </div>
 
   <section class="block">
-    <span class="vlabel">Appendix — History</span>
-    <div class="chapter">
-      <span class="num">A-01</span>
-      <h2>The road so far</h2>
+    <div class="sect-head">
+      <div class="eyebrow">The road so far</div>
+      <h2>A brief history of the house</h2>
+      <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
     </div>
     <div class="timeline">
       <div class="t-item"><span class="news-date">2017</span><div><h3>Three level designers rent one desk</h3><p>BluIso Games is founded in a shared studio space with a single license of a game engine and a very strong opinion about first impressions.</p></div><span class="news-cat">Origin</span></div>
@@ -781,9 +784,10 @@ footer{border-top:1px solid var(--line);background:var(--ink-deep);position:rela
 <!-- ================= THE ISO INFORMANT ================= -->
 <div class="page" id="page-informant">
   <div class="page-hero">
-    <div class="label">The Iso Informant</div>
-    <h1>Dispatches from <em>the grid</em></h1>
+    <div class="eyebrow">The Iso Informant</div>
+    <h1>Word from <em>the house</em></h1>
     <p class="lede">Patch notes, dev diaries, release dates, and the occasional confession from the design floor. Read-times included — every minute should matter.</p>
+    <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
   </div>
   <section class="block" style="padding-top:clamp(18px,3vw,38px)">
     <div id="allNews"></div>
@@ -797,9 +801,10 @@ footer{border-top:1px solid var(--line);background:var(--ink-deep);position:rela
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       The Iso Informant
     </a>
-    <div class="label" id="artCat"></div>
+    <div class="eyebrow" id="artCat"></div>
     <h1 id="artTitle"></h1>
     <div class="article-meta" id="artDate"></div>
+    <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
   </div>
   <div class="article-body" id="artBody"></div>
 </div>
@@ -807,14 +812,6 @@ footer{border-top:1px solid var(--line);background:var(--ink-deep);position:rela
 
 <!-- ================= FOOTER ================= -->
 <footer>
-  <div class="footer-iso" aria-hidden="true">
-    <svg width="100%" height="100%" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1600 400">
-      <g stroke="#FFC66A" stroke-width="1" opacity=".07">
-        <path d="M-100 400 L800 -50 L1700 400"/><path d="M-100 480 L800 30 L1700 480"/>
-        <path d="M300 400 L1200 -50"/><path d="M1300 400 L400 -50"/>
-      </g>
-    </svg>
-  </div>
   <div class="footer-inner">
     <a class="footer-brand" href="#/" data-route="home" aria-label="BluIso Games — home">
       <span class="mark-wrap">
@@ -854,22 +851,24 @@ footer{border-top:1px solid var(--line);background:var(--ink-deep);position:rela
     </div>
     <span aria-hidden="true"></span>
   </div>
+  <div class="footer-motto">We deal in fantasies</div>
   <div class="footer-base">© 2026 BluIso Games. All rights reserved.</div>
 </footer>
 
 <script>
 /* ============ Data ============ */
+const ROMAN = ["I","II","III","IV","V","VI","VII","VIII","IX","X"];
 const GAMES = [
-  {slug:"neon-delta", tag:"Pre-Order", title:"Neon Delta", art:"cityGold",
+  {slug:"neon-delta", tag:"Pre-Order", title:"Neon Delta", art:"cityGold", epithet:"The Fixer",
    fantasy:"Case the city from above. Rob it from every angle.",
    releaseLabel:"Coming", releaseValue:"Winter 2026", cta:"Pre-Order Now", ctaLink:"https://example.com/preorder/neon-delta",
    platforms:["PC","PlayStation 5","Xbox Series X|S"],
    bio:[
     "Delta City has three rules: everything is for sale, everyone is watching, and nothing on the blueprint is ever quite where the blueprint says. Neon Delta drops you into a fully open metropolis as a fixer building the heist crew of a lifetime — one rooftop, one favor, and one betrayal at a time.",
-    "Every building in the city has an interior. Every interior has a blueprint. And every blueprint has a flaw you can exploit — a vent that was never sealed, a camera with a four-second blind spot, a guard who takes the same cigarette break at 2:40 a.m. Case your target from above in real time, then execute from every angle at once.",
+    "Every building in the city has an interior. Every interior has a blueprint. And every blueprint has a flaw you can exploit — a vent that was never sealed, a camera with a four-second blind spot, a guard who takes the same cigarette break at 2:40 a.m. Case your target in real time, then execute from every angle at once.",
     "Built on four years of hand-drawn level design and our new Hour Grid lighting system, Delta City runs from golden dawn to neon midnight in a continuous ninety-minute cycle — and the city you rob at noon is not the city you escape at 3 a.m."
    ]},
-  {slug:"vaultbreakers", tag:"Live Service", title:"Vaultbreakers", art:"vault",
+  {slug:"vaultbreakers", tag:"Live Service", title:"Vaultbreakers", art:"vault", epithet:"The Crew",
    fantasy:"Be the crew the blueprint fears.",
    releaseLabel:"Available", releaseValue:"Now — Season 4", cta:"Buy Now", ctaLink:"https://example.com/buy/vaultbreakers",
    platforms:["PC","PlayStation 5","Xbox Series X|S"],
@@ -878,7 +877,7 @@ const GAMES = [
     "Play as the Ghost, the Wrench, the Face, or the Eye, each with tools that reshape the blueprint itself: cut power grids floor by floor, talk your way past checkpoints, or perch on the map's edge calling guard rotations for your crew in real time.",
     "Now in Season 4: The Midnight Ledger — a nine-floor raid inside a bank that only exists between midnight and 6 a.m., plus Ranked Infiltration, where two crews hit the same vault at once. Every season, every map, every mode: free for all players since launch."
    ]},
-  {slug:"gridlock", tag:"Available Now", title:"Gridlock", art:"puzzle",
+  {slug:"gridlock", tag:"Available Now", title:"Gridlock", art:"puzzle", epithet:"The Machine",
    fantasy:"Think like a machine that only moves when you do.",
    releaseLabel:"Available", releaseValue:"Now", cta:"Buy Now", ctaLink:"https://example.com/buy/gridlock",
    platforms:["PC","Mobile","Nintendo Switch"],
@@ -887,7 +886,7 @@ const GAMES = [
     "Guards patrol, doors cycle, platforms slide — but only when you move. Standing still is thinking time, and Gridlock gives you all of it you want. The result is a puzzle game that feels like chess played inside a music box.",
     "Five years after launch, Gridlock is still growing: the legendary diagonal-dash (a speedrunner-discovered bug we canonized into a mechanic) now has its own challenge track, and our annual community design contest ships new dioramas to every platform, free."
    ]},
-  {slug:"hollow-crown", tag:"Available Now", title:"Hollow Crown: Reckoning", art:"crown",
+  {slug:"hollow-crown", tag:"Available Now", title:"Hollow Crown: Reckoning", art:"crown", epithet:"The Crown",
    fantasy:"Hold a kingdom that is sinking beneath you.",
    releaseLabel:"Available", releaseValue:"Now", cta:"Buy Now", ctaLink:"https://example.com/buy/hollow-crown",
    platforms:["PC","PlayStation 5","Xbox Series X|S"],
@@ -896,7 +895,7 @@ const GAMES = [
     "Command a company of the crown's last loyalists through a 60-hour campaign where positioning is everything: collapse ceilings onto entrenched enemies, fight up spiral stairwells, and hold throne rooms that are visibly tilting into the dark.",
     "With a branching story shaped by which floors — and which soldiers — you choose to save, no two campaigns sink the same way."
    ]},
-  {slug:"skyline-syndicate", tag:"Available Now", title:"Skyline Syndicate", art:"skyline",
+  {slug:"skyline-syndicate", tag:"Available Now", title:"Skyline Syndicate", art:"skyline", epithet:"The Syndicate",
    fantasy:"Rule a city that never looks up.",
    releaseLabel:"Available", releaseValue:"Now", cta:"Buy Now", ctaLink:"https://example.com/buy/skyline-syndicate",
    platforms:["PC"],
@@ -905,14 +904,14 @@ const GAMES = [
     "Balance heat and profit district by district: expand too fast and the spotlights find you; too slow and rival syndicates string their own lines through your sky. Every rooftop you claim reshapes the city's silhouette — literally.",
     "Featuring a reactive jazz score that thins out as the heat rises, and a city of 4,000 rooftops that has never once been conquered the same way twice."
    ]},
-  {slug:"project-lantern", tag:"In Development", title:"Project Lantern", art:"lantern",
-   fantasy:"Classified. For now.",
+  {slug:"project-lantern", tag:"In Development", title:"Project Lantern", art:"lantern", epithet:"The Unrevealed", hidden:true,
+   fantasy:"This card stays face-down. For now.",
    releaseLabel:"In", releaseValue:"Development", cta:"Wishlist Now", ctaLink:"https://example.com/wishlist/project-lantern",
    platforms:["Platforms TBA"],
    bio:[
     "We can't tell you much about Project Lantern yet. We can tell you it's the smallest team we've ever assembled, working on the strangest idea we've ever greenlit, and that the working build makes people go quiet in a way we've learned to trust.",
     "It bends our rules in a way none of our games ever has. More at this year's showcase.",
-    "Wishlist it now and you'll be the first to know when the lantern is lit."
+    "Wishlist it now and you'll be the first to know when the card turns over."
    ]},
 ];
 
@@ -962,32 +961,31 @@ const NEWS = [
    body:[
     "Sometime last Tuesday, quietly, without a sound effect or an achievement popping, the twelve millionth player logged into a BluIso game. We only noticed on Thursday. We haven't stopped smiling since.",
     "When the three of us founded this studio in 2017, our business plan was one shared desk, one engine license, and the theory that other people might love immediately engaging games as unreasonably as we did. Twelve million of you have now confirmed the theory. That's not a metric to us — that's twelve million people who sat down, and within minutes, decided they needed to see where it goes.",
-    "So what does the next decade look like? Neon Delta this winter. BluIso Publishing lifting up teams we can't wait for you to meet. And at least one project so small and strange we're not sure it's a game yet — it's the one glowing in the corner of the studio, and it'll introduce itself when it's ready.",
+    "So what does the next decade look like? Neon Delta this winter. BluIso Publishing lifting up teams we can't wait for you to meet. And at least one card so small and strange we're not sure it's a game yet — it's the one still face-down on the table, and it'll turn itself over when it's ready.",
     "Thank you for every heist, every diorama, every impossible dash. Stay locked in. — The founders"
    ]},
 ];
 
-const TX = [
-  {label:"Neon Delta · Flagship", title:"Pre-orders are live", desc:"Three editions, early-access weekends this fall, and a city with a flaw in every blueprint. Winter 2026.", cta:"Open File 01", href:"#/games/neon-delta", art:"cityGold"},
-  {label:"Vaultbreakers · Season 4", title:"The Midnight Ledger", desc:"A nine-floor raid inside a bank that only exists between midnight and 6 a.m. Free for every player.", cta:"Read the dispatch", href:"#/the-iso-informant/midnight-ledger", art:"vault"},
-  {label:"Studio Announcement", title:"BluIso Publishing is open", desc:"Our funding, our tools, your IP. Pitch us the fantasy only your team can deliver.", cta:"Read the manifesto", href:"#/about", art:"lantern"},
+const BULLETINS = [
+  {text:"Neon Delta pre-orders are live", href:"#/the-iso-informant/neon-delta-preorders"},
+  {text:"Vaultbreakers Season 4 is out now", href:"#/the-iso-informant/midnight-ledger"},
+  {text:"BluIso Publishing — pitches open July 1", href:"#/the-iso-informant/bluiso-publishing"},
 ];
 
-/* ============ Key art ============ */
+/* ============ Placeholder key art ============ */
 function artSVG(kind, uid){
   const gid = "g-" + kind + (uid ? "-" + uid : "");
   const defs = `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/></linearGradient></defs>`;
   const base = (bg, inner) => `<svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice">${defs}<rect width="640" height="360" fill="${bg}"/>${inner}</svg>`;
-  const grid = `<g stroke="#FFC66A" stroke-width="1" opacity=".15"><path d="M-50 340 L320 155 L690 340"/><path d="M-50 270 L320 85 L690 270"/><path d="M100 360 L470 175"/><path d="M540 360 L170 175"/></g>`;
   const G = `url(#${gid})`;
   switch(kind){
-    case "cityGold": return base("#1B0B8F", `<circle cx="450" cy="230" r="110" fill="${G}" opacity=".9"/><g fill="#0A0345"><rect x="60" y="180" width="42" height="180"/><rect x="115" y="140" width="34" height="220"/><rect x="500" y="160" width="40" height="200"/><rect x="555" y="200" width="50" height="160"/></g>${grid}`);
-    case "vault": return base("#160B78", `${grid}<g transform="translate(320,180)" fill="none" stroke="${G}" stroke-width="3"><circle r="82"/><circle r="54"/><path d="M0 -82v20M0 62v20M-82 0h20M62 0h20M-58 -58l14 14M44 44l14 14M58 -58l-14 14M-44 44l-14 14"/></g><circle cx="320" cy="180" r="14" fill="${G}"/>`);
-    case "puzzle": return base("#0D0059", `${grid}<g transform="translate(320,190)"><g fill="none" stroke="${G}" stroke-width="2.5" stroke-linejoin="round"><path d="M0 -95 L82 -48 L82 48 L0 95 L-82 48 L-82 -48 Z"/><path d="M-82 -48 L0 0 L82 -48 M0 0 L0 95"/></g><path d="M0 -95 L82 -48 L0 0 L-82 -48 Z" fill="${G}" opacity=".3"/></g>`);
-    case "crown": return base("#231085", `${grid}<g transform="translate(320,190)" stroke="${G}" stroke-width="3" fill="none" stroke-linejoin="round"><path d="M-90 50 L-90 -30 L-45 10 L0 -60 L45 10 L90 -30 L90 50 Z"/><path d="M-90 68 L90 68"/></g><circle cx="320" cy="130" r="7" fill="${G}"/>`);
+    case "cityGold": return base("#1B0B8F", `<circle cx="450" cy="230" r="110" fill="${G}" opacity=".9"/><g fill="#0A0345"><rect x="60" y="180" width="42" height="180"/><rect x="115" y="140" width="34" height="220"/><rect x="500" y="160" width="40" height="200"/><rect x="555" y="200" width="50" height="160"/></g><g fill="#FFC66A" opacity=".5"><rect x="70" y="210" width="7" height="7"/><rect x="125" y="170" width="7" height="7"/><rect x="510" y="190" width="7" height="7"/><rect x="565" y="230" width="7" height="7"/></g>`);
+    case "vault": return base("#160B78", `<g transform="translate(320,180)" fill="none" stroke="${G}" stroke-width="3"><circle r="82"/><circle r="54"/><path d="M0 -82v20M0 62v20M-82 0h20M62 0h20M-58 -58l14 14M44 44l14 14M58 -58l-14 14M-44 44l-14 14"/></g><circle cx="320" cy="180" r="14" fill="${G}"/>`);
+    case "puzzle": return base("#0D0059", `<g transform="translate(320,185)"><g fill="none" stroke="${G}" stroke-width="2.5" stroke-linejoin="round"><rect x="-95" y="-95" width="190" height="190" rx="10"/><path d="M-95 -32h190M-95 32h190M-32 -95v190M32 -95v190"/></g><rect x="-32" y="-32" width="64" height="64" rx="6" fill="${G}" opacity=".5"/></g>`);
+    case "crown": return base("#231085", `<g transform="translate(320,190)" stroke="${G}" stroke-width="3" fill="none" stroke-linejoin="round"><path d="M-90 50 L-90 -30 L-45 10 L0 -60 L45 10 L90 -30 L90 50 Z"/><path d="M-90 68 L90 68"/></g><circle cx="320" cy="130" r="7" fill="${G}"/>`);
     case "skyline": return base("#05002B", `<g fill="#160B78" stroke="#FFC66A" stroke-width="1"><rect x="80" y="140" width="70" height="220"/><rect x="180" y="90" width="60" height="270"/><rect x="270" y="170" width="90" height="190"/><rect x="390" y="110" width="65" height="250"/><rect x="485" y="180" width="80" height="180"/></g><g fill="#FFC66A" opacity=".7"><rect x="95" y="160" width="7" height="7"/><rect x="195" y="115" width="7" height="7"/><rect x="215" y="150" width="7" height="7"/><rect x="405" y="135" width="7" height="7"/><rect x="500" y="200" width="7" height="7"/><rect x="290" y="195" width="7" height="7"/></g>`);
-    case "lantern": return base("#05002B", `<g transform="translate(320,180)"><circle r="90" fill="${G}" opacity=".12"/><circle r="55" fill="${G}" opacity=".18"/><g fill="none" stroke="${G}" stroke-width="2.5" stroke-linejoin="round"><path d="M0 -42 L36 -21 L36 21 L0 42 L-36 21 L-36 -21 Z"/><path d="M-36 -21 L0 0 L36 -21 M0 0 L0 42"/></g></g>`);
-    default: return base("#0D0059", grid);
+    case "lantern": return base("#05002B", `<g transform="translate(320,180)"><circle r="90" fill="${G}" opacity=".12"/><circle r="55" fill="${G}" opacity=".18"/><circle r="26" fill="${G}" opacity=".55"/></g>`);
+    default: return base("#0D0059", "");
   }
 }
 function mediaSVG(kind, i, uid){
@@ -1000,36 +998,51 @@ function mediaSVG(kind, i, uid){
   return s;
 }
 
-/* ============ THE MONUMENT: key art in true 30° isometric projection ============
-   The 640×360 key art is mapped onto the top face of an iso slab via the
-   matrix (cos30, sin30, −cos30, sin30), scaled 0.62. Corner coordinates
-   (precomputed): A(324.8,70) B(668.5,268.4) C(475.2,380) D(131.5,181.6).
-   Two extruded side faces + soft shadow complete the monument.            */
-function monumentSVG(kind, uid){
-  const art = artSVG(kind, uid);
-  const inner = art.replace(/^<svg[^>]*>/, "").replace(/<\/svg>$/, "");
-  const d = 32; /* extrusion depth */
-  return `<svg viewBox="0 0 800 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Key art monument">
+/* ============ Card back: gold quatrefoil filigree + emblem ============ */
+function cardBackSVG(uid){
+  return `<svg viewBox="0 0 250 350" preserveAspectRatio="none" aria-hidden="true">
     <defs>
-      <clipPath id="mclip-${uid}"><path d="M324.8 70 L668.5 268.4 L475.2 380 L131.5 181.6 Z"/></clipPath>
-      <linearGradient id="mgold-${uid}" x1="0" y1="0" x2="1" y2="1">
+      <linearGradient id="cbg-${uid}" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0" stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/>
       </linearGradient>
-      <filter id="mblur-${uid}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="13"/></filter>
+      <pattern id="cbp-${uid}" width="30" height="30" patternUnits="userSpaceOnUse">
+        <circle cx="0" cy="15" r="10" fill="none" stroke="#E4963B" stroke-width="1" opacity=".4"/>
+        <circle cx="30" cy="15" r="10" fill="none" stroke="#E4963B" stroke-width="1" opacity=".4"/>
+        <circle cx="15" cy="0" r="10" fill="none" stroke="#E4963B" stroke-width="1" opacity=".4"/>
+        <circle cx="15" cy="30" r="10" fill="none" stroke="#E4963B" stroke-width="1" opacity=".4"/>
+        <circle cx="15" cy="15" r="1.4" fill="#FFC66A" opacity=".6"/>
+      </pattern>
     </defs>
-    <ellipse cx="400" cy="428" rx="252" ry="28" fill="#02001A" opacity=".55" filter="url(#mblur-${uid})"/>
-    <path d="M475.2 380 L131.5 181.6 L131.5 ${181.6+d} L475.2 ${380+d} Z" fill="#0A0345" stroke="#E4963B" stroke-width="1"/>
-    <path d="M668.5 268.4 L475.2 380 L475.2 ${380+d} L668.5 ${268.4+d} Z" fill="url(#mgold-${uid})"/>
-    <g clip-path="url(#mclip-${uid})">
-      <g transform="translate(324.8,70) scale(0.62) matrix(0.866,0.5,-0.866,0.5,0,0)">${inner}</g>
-    </g>
-    <path d="M324.8 70 L668.5 268.4 L475.2 380 L131.5 181.6 Z" fill="none" stroke="#FFC66A" stroke-width="2" stroke-linejoin="round"/>
-    <g fill="#FFC66A">
-      <path d="M116 128 l7 4 -7 4 -7 -4 Z" opacity=".7"/>
-      <path d="M692 210 l6 3.5 -6 3.5 -6 -3.5 Z" opacity=".5"/>
-      <path d="M262 62 l5 3 -5 3 -5 -3 Z" opacity=".45"/>
+    <rect width="250" height="350" rx="16" fill="#0A0345"/>
+    <rect x="11" y="11" width="228" height="328" rx="10" fill="url(#cbp-${uid})" stroke="#E4963B" stroke-width="1.2"/>
+    <rect x="17" y="17" width="216" height="316" rx="8" fill="none" stroke="#FFC66A" stroke-width="0.8" opacity=".5"/>
+    <circle cx="125" cy="168" r="52" fill="#0A0345" stroke="url(#cbg-${uid})" stroke-width="1.6"/>
+    <circle cx="125" cy="168" r="59" fill="none" stroke="#E4963B" stroke-width="0.8" opacity=".6"/>
+    <g transform="translate(101,144)">
+      <g fill="none" stroke="url(#cbg-${uid})" stroke-width="2.6" stroke-linejoin="round">
+        <path d="M24 4 42 14v20L24 44 6 34V14z"/><path d="M6 14l18 10 18-10M24 24v20"/>
+      </g>
+      <path d="M24 14l8.5 4.8v9L24 32.5l-8.5-4.7v-9z" fill="url(#cbg-${uid})" opacity=".9"/>
     </g>
   </svg>`;
+}
+
+/* ============ Card builder ============ */
+function cardHTML(g, i, uid){
+  const epi = "\u2116 " + ROMAN[i] + " \u2014 " + g.epithet;
+  if(g.hidden){
+    return `<div class="card is-back tiltable">${cardBackSVG(uid + i)}
+      <span class="back-epi">${epi}</span>
+      <div class="card-foil"></div>
+    </div>`;
+  }
+  return `<div class="card tiltable">
+    <div class="card-art" aria-hidden="true">${artSVG(g.art, uid + i)}</div>
+    <div class="card-epi">${epi}</div>
+    <div class="card-title">${g.title}</div>
+    <div class="card-fant">\u201C${g.fantasy}\u201D</div>
+    <div class="card-foil"></div>
+  </div>`;
 }
 
 /* ============ Helpers ============ */
@@ -1039,71 +1052,82 @@ function readTime(n){
   return Math.max(1, Math.round(words / 200)) + " min read";
 }
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const canHover = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
 
-/* ============ Marquee ============ */
-const CREED_LINES = ["Locked in. Immediately.","Action creates engagement","Fantasy comes first","Every minute matters","Games should feel authored","Variety is strength","We believe in thrills"];
-(function(){
-  const seg = CREED_LINES.map(l=>`<span>${l}</span><i></i>`).join("");
-  document.getElementById("marqueeTrack").innerHTML =
-    `<div>${seg}</div><div aria-hidden="true">${seg}</div>`;
-})();
+/* ============ Card tilt (3D follow-cursor) ============ */
+function bindTilt(scope){
+  if(reduceMotion || !canHover) return;
+  (scope || document).querySelectorAll(".tiltable").forEach(card=>{
+    if(card.dataset.tiltBound) return;
+    card.dataset.tiltBound = "1";
+    card.addEventListener("mousemove", e=>{
+      const r = card.getBoundingClientRect();
+      const dx = (e.clientX - r.left)/r.width - .5;
+      const dy = (e.clientY - r.top)/r.height - .5;
+      card.style.transform = `rotateY(${dx*10}deg) rotateX(${dy*-10}deg)`;
+    });
+    card.addEventListener("mouseleave", ()=>{ card.style.transform = ""; });
+  });
+}
 
-/* ============ THE STAGE: flagship front and center ============ */
+/* ============ TODAY'S DRAW (flagship front and center) ============ */
 const FLAGSHIP = GAMES[0];
 (function(){
-  document.getElementById("stageWord").textContent = FLAGSHIP.title.toUpperCase();
-  document.getElementById("stagePlate").textContent = "File 01 · Flagship";
-  document.getElementById("stageMonolith").innerHTML = monumentSVG(FLAGSHIP.art, "stage");
-  document.getElementById("stageTitle").textContent = FLAGSHIP.title;
-  document.getElementById("stageFantasy").textContent = "\u201C" + FLAGSHIP.fantasy + "\u201D";
-  document.getElementById("stageRelease").textContent = FLAGSHIP.releaseLabel + " " + FLAGSHIP.releaseValue;
-  const cta = document.getElementById("stageCta");
+  document.getElementById("drawCard").innerHTML =
+    cardHTML(FLAGSHIP, 0, "draw").replace('class="card', 'class="card card-lg');
+  document.getElementById("drawCardLink").href = "#/games/" + FLAGSHIP.slug;
+  document.getElementById("drawTitle").textContent = FLAGSHIP.title;
+  document.getElementById("drawFantasy").textContent = "\u201C" + FLAGSHIP.fantasy + "\u201D";
+  document.getElementById("drawRelease").textContent = FLAGSHIP.releaseLabel + " " + FLAGSHIP.releaseValue;
+  const cta = document.getElementById("drawCta");
   cta.textContent = FLAGSHIP.cta; cta.href = FLAGSHIP.ctaLink;
-  document.getElementById("stageFile").href = "#/games/" + FLAGSHIP.slug;
-})();
-/* Pointer parallax on the monument */
-(function(){
-  if(reduceMotion || !window.matchMedia("(hover:hover) and (pointer:fine)").matches) return;
-  const stage = document.getElementById("stage");
-  const monu = document.getElementById("stageMonolith");
-  stage.addEventListener("mousemove", e=>{
-    const r = stage.getBoundingClientRect();
-    const dx = (e.clientX - r.left)/r.width - .5;
-    const dy = (e.clientY - r.top)/r.height - .5;
-    monu.style.transform = `translate(${dx*16}px, ${dy*11}px)`;
-  });
-  stage.addEventListener("mouseleave", ()=>{ monu.style.transform = ""; });
+  document.getElementById("drawOpen").href = "#/games/" + FLAGSHIP.slug;
 })();
 
-/* ============ Fantasy Files rendering ============ */
-function fileRow(g, i){
-  return `<a class="file-row" href="#/games/${g.slug}">
-    <span class="fr-num">${pad2(i+1)}</span>
-    <span class="fr-thumb" aria-hidden="true">${artSVG(g.art,"row")}</span>
-    <span class="fr-body">
-      <h3>${g.title}</h3>
-      <span class="fantasy"><b>The fantasy</b>${g.fantasy}</span>
-    </span>
-    <span class="fr-side">
-      <span class="fr-tag">${g.tag}</span>
-      <svg class="fr-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </span>
-  </a>`;
+/* Bulletin cycler */
+let bIdx = 0, bTimer = null;
+const bulletinEl = document.getElementById("bulletin");
+const bulletinText = document.getElementById("bulletinText");
+function paintBulletin(){
+  bulletinText.textContent = BULLETINS[bIdx].text;
+  bulletinEl.href = BULLETINS[bIdx].href;
 }
-document.getElementById("homeFiles").innerHTML = GAMES.map(fileRow).join("");
-document.getElementById("allFiles").innerHTML  = GAMES.map(fileRow).join("");
+function cycleBulletin(){
+  bulletinEl.classList.add("swap");
+  setTimeout(()=>{
+    bIdx = (bIdx + 1) % BULLETINS.length;
+    paintBulletin();
+    bulletinEl.classList.remove("swap");
+  }, 400);
+}
+function startBulletin(){
+  paintBulletin();
+  clearInterval(bTimer);
+  if(!reduceMotion) bTimer = setInterval(cycleBulletin, 5000);
+}
+function stopBulletin(){ clearInterval(bTimer); }
 
-document.getElementById("dropGrid").innerHTML = GAMES.map((g,i) => `
-  <a class="drop-card" href="#/games/${g.slug}" role="menuitem">
-    <div class="thumb" aria-hidden="true">${artSVG(g.art,"dd")}</div>
-    <div class="dc-row"><span class="dc-num">${pad2(i+1)}</span><b>${g.title}</b></div>
-    <small>${g.tag}</small>
+/* ============ Deck fans + hand list ============ */
+function fanHTML(uid){
+  return GAMES.map((g,i)=>`<a class="fan-slot" href="#/games/${g.slug}" aria-label="${g.title}">${cardHTML(g,i,uid)}</a>`).join("");
+}
+document.getElementById("homeDeck").innerHTML = fanHTML("hd");
+document.getElementById("allDeck").innerHTML  = fanHTML("ad");
+document.getElementById("handList").innerHTML = GAMES.map((g,i)=>`
+  <a class="hand-row" href="#/games/${g.slug}">
+    <span class="hr-num">\u2116 ${ROMAN[i]}</span>
+    <span><h3>${g.title}</h3><span class="hr-fant">\u201C${g.fantasy}\u201D</span></span>
+    <span class="hr-tag">${g.tag}</span>
   </a>`).join("");
+
+/* ============ Dropdown mini cards ============ */
+document.getElementById("dropGrid").innerHTML = GAMES.map((g,i)=>`
+  <a class="drop-slot" href="#/games/${g.slug}" role="menuitem" aria-label="${g.title}">${cardHTML(g,i,"dd")}</a>`).join("");
 
 /* ============ News rendering ============ */
 function newsItem(n, i){
   return `<a class="news-item" href="#/the-iso-informant/${n.slug}">
-    <span class="ni-num">${pad2(i+1)}</span>
+    <span class="ni-num">\u2116 ${pad2(i+1)}</span>
     <span class="news-date">${n.date}</span>
     <span><h3>${n.title}</h3><p>${n.desc}</p></span>
     <span class="ni-side"><span class="news-cat">${n.cat}</span><span class="read-time">${readTime(n)}</span></span>
@@ -1111,50 +1135,6 @@ function newsItem(n, i){
 }
 document.getElementById("homeNews").innerHTML = NEWS.slice(0,3).map(newsItem).join("");
 document.getElementById("allNews").innerHTML  = NEWS.map(newsItem).join("");
-
-/* ============ Transmissions rotator ============ */
-const TX_MS = 6500;
-let txIdx = 0, txTimer = null, txLock = false;
-const txCopy = document.getElementById("txCopy");
-const txArt = document.getElementById("txArt");
-const txTicks = document.getElementById("txTicks");
-TX.forEach((_, i)=>{
-  const b = document.createElement("button");
-  b.className = "tick"; b.setAttribute("role","tab");
-  b.setAttribute("aria-label","Transmission " + (i+1));
-  b.addEventListener("click", ()=>goTx(i, true));
-  txTicks.appendChild(b);
-});
-const ticks = [...txTicks.children];
-function paintTx(){
-  const t = TX[txIdx];
-  document.getElementById("txNum").textContent = "T-" + pad2(txIdx+1);
-  document.getElementById("txLabel").textContent = t.label;
-  document.getElementById("txTitle").textContent = t.title;
-  document.getElementById("txDesc").textContent = t.desc;
-  const cta = document.getElementById("txCta");
-  cta.textContent = t.cta; cta.href = t.href;
-  txArt.innerHTML = artSVG(t.art, "tx");
-  ticks.forEach((k,i)=>k.classList.toggle("active", i===txIdx));
-}
-function goTx(i, user){
-  if(txLock) return;
-  txLock = true;
-  txCopy.classList.add("fading"); txArt.classList.add("fading");
-  setTimeout(()=>{
-    txIdx = (i + TX.length) % TX.length;
-    paintTx();
-    txCopy.classList.remove("fading"); txArt.classList.remove("fading");
-    setTimeout(()=>txLock=false, 350);
-  }, 300);
-  if(user) restartTx();
-}
-function restartTx(){
-  clearInterval(txTimer);
-  if(!reduceMotion) txTimer = setInterval(()=>goTx(txIdx+1), TX_MS);
-}
-function startTx(){ paintTx(); restartTx(); }
-function stopTx(){ clearInterval(txTimer); }
 
 /* ============ Individual game page ============ */
 let currentGame = null, mIdx = 0, mLock = false;
@@ -1188,17 +1168,18 @@ function renderGame(slug){
   if(gi < 0) return false;
   const g = GAMES[gi];
   currentGame = g; mIdx = 0;
-  document.getElementById("ghWord").textContent = g.title.toUpperCase();
-  document.getElementById("ghFile").textContent = "File " + pad2(gi+1) + " · " + g.tag;
-  document.getElementById("ghMonolith").innerHTML = monumentSVG(g.art, "ghero");
-  document.getElementById("ghMediaNum").textContent = "F-" + pad2(gi+1);
-  document.getElementById("ghReleaseLabel").textContent = g.releaseLabel;
-  document.getElementById("ghReleaseValue").textContent = g.releaseValue;
-  const cta = document.getElementById("ghCta");
+  const cardWrap = document.getElementById("gameCard");
+  cardWrap.innerHTML = cardHTML(g, gi, "gpg");
+  bindTilt(cardWrap.parentElement);
+  document.getElementById("gsEpi").textContent = "\u2116 " + ROMAN[gi] + " \u2014 " + g.epithet;
+  document.getElementById("gsTitle").textContent = g.title;
+  document.getElementById("gsFantasy").textContent = "\u201C" + g.fantasy + "\u201D";
+  document.getElementById("gsReleaseLabel").textContent = g.releaseLabel;
+  document.getElementById("gsReleaseValue").textContent = g.releaseValue;
+  document.getElementById("gsPlatforms").innerHTML = g.platforms.map(p=>`<span>${p}</span>`).join("");
+  const cta = document.getElementById("gsCta");
   cta.textContent = g.cta; cta.href = g.ctaLink;
-  document.getElementById("ghPlatforms").innerHTML = g.platforms.map(p=>`<span>${p}</span>`).join("");
-  document.getElementById("ghFantasy").textContent = "\u201C" + g.fantasy + "\u201D";
-  document.getElementById("ghBio").innerHTML = g.bio.map(p=>`<p>${p}</p>`).join("");
+  document.getElementById("gsBio").innerHTML = g.bio.map(p=>`<p>${p}</p>`).join("");
   paintMedia();
   return true;
 }
@@ -1217,7 +1198,7 @@ function renderArticle(slug){
   if(!n) return false;
   document.getElementById("artCat").textContent = n.cat;
   document.getElementById("artTitle").textContent = n.title;
-  document.getElementById("artDate").textContent = n.date + " · " + readTime(n) + " · The Iso Informant";
+  document.getElementById("artDate").textContent = n.date + " \u00B7 " + readTime(n) + " \u00B7 The Iso Informant";
   document.getElementById("artBody").innerHTML = n.body.map(p=>`<p>${p}</p>`).join("");
   return true;
 }
@@ -1253,7 +1234,7 @@ function render(){
   document.getElementById("gamesDropBtn").classList.toggle("active", navRoute === "games");
   closeDropdown();
   window.scrollTo({top:0, behavior:"instant"});
-  if(pageId === "home") startTx(); else stopTx();
+  if(pageId === "home") startBulletin(); else stopBulletin();
 }
 window.addEventListener("hashchange", render);
 
@@ -1295,6 +1276,7 @@ function onScroll(){
 window.addEventListener("scroll", onScroll, {passive:true});
 onScroll();
 
+bindTilt(document);
 render();
 </script>
 </body>
