@@ -92,24 +92,40 @@ header.scrolled{background:rgba(8,0,61,.82);backdrop-filter:blur(14px);box-shado
 .burger.open span:nth-child(2){opacity:0}
 .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);background:var(--gold-1)}
 
-/* Menu overlay */
-.menu{
-  position:fixed;inset:0;z-index:55;background:rgba(8,0,61,.96);backdrop-filter:blur(18px);
-  display:flex;align-items:center;justify-content:center;
+/* Menu side drawer */
+.menu-backdrop{
+  position:fixed;inset:0;z-index:54;background:rgba(5,0,40,.55);backdrop-filter:blur(3px);
   opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s;
 }
-.menu.open{opacity:1;visibility:visible}
-.menu nav{display:flex;flex-direction:column;gap:.4rem;text-align:center}
-.menu-link{
-  font-size:clamp(2rem,6vw,4rem);font-weight:800;letter-spacing:-.01em;
-  padding:.35em .5em;position:relative;color:var(--ink);
-  opacity:0;transform:translateY(24px);transition:color .3s,opacity .5s var(--ease),transform .5s var(--ease);
+.menu-backdrop.open{opacity:1;visibility:visible}
+.menu{
+  position:fixed;top:0;right:0;bottom:0;z-index:55;
+  width:min(420px,88vw);
+  background:linear-gradient(200deg,#160B72 0%,#08003D 100%);
+  border-left:1px solid var(--line);
+  box-shadow:-30px 0 80px rgba(0,0,0,.55);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:2rem clamp(1.8rem,4vw,3rem);
+  transform:translateX(102%);transition:transform .45s var(--ease);
 }
+.menu.open{transform:none}
+.menu nav{display:flex;flex-direction:column;text-align:left}
+.menu-label{font-size:.68rem;font-weight:800;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--gold-1);margin-bottom:1.6rem}
+.menu-link{
+  font-size:clamp(1.5rem,4.5vw,2.1rem);font-weight:800;letter-spacing:-.01em;
+  padding:.55em 0;color:var(--ink);border-bottom:1px solid var(--line-soft);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  opacity:0;transform:translateX(28px);transition:color .3s,opacity .45s var(--ease),transform .45s var(--ease);
+}
+.menu-link::after{content:"→";font-size:.6em;color:var(--gold-2);opacity:0;transform:translateX(-8px);
+  transition:opacity .3s,transform .3s var(--ease)}
+.menu-link:hover::after{opacity:1;transform:none}
 .menu.open .menu-link{opacity:1;transform:none}
-.menu.open .menu-link:nth-child(2){transition-delay:.06s}
-.menu.open .menu-link:nth-child(3){transition-delay:.12s}
+.menu.open .menu-link:nth-child(2){transition-delay:.05s}
+.menu.open .menu-link:nth-child(3){transition-delay:.1s}
 .menu-link:hover{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.menu-tag{margin-top:2.4rem;color:var(--ink-dim);font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;font-weight:700;
+.menu-tag{margin-top:2.6rem;color:var(--ink-dim);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;font-weight:700;
   opacity:0;transition:opacity .6s .2s}
 .menu.open .menu-tag{opacity:1}
 
@@ -118,21 +134,18 @@ header.scrolled{background:rgba(8,0,61,.82);backdrop-filter:blur(14px);box-shado
 .page.active{display:block}
 @keyframes pageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
-/* ---------- Hero ---------- */
-.hero{padding:9.5rem 0 5rem;position:relative}
+/* ---------- Hero (full-bleed) ---------- */
 .hero-card{
-  position:relative;border-radius:22px;overflow:hidden;display:block;
-  border:1px solid var(--line);
-  box-shadow:0 40px 90px -30px rgba(0,0,0,.7);
-  transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .4s;
+  position:relative;display:block;width:100%;
+  height:100svh;min-height:620px;overflow:hidden;background:var(--bg-deep);
 }
-.hero-card:hover{transform:translateY(-6px);border-color:rgba(255,198,106,.45);
-  box-shadow:0 60px 110px -30px rgba(0,0,0,.8)}
-.hero-art{aspect-ratio:16/8.2;width:100%;display:block;background:var(--bg-deep)}
+.hero-art{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-card .hero-art{transition:transform 6s var(--ease)}
+.hero-card:hover .hero-art{transform:scale(1.03)}
 .hero-overlay{
   position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;
-  padding:clamp(1.5rem,4vw,3.5rem);
-  background:linear-gradient(180deg,transparent 30%,rgba(8,0,61,.55) 68%,rgba(8,0,61,.92) 100%);
+  padding-bottom:clamp(2.5rem,6vh,5rem);
+  background:linear-gradient(180deg,rgba(8,0,61,.35) 0%,transparent 24%,transparent 52%,rgba(8,0,61,.6) 78%,rgba(8,0,61,.95) 100%);
 }
 .hero-overlay h1{margin:.35em 0 .45em;text-shadow:0 4px 30px rgba(0,0,0,.5)}
 .hero-cta{
@@ -143,38 +156,57 @@ header.scrolled{background:rgba(8,0,61,.82);backdrop-filter:blur(14px);box-shado
 .hero-cta svg{transition:transform .35s var(--ease)}
 .hero-card:hover .hero-cta svg{transform:translateX(6px)}
 .hero-badge{
-  position:absolute;top:clamp(1.2rem,3vw,2.2rem);left:clamp(1.2rem,3vw,2.2rem);
+  position:absolute;top:clamp(5.2rem,11vh,7rem);left:max(4vw,calc((100vw - 1180px)/2));
   background:var(--gold-grad);color:#2A1400;font-weight:800;font-size:.7rem;
-  letter-spacing:.26em;text-transform:uppercase;padding:.55em 1.1em;border-radius:999px;
+  letter-spacing:.26em;text-transform:uppercase;padding:.55em 1.1em;border-radius:999px;z-index:2;
 }
 
 /* ---------- Sections ---------- */
 section{padding:4.5rem 0;position:relative}
 .rule{height:1px;background:linear-gradient(90deg,transparent,var(--line) 20%,var(--line) 80%,transparent)}
 
-/* Highlighted story */
-.story{
-  display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:clamp(1.6rem,4vw,3.5rem);
-  align-items:center;border:1px solid var(--line-soft);border-radius:20px;
-  padding:clamp(1.4rem,3vw,2.6rem);background:linear-gradient(180deg,rgba(22,11,114,.55),rgba(8,0,61,.35));
-  cursor:pointer;transition:border-color .35s,transform .45s var(--ease);
+/* Highlighted story — full-bleed band */
+.story-band{
+  display:block;width:100%;position:relative;overflow:hidden;
+  background:linear-gradient(180deg,#0A0050 0%,#160B72 55%,#0A0050 100%);
+  border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);
+  cursor:pointer;
 }
-.story:hover{border-color:rgba(255,198,106,.4);transform:translateY(-4px)}
-.story-art{border-radius:14px;overflow:hidden;border:1px solid var(--line-soft)}
+.story{
+  display:grid;grid-template-columns:minmax(260px,460px) 1fr;gap:clamp(1.8rem,5vw,4.5rem);
+  align-items:center;padding:clamp(3rem,7vh,5.5rem) 0;
+}
+.story-art{border-radius:16px;overflow:hidden;border:1px solid var(--line);
+  box-shadow:0 30px 70px -25px rgba(0,0,0,.65);
+  transition:transform .5s var(--ease)}
+.story-band:hover .story-art{transform:translateY(-5px)}
 .story-art svg{display:block;width:100%}
-.story h2{font-size:clamp(1.7rem,3.4vw,2.6rem);margin:.5rem 0 .8rem}
+.story h2{font-size:clamp(1.9rem,4vw,3.1rem);margin:.5rem 0 .8rem}
 .story-open{display:inline-flex;align-items:center;gap:.55rem;font-weight:800;font-size:.8rem;
   letter-spacing:.22em;text-transform:uppercase;color:var(--gold-1);margin-top:1.1rem}
-.story:hover .story-open svg{transform:translateX(6px)}
+.story-band:hover .story-open svg{transform:translateX(6px)}
 .story-open svg{transition:transform .35s var(--ease)}
 
-/* Mission */
-.mission{text-align:center;padding:6.5rem 0}
-.mission p.statement{
-  font-size:clamp(1.5rem,3.4vw,2.5rem);font-weight:700;line-height:1.35;letter-spacing:-.01em;
-  max-width:19em;margin:1.6rem auto 2.6rem;
-  background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+/* Mission — gold band, blue text */
+.mission{
+  text-align:center;padding:clamp(4.5rem,9vh,7rem) 0;width:100%;
+  background:var(--gold-grad);color:var(--bg);position:relative;overflow:hidden;
 }
+.mission::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:
+    linear-gradient(30deg, rgba(13,0,89,.1) 1px, transparent 1px),
+    linear-gradient(150deg, rgba(13,0,89,.1) 1px, transparent 1px);
+  background-size:64px 37px,64px 37px;
+}
+.mission .eyebrow{color:var(--bg)}
+.mission .eyebrow::before{background:var(--bg)}
+.mission p.statement{
+  font-size:clamp(1.5rem,3.4vw,2.5rem);font-weight:800;line-height:1.35;letter-spacing:-.01em;
+  max-width:19em;margin:1.6rem auto 2.6rem;color:var(--bg);position:relative;
+}
+.btn-blue{background:var(--bg);color:var(--gold-1);box-shadow:0 14px 34px -14px rgba(13,0,89,.6);position:relative}
+.btn-blue:hover{transform:translateY(-3px);box-shadow:0 20px 44px -14px rgba(13,0,89,.75)}
 .btn{
   display:inline-flex;align-items:center;gap:.6rem;
   padding:.95em 2em;border-radius:999px;font-weight:800;font-size:.85rem;
@@ -216,21 +248,42 @@ section{padding:4.5rem 0;position:relative}
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .stat span{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);font-weight:700}
 
-/* ---------- Informant ---------- */
-.article-feature{border:1px solid var(--line);border-radius:20px;overflow:hidden;margin-bottom:2rem;
-  background:linear-gradient(180deg,rgba(22,11,114,.55),rgba(8,0,61,.4))}
-.article-feature .body{padding:clamp(1.6rem,3.4vw,2.8rem)}
-.article-feature h2{font-size:clamp(1.8rem,3.6vw,2.8rem);margin:.6rem 0 1rem}
-.article-feature .body p{color:var(--ink-dim);line-height:1.8;font-weight:500;margin-bottom:1.1rem;max-width:62ch}
-.article-feature .body p strong{color:var(--ink)}
+/* ---------- The Iso Informant : Latest News rows ---------- */
 .byline{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--ink-dim)}
-.article-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem;padding-bottom:5rem}
-.article-card{border:1px solid var(--line-soft);border-radius:16px;padding:1.6rem;
-  background:linear-gradient(180deg,rgba(22,11,114,.4),rgba(8,0,61,.3));
-  transition:border-color .3s,transform .4s var(--ease)}
-.article-card:hover{border-color:rgba(255,198,106,.35);transform:translateY(-4px)}
-.article-card h3{font-size:1.15rem;margin:.6rem 0 .55rem;line-height:1.35}
-.article-card p{color:var(--ink-dim);font-size:.9rem;line-height:1.65;font-weight:500}
+.news-heading{font-size:clamp(1.4rem,2.6vw,1.9rem);font-weight:800;letter-spacing:-.01em;margin-bottom:1.6rem}
+.news-list{display:flex;flex-direction:column;gap:1.2rem;padding-bottom:5rem}
+.news-row{
+  display:grid;grid-template-columns:220px 1fr auto;gap:clamp(1.2rem,3vw,2.4rem);align-items:center;
+  border:1px solid var(--line-soft);border-radius:16px;padding:1.1rem 1.6rem 1.1rem 1.1rem;
+  background:linear-gradient(90deg,rgba(22,11,114,.5),rgba(8,0,61,.35));
+  transition:border-color .3s,transform .4s var(--ease),background .3s;
+}
+.news-row:hover{border-color:rgba(255,198,106,.45);transform:translateX(6px)}
+.news-thumb{border-radius:10px;overflow:hidden;border:1px solid var(--line-soft)}
+.news-thumb svg{display:block;width:100%}
+.news-row h3{font-size:clamp(1.05rem,2vw,1.35rem);margin-bottom:.4rem;line-height:1.3}
+.news-row .excerpt{color:var(--ink-dim);font-size:.92rem;line-height:1.6;font-weight:500}
+.news-date{
+  font-size:.72rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-1);white-space:nowrap;text-align:right;
+  display:flex;flex-direction:column;align-items:flex-end;gap:.9rem;
+}
+.news-date svg{transition:transform .35s var(--ease)}
+.news-row:hover .news-date svg{transform:translateX(5px)}
+
+/* ---------- Article pages ---------- */
+.article-hero{border-radius:20px;overflow:hidden;border:1px solid var(--line);margin-bottom:2.4rem;
+  box-shadow:0 34px 80px -30px rgba(0,0,0,.65)}
+.article-hero svg{display:block;width:100%}
+.article-body{max-width:70ch;padding-bottom:3rem}
+.article-body h1{font-size:clamp(2rem,4.6vw,3.4rem);margin:.7rem 0 1.4rem}
+.article-body p{color:var(--ink-dim);line-height:1.85;font-weight:500;margin-bottom:1.2rem}
+.article-body p strong{color:var(--ink)}
+.back-link{display:inline-flex;align-items:center;gap:.55rem;font-weight:800;font-size:.78rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--gold-1);margin-bottom:2rem}
+.back-link svg{transform:rotate(180deg);transition:transform .3s var(--ease)}
+.back-link:hover svg{transform:rotate(180deg) translateX(4px)}
+.article-footer{padding-bottom:5rem}
 
 /* ---------- Footer ---------- */
 footer{border-top:1px solid var(--line-soft);padding:4.5rem 0 2.5rem;text-align:center;position:relative;z-index:1;
@@ -249,6 +302,9 @@ footer{border-top:1px solid var(--line-soft);padding:4.5rem 0 2.5rem;text-align:
   .story{grid-template-columns:1fr}
   .about-grid{grid-template-columns:1fr}
   .stat-row{grid-template-columns:repeat(3,1fr)}
+  .news-row{grid-template-columns:1fr;padding:1.1rem}
+  .news-date{flex-direction:row;justify-content:space-between;width:100%;align-items:center}
+  .hero-card{min-height:560px}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;transition-duration:.01ms!important}
@@ -276,22 +332,22 @@ footer{border-top:1px solid var(--line-soft);padding:4.5rem 0 2.5rem;text-align:
   </div>
 </header>
 
-<!-- ================= MENU ================= -->
-<div class="menu" id="menu">
-  <div style="text-align:center">
-    <nav>
-      <a class="menu-link" href="#/games">GAMES</a>
-      <a class="menu-link" href="#/about">ABOUT</a>
-      <a class="menu-link" href="#/informant">THE ISO INFORMANT</a>
-    </nav>
-    <div class="menu-tag">Worlds built one block at a time</div>
-  </div>
-</div>
+<!-- ================= MENU (side drawer) ================= -->
+<div class="menu-backdrop" id="menu-backdrop"></div>
+<aside class="menu" id="menu" aria-label="Site navigation">
+  <div class="menu-label">Navigate</div>
+  <nav>
+    <a class="menu-link" href="#/games">GAMES</a>
+    <a class="menu-link" href="#/about">ABOUT</a>
+    <a class="menu-link" href="#/informant">THE ISO INFORMANT</a>
+  </nav>
+  <div class="menu-tag">Worlds built one block at a time</div>
+</aside>
 
 <!-- ================= HOME ================= -->
 <main>
 <div class="page" id="page-home">
-  <section class="hero wrap">
+  <section style="padding:0">
     <a class="hero-card" href="#/games" aria-label="View Cobalt Vale — our featured game">
       <span class="hero-badge">Featured Title</span>
       <svg class="hero-art" viewBox="0 0 1600 820" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -354,23 +410,21 @@ footer{border-top:1px solid var(--line-soft);padding:4.5rem 0 2.5rem;text-align:
         <path d="M0 820h1600v-60c-260 30-520 44-800 44S260 790 0 760v60Z" fill="#08003D"/>
       </svg>
       <div class="hero-overlay">
-        <span class="eyebrow">Now in development</span>
-        <h1 class="display">COBALT<span class="gold-text"> VALE</span></h1>
-        <p class="lede" style="max-width:46ch">An isometric odyssey across floating ruins, where every block you place rewrites the world below.</p>
-        <span class="hero-cta" style="margin-top:1.4rem">Explore the game
-          <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
+        <div class="wrap">
+          <span class="eyebrow">Now in development</span>
+          <h1 class="display">COBALT<span class="gold-text"> VALE</span></h1>
+          <p class="lede" style="max-width:46ch">An isometric odyssey across floating ruins, where every block you place rewrites the world below.</p>
+          <span class="hero-cta" style="margin-top:1.4rem;display:inline-flex">Explore the game
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </div>
       </div>
     </a>
   </section>
 
-  <div class="wrap"><div class="rule"></div></div>
-
-  <!-- Highlighted story -->
-  <section class="wrap">
-    <span class="eyebrow">Highlighted story</span>
-    <div style="height:1.4rem"></div>
-    <a class="story" href="#/informant" aria-label="Read the full announcement on The Iso Informant">
+  <!-- Highlighted story — full-width band -->
+  <a class="story-band" href="#/informant/game-announced" aria-label="Read the full announcement on The Iso Informant">
+    <div class="wrap story">
       <div class="story-art">
         <svg viewBox="0 0 560 360" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -390,25 +444,26 @@ footer{border-top:1px solid var(--line-soft);padding:4.5rem 0 2.5rem;text-align:
         </svg>
       </div>
       <div>
-        <span class="byline">The Iso Informant · Aug 2026</span>
+        <span class="eyebrow" style="margin-bottom:.9rem;display:inline-flex">Highlighted story</span>
+        <div><span class="byline">The Iso Informant · Aug 12, 2026</span></div>
         <h2>GAME <span class="gold-text">ANNOUNCED!</span></h2>
         <p class="lede">Cobalt Vale is official. Our biggest world yet — a floating archipelago of isometric ruins, secrets, and skyborne cities — is now in full production at BluIso Games.</p>
         <span class="story-open">Click to open full article
           <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </span>
       </div>
-    </a>
-  </section>
+    </div>
+  </a>
 
-  <div class="wrap"><div class="rule" style="margin-top:4.5rem"></div></div>
-
-  <!-- Mission -->
-  <section class="mission wrap">
-    <span class="eyebrow">Our mission</span>
-    <p class="statement">We build worlds one block at a time — handcrafted isometric games with heart, depth, and a golden thread of wonder running through every tile.</p>
-    <a class="btn btn-gold" href="#/about">Learn more
-      <svg width="16" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
+  <!-- Mission — gold band, blue text -->
+  <section class="mission">
+    <div class="wrap">
+      <span class="eyebrow">Our mission</span>
+      <p class="statement">We build worlds one block at a time — handcrafted isometric games with heart, depth, and a golden thread of wonder running through every tile.</p>
+      <a class="btn btn-blue" href="#/about">Learn more
+        <svg width="16" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
   </section>
 </div>
 
@@ -520,35 +575,186 @@ footer{border-top:1px solid var(--line-soft);padding:4.5rem 0 2.5rem;text-align:
     <h1 class="title-xl" style="margin-top:1rem">News from the <span class="gold-text">studio floor</span></h1>
   </section>
   <section class="wrap" style="padding-top:0">
-    <article class="article-feature" id="featured-article">
-      <div class="body">
-        <span class="byline">Announcement · August 12, 2026 · BluIso Games</span>
-        <h2>GAME <span class="gold-text">ANNOUNCED:</span> COBALT VALE</h2>
-        <p><strong>Today we're thrilled to announce our third and most ambitious world: Cobalt Vale.</strong> Set among the floating ruins of a kingdom that chose the sky over the ground, Cobalt Vale is an isometric odyssey about restoration — of places, of machines, and of the people who abandoned both.</p>
-        <p>You play the Vale's last Mason, armed with a chisel, a glider, and a ledger of everything the kingdom lost. Every block you place rewrites the world below: reroute a river on one island and a garden blooms on another. The Vale remembers everything you build.</p>
-        <p>Cobalt Vale has been in quiet development for eighteen months and enters full production this fall. It is targeting a 2027 release on PC and consoles. Sharp-eyed players of Lantern Depths may already suspect where the golden thread leads this time.</p>
-        <p>We'll be sharing development diaries right here on The Iso Informant every month until launch. Thank you, as always, for visiting our worlds.</p>
-        <span class="byline" style="color:var(--gold-1)">— The BluIso Team</span>
-      </div>
-    </article>
-    <div class="article-list">
-      <article class="article-card">
-        <span class="byline">Dev Diary · July 2026</span>
-        <h3>How we light an isometric cavern</h3>
-        <p>A technical look back at Lantern Depths' lighting system, and why we simulated every candle by hand.</p>
-      </article>
-      <article class="article-card">
-        <span class="byline">Studio · June 2026</span>
-        <h3>Homestead Hex passes one million settlers</h3>
-        <p>Our debut town-builder reaches a milestone we never dared put on the roadmap. Thank you.</p>
-      </article>
-      <article class="article-card">
-        <span class="byline">Community · May 2026</span>
-        <h3>The golden thread: your best theories</h3>
-        <p>We read every theory about what connects our worlds. A few of you are closer than you know.</p>
-      </article>
+    <h2 class="news-heading">Latest <span class="gold-text">News</span></h2>
+    <div class="news-list">
+
+      <a class="news-row" href="#/informant/game-announced">
+        <div class="news-thumb">
+          <svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="nt1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#241093"/><stop offset="1" stop-color="#0D0059"/></linearGradient>
+            <linearGradient id="ntg1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/></linearGradient></defs>
+            <rect width="440" height="250" fill="url(#nt1)"/>
+            <path d="M220 210 100 150l120-60 120 60-120 60Z" fill="#1B0D85"/>
+            <path d="M100 150v26l120 60v-26l-120-60Z" fill="#140966"/>
+            <path d="M340 150v26l-120 60v-26l120-60Z" fill="#0E0452"/>
+            <path d="M220 118l-40 20 40 20 40-20-40-20Z" fill="url(#ntg1)"/>
+            <path d="M220 72l-6 46h12l-6-46Z" fill="url(#ntg1)" opacity=".9"/>
+            <circle cx="220" cy="62" r="9" fill="url(#ntg1)"/>
+            <circle cx="220" cy="62" r="19" fill="none" stroke="#FFC66A" stroke-opacity=".4" stroke-width="2"/>
+          </svg>
+        </div>
+        <div>
+          <span class="byline">Announcement</span>
+          <h3>GAME ANNOUNCED: Cobalt Vale enters full production</h3>
+          <p class="excerpt">Our third and most ambitious world is official — a floating archipelago of isometric ruins, secrets, and skyborne cities, targeting 2027.</p>
+        </div>
+        <span class="news-date">Aug 12, 2026
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a class="news-row" href="#/informant/lighting-caverns">
+        <div class="news-thumb">
+          <svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="nt2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#160B72"/><stop offset="1" stop-color="#08003D"/></linearGradient>
+            <linearGradient id="ntg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/></linearGradient></defs>
+            <rect width="440" height="250" fill="url(#nt2)"/>
+            <path d="M140 170l50-25 50 25-50 25-50-25Z" fill="#1B0D85"/>
+            <path d="M240 130l50-25 50 25-50 25-50-25Z" fill="#2C18AE"/>
+            <circle cx="290" cy="105" r="9" fill="url(#ntg2)"/>
+            <circle cx="290" cy="105" r="22" fill="none" stroke="#FFC66A" stroke-opacity=".35" stroke-width="2"/>
+            <circle cx="290" cy="105" r="38" fill="none" stroke="#FFC66A" stroke-opacity=".18" stroke-width="2"/>
+            <path d="M190 145l-4 4 44 22 4-4-44-22Z" fill="url(#ntg2)" opacity=".8"/>
+          </svg>
+        </div>
+        <div>
+          <span class="byline">Dev Diary</span>
+          <h3>How we light an isometric cavern</h3>
+          <p class="excerpt">A technical look back at Lantern Depths' lighting system, and why we simulated every candle by hand.</p>
+        </div>
+        <span class="news-date">Jul 3, 2026
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a class="news-row" href="#/informant/million-settlers">
+        <div class="news-thumb">
+          <svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="nt3" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#241093"/><stop offset="1" stop-color="#0D0059"/></linearGradient>
+            <linearGradient id="ntg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/></linearGradient></defs>
+            <rect width="440" height="250" fill="url(#nt3)"/>
+            <path d="M110 180h220l-28-14H138l-28 14Z" fill="#140966"/>
+            <path d="M160 166v-56l60-30 60 30v56" fill="#1B0D85"/>
+            <path d="M160 110l60 30 60-30-60-30-60 30Z" fill="#2C18AE"/>
+            <path d="M208 122h24v18h-24z" fill="url(#ntg3)" opacity=".9"/>
+            <path d="M188 72l32-16 32 16" fill="none" stroke="url(#ntg3)" stroke-width="3.6"/>
+          </svg>
+        </div>
+        <div>
+          <span class="byline">Studio</span>
+          <h3>Homestead Hex passes one million settlers</h3>
+          <p class="excerpt">Our debut town-builder reaches a milestone we never dared put on the roadmap. Thank you.</p>
+        </div>
+        <span class="news-date">Jun 18, 2026
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a class="news-row" href="#/informant/golden-thread">
+        <div class="news-thumb">
+          <svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="nt4" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#160B72"/><stop offset="1" stop-color="#08003D"/></linearGradient>
+            <linearGradient id="ntg4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/></linearGradient></defs>
+            <rect width="440" height="250" fill="url(#nt4)"/>
+            <path d="M80 190C150 120 290 180 360 80" fill="none" stroke="url(#ntg4)" stroke-width="4" stroke-linecap="round"/>
+            <path d="M120 160l30-15 30 15-30 15-30-15Z" fill="#1B0D85"/>
+            <path d="M250 140l30-15 30 15-30 15-30-15Z" fill="#1B0D85"/>
+            <circle cx="360" cy="80" r="8" fill="url(#ntg4)"/>
+            <circle cx="360" cy="80" r="18" fill="none" stroke="#FFC66A" stroke-opacity=".35" stroke-width="2"/>
+          </svg>
+        </div>
+        <div>
+          <span class="byline">Community</span>
+          <h3>The golden thread: your best theories</h3>
+          <p class="excerpt">We read every theory about what connects our worlds. A few of you are closer than you know.</p>
+        </div>
+        <span class="news-date">May 29, 2026
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
     </div>
   </section>
+</div>
+
+<!-- ================= ARTICLE: GAME ANNOUNCED ================= -->
+<div class="page" id="page-article-game-announced">
+  <section class="page-head wrap" style="padding-bottom:0">
+    <a class="back-link" href="#/informant">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to Latest News
+    </a>
+    <article class="article-body">
+      <span class="byline">Announcement · August 12, 2026 · BluIso Games</span>
+      <h1>GAME <span class="gold-text">ANNOUNCED:</span> COBALT VALE</h1>
+      <p><strong>Today we're thrilled to announce our third and most ambitious world: Cobalt Vale.</strong> Set among the floating ruins of a kingdom that chose the sky over the ground, Cobalt Vale is an isometric odyssey about restoration — of places, of machines, and of the people who abandoned both.</p>
+      <p>You play the Vale's last Mason, armed with a chisel, a glider, and a ledger of everything the kingdom lost. Every block you place rewrites the world below: reroute a river on one island and a garden blooms on another. The Vale remembers everything you build.</p>
+      <p>Cobalt Vale has been in quiet development for eighteen months and enters full production this fall. It is targeting a 2027 release on PC and consoles. Sharp-eyed players of Lantern Depths may already suspect where the golden thread leads this time.</p>
+      <p>We'll be sharing development diaries right here on The Iso Informant every month until launch. Thank you, as always, for visiting our worlds.</p>
+      <span class="byline" style="color:var(--gold-1)">— The BluIso Team</span>
+    </article>
+  </section>
+  <div class="wrap article-footer"><a class="btn btn-ghost" href="#/informant">← All news</a></div>
+</div>
+
+<!-- ================= ARTICLE: LIGHTING ================= -->
+<div class="page" id="page-article-lighting-caverns">
+  <section class="page-head wrap" style="padding-bottom:0">
+    <a class="back-link" href="#/informant">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to Latest News
+    </a>
+    <article class="article-body">
+      <span class="byline">Dev Diary · July 3, 2026 · Engineering</span>
+      <h1>How we light an isometric <span class="gold-text">cavern</span></h1>
+      <p><strong>Lantern Depths had one rule: light is currency.</strong> Every candle, lantern, and glow-moss cluster in the game's 90 caverns is a hand-placed light source with a real cost to the player — which meant our lighting couldn't be an afterthought. It had to be the game.</p>
+      <p>Traditional isometric games fake their lighting with pre-baked tile sprites. We went the other way: every tile in Lantern Depths carries its own luminance value, updated in real time as your lantern dims. Shadows lengthen as your fuel burns. The dark isn't a filter — it's a simulation.</p>
+      <p>The hardest part was restraint. Early builds looked spectacular and played terribly; when everything glows, nothing matters. The final game cut our light sources by 60%, and every cavern got darker, quieter, and better.</p>
+      <p>If you've ever hesitated at the edge of your lantern's reach in cavern 44 — that hesitation took us two years to build.</p>
+      <span class="byline" style="color:var(--gold-1)">— The BluIso Team</span>
+    </article>
+  </section>
+  <div class="wrap article-footer"><a class="btn btn-ghost" href="#/informant">← All news</a></div>
+</div>
+
+<!-- ================= ARTICLE: MILLION SETTLERS ================= -->
+<div class="page" id="page-article-million-settlers">
+  <section class="page-head wrap" style="padding-bottom:0">
+    <a class="back-link" href="#/informant">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to Latest News
+    </a>
+    <article class="article-body">
+      <span class="byline">Studio · June 18, 2026 · BluIso Games</span>
+      <h1>Homestead Hex passes <span class="gold-text">one million</span> settlers</h1>
+      <p><strong>One million of you have founded a town on the hex frontier.</strong> When we shipped Homestead Hex in 2022, our internal target was modest enough that we never wrote it down. This week, the game crossed one million players.</p>
+      <p>Some numbers we love: the average town survives its first winter with 4 hearths burning. The most-traded good, by an absurd margin, is honey. And 12% of you have found the golden hex — though far fewer understand what it means yet.</p>
+      <p>Homestead Hex will receive one more free content update later this year, bringing new frontier events and, for our most patient mayors, an answer to the question the golden hex has been asking since launch.</p>
+      <p>Thank you for keeping your hearths burning gold.</p>
+      <span class="byline" style="color:var(--gold-1)">— The BluIso Team</span>
+    </article>
+  </section>
+  <div class="wrap article-footer"><a class="btn btn-ghost" href="#/informant">← All news</a></div>
+</div>
+
+<!-- ================= ARTICLE: GOLDEN THREAD ================= -->
+<div class="page" id="page-article-golden-thread">
+  <section class="page-head wrap" style="padding-bottom:0">
+    <a class="back-link" href="#/informant">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to Latest News
+    </a>
+    <article class="article-body">
+      <span class="byline">Community · May 29, 2026 · Community Team</span>
+      <h1>The golden thread: your <span class="gold-text">best theories</span></h1>
+      <p><strong>Every BluIso game hides one strand of gold.</strong> A hex that hums in Homestead Hex. A lantern in Lantern Depths that never runs out. You've noticed — and the theory threads have gotten out of hand, in the best possible way.</p>
+      <p>Some of our favorites: that the golden thread is a river seen from three different worlds. That the lanternkeeper and the frontier's first mayor are the same person. That the thread isn't in the games at all, but in the order you play them.</p>
+      <p>We won't confirm anything. But we will say this: one theory posted this spring made the whole studio go quiet for a moment. Its author is closer than they know.</p>
+      <p>Keep pulling the thread. Cobalt Vale will give you more to work with soon.</p>
+      <span class="byline" style="color:var(--gold-1)">— The BluIso Team</span>
+    </article>
+  </section>
+  <div class="wrap article-footer"><a class="btn btn-ghost" href="#/informant">← All news</a></div>
 </div>
 </main>
 
@@ -578,7 +784,7 @@ footer{border-top:1px solid var(--line-soft);padding:4.5rem 0 2.5rem;text-align:
         <svg viewBox="0 0 24 24"><path d="M18.2 1h3.5l-7.7 8.8L23 22h-7.1l-5.6-7.3L4 22H.5l8.2-9.4L.3 1h7.3l5 6.7L18.2 1Zm-1.2 18.9h2L6.5 3H4.4l12.6 16.9Z"/></svg>
       </a>
     </div>
-    <p class="copyright">©BluIso Games. All Rights Reserved.</p>
+    <p class="copyright">© 2026 BluIso Games. All Rights Reserved.</p>
   </div>
 </footer>
 
@@ -588,7 +794,11 @@ const pages = {
   '/': 'page-home',
   '/games': 'page-games',
   '/about': 'page-about',
-  '/informant': 'page-informant'
+  '/informant': 'page-informant',
+  '/informant/game-announced': 'page-article-game-announced',
+  '/informant/lighting-caverns': 'page-article-lighting-caverns',
+  '/informant/million-settlers': 'page-article-million-settlers',
+  '/informant/golden-thread': 'page-article-golden-thread'
 };
 function route(){
   const hash = location.hash.replace('#','') || '/';
@@ -600,21 +810,25 @@ function route(){
 }
 window.addEventListener('hashchange', route);
 
-// ---------- Menu ----------
+// ---------- Menu drawer ----------
 const burger = document.getElementById('burger');
 const menu = document.getElementById('menu');
+const backdrop = document.getElementById('menu-backdrop');
 function closeMenu(){
   burger.classList.remove('open');
   menu.classList.remove('open');
+  backdrop.classList.remove('open');
   burger.setAttribute('aria-expanded','false');
   burger.setAttribute('aria-label','Open menu');
 }
 burger.addEventListener('click', () => {
   const open = burger.classList.toggle('open');
   menu.classList.toggle('open', open);
+  backdrop.classList.toggle('open', open);
   burger.setAttribute('aria-expanded', open);
   burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
 });
+backdrop.addEventListener('click', closeMenu);
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeMenu(); });
 
 // ---------- Header scroll state ----------
