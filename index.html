@@ -1104,7 +1104,7 @@ window.addEventListener('scroll', () => {
   if(window.scrollY > 90 && !menu.classList.contains('open')){
     header.classList.add('hide');
     clearTimeout(restTimer);
-    restTimer = setTimeout(() => header.classList.remove('hide'), 240);
+    restTimer = setTimeout(() => header.classList.remove('hide'), 1500);
   } else {
     header.classList.remove('hide');
   }
@@ -1146,23 +1146,39 @@ const revealTargets = document.querySelectorAll(
   '.value, .spec, .article-body, .about-copy, .game-info .info-grid > *, .article-footer'
 );
 revealTargets.forEach(el => el.classList.add('reveal'));
+
+// Show the current page BEFORE observing, so elements have real dimensions.
+// (Elements inside hidden pages measure 0x0 and would falsely count as visible.)
+route();
+
 if(reduceMotion || !('IntersectionObserver' in window)){
   revealTargets.forEach(el => el.classList.add('in'));
 } else {
   const io = new IntersectionObserver(entries => {
     let batch = 0;
     entries.forEach(entry => {
+      // Skip elements on hidden pages (zero size); keep observing them —
+      // the observer re-fires when their page becomes visible.
+      if(entry.boundingClientRect.height === 0 && entry.boundingClientRect.width === 0) return;
+      const el = entry.target;
       if(entry.isIntersecting){
-        entry.target.style.transitionDelay = (batch++ * 70) + 'ms';
-        entry.target.classList.add('in');
-        io.unobserve(entry.target);
+        const delay = batch++ * 70;
+        el.style.transitionDelay = delay + 'ms';
+        el.classList.add('in');
+        // Clear the stagger delay afterwards so hover transitions stay snappy.
+        setTimeout(() => { el.style.transitionDelay = ''; }, delay + 900);
+      } else {
+        // Left the viewport (either direction) — fade out so it can
+        // fade back in the next time it scrolls into view.
+        el.style.transitionDelay = '';
+        el.classList.remove('in');
       }
     });
   }, {threshold:.12, rootMargin:'0px 0px -6% 0px'});
-  revealTargets.forEach(el => io.observe(el));
+  // Start observing as the splash begins to fade, so the first screen of
+  // content visibly eases in instead of revealing behind the splash.
+  setTimeout(() => revealTargets.forEach(el => io.observe(el)), 1450);
 }
-
-route();
 </script>
 </body>
 </html>
