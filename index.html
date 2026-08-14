@@ -4,1355 +4,626 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BluIso Games</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23E4963B' stroke-width='2.6' stroke-linejoin='round'%3E%3Cpath d='M24 4 42 14v20L24 44 6 34V14z'/%3E%3Cpath d='M6 14l18 10 18-10M24 24v20'/%3E%3C/g%3E%3Cpath d='M24 14l8.5 4.8v9L24 32.5l-8.5-4.7v-9z' fill='%23FFC66A'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
 <style>
-/* ==========================================================
-   BLUISO — "WE DEAL IN FANTASIES"
-   Ground-up identity. Every game is a fantasy card on a
-   lamplit table: gold-foil frames on deep blue, an epithet
-   like arcana (№ I — The Fixer), a fanned deck for the
-   catalog, and one card that stays face-down.
-   Derived from the manifesto: fantasy comes first, action
-   creates engagement, games should feel authored.
-   ========================================================== */
 :root{
-  --ink:#0D0059;
-  --ink-deep:#05002B;
-  --ink-card:#0A0345;
-  --ink-raise:#160B78;
-  --line:rgba(199,189,255,.14);
+  --bg:#0D0059;
+  --bg-deep:#08003D;
+  --bg-raise:#160B72;
+  --line:rgba(255,198,106,.18);
+  --line-soft:rgba(237,235,255,.10);
+  --ink:#EDEBFF;
+  --ink-dim:#A8A3D9;
   --gold-1:#FFC66A;
   --gold-2:#E4963B;
   --gold-grad:linear-gradient(135deg,#FFC66A 0%,#E4963B 100%);
-  --gold-soft:rgba(255,198,106,.45);
-  --text:#F4F1FF;
-  --dim:#A79FDA;
-  --font:'Manrope',sans-serif;
-  --max:1160px;
-  --pad:clamp(20px,5vw,56px);
-  --ease:cubic-bezier(.22,1,.36,1);
+  --ease:cubic-bezier(.22,.8,.24,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  background:#0D0059;
-  background-image:radial-gradient(1300px 900px at 50% -12%, #1D0E8F 0%, #0D0059 46%, #05002B 100%);
-  background-attachment:fixed;
-  color:var(--text);font-family:var(--font);font-size:16px;line-height:1.6;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  font-family:'Manrope',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
 }
+/* Isometric grid atmosphere */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(30deg,  rgba(255,198,106,.045) 1px, transparent 1px),
+    linear-gradient(150deg, rgba(255,198,106,.045) 1px, transparent 1px),
+    linear-gradient(90deg,  rgba(255,198,106,.028) 1px, transparent 1px);
+  background-size:64px 37px,64px 37px,64px 64px;
+  mask-image:radial-gradient(120% 90% at 50% 0%,#000 0%,transparent 78%);
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 0%,#000 0%,transparent 78%);
+}
+::selection{background:var(--gold-2);color:var(--bg-deep)}
 a{color:inherit;text-decoration:none}
-button{font-family:inherit;cursor:pointer;background:none;border:none;color:inherit}
-img{max-width:100%;display:block}
-::selection{background:var(--gold-2);color:var(--ink-deep)}
-:focus-visible{outline:2px solid var(--gold-1);outline-offset:3px;border-radius:6px}
+img{display:block;max-width:100%}
+.wrap{width:min(1180px,92vw);margin:0 auto;position:relative;z-index:1}
 
-/* ---------- Ornaments ---------- */
-.flourish{display:flex;align-items:center;justify-content:center;gap:16px;margin:0 auto}
-.flourish::before,.flourish::after{content:"";height:1px;width:clamp(40px,7vw,90px);background:linear-gradient(90deg,transparent,var(--gold-2))}
-.flourish::after{background:linear-gradient(90deg,var(--gold-2),transparent)}
-.flourish svg{flex:none}
+/* ---------- Type ---------- */
 .eyebrow{
-  font-size:11px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;color:var(--gold-1);
-  text-align:center;
+  display:inline-flex;align-items:center;gap:.6em;
+  font-size:.72rem;font-weight:700;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--gold-1);
 }
-.sect-head{text-align:center;margin-bottom:clamp(34px,4.5vw,56px)}
-.sect-head .eyebrow{margin-bottom:16px}
-.sect-head h2{font-weight:800;font-size:clamp(26px,3.4vw,44px);line-height:1.1;letter-spacing:-.015em}
-.sect-head .sub{color:var(--dim);max-width:52ch;margin:14px auto 0;font-size:15.5px}
-.sect-head .flourish{margin-top:22px}
-
-/* ---------- Buttons: card-framed ---------- */
-.btn,.btn-line{
-  position:relative;display:inline-flex;align-items:center;gap:11px;
-  font-weight:800;font-size:13.5px;letter-spacing:.1em;text-transform:uppercase;
-  padding:16px 32px;border-radius:12px;
-}
-.btn{background:var(--gold-grad);color:var(--ink-deep);transition:transform .3s var(--ease),box-shadow .3s}
-.btn::after{content:"";position:absolute;inset:4px;border:1px solid rgba(5,0,43,.4);border-radius:8px;pointer-events:none}
-.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(228,150,59,.3)}
-.btn svg{transition:transform .3s var(--ease)}
-.btn:hover svg{transform:translateX(4px)}
-.btn-line{color:var(--text);box-shadow:inset 0 0 0 1.5px var(--gold-soft);transition:box-shadow .3s,background .3s}
-.btn-line::after{content:"";position:absolute;inset:4px;border:1px solid rgba(255,198,106,.2);border-radius:8px;pointer-events:none}
-.btn-line:hover{box-shadow:inset 0 0 0 1.5px var(--gold-1);background:rgba(255,198,106,.07)}
+.eyebrow::before{content:"";width:10px;height:10px;background:var(--gold-grad);
+  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);}
+h1,h2,h3{font-weight:800;letter-spacing:-.02em;line-height:1.04}
+.display{font-size:clamp(2.6rem,7vw,5.4rem)}
+.title-xl{font-size:clamp(2rem,4.6vw,3.4rem)}
+.gold-text{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{color:var(--ink-dim);font-size:clamp(1rem,1.4vw,1.15rem);line-height:1.7;font-weight:500}
 
 /* ---------- Header ---------- */
 header{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:0 clamp(14px,2vw,32px);
-  transition:background .4s var(--ease),box-shadow .4s var(--ease),transform .45s var(--ease);
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  transition:background .4s var(--ease), box-shadow .4s var(--ease);
 }
-header.scrolled,header.dd-open{background:rgba(5,0,43,.92);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
-header.hidden{transform:translateY(-110%)}
-.header-inner{width:100%;height:82px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+header.scrolled{background:rgba(8,0,61,.82);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.header-inner{
+  width:min(1320px,94vw);margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 0;
+}
+.logo{display:flex;align-items:center;gap:.75rem;cursor:pointer}
+.logo svg{width:40px;height:44px;flex:none}
+.logo-name{font-weight:800;letter-spacing:.14em;font-size:.95rem}
+.logo-name span{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 
-.logo{display:inline-flex}
-.mark-wrap{
-  position:relative;display:block;width:50px;height:50px;
-  clip-path:polygon(50% 8.3%,87.5% 29.2%,87.5% 70.8%,50% 91.7%,12.5% 70.8%,12.5% 29.2%);
+/* Hamburger */
+.burger{
+  width:52px;height:52px;border:1px solid var(--line);border-radius:12px;
+  background:rgba(13,0,89,.5);backdrop-filter:blur(8px);
+  display:grid;place-items:center;cursor:pointer;transition:border-color .3s;
 }
-.mark-wrap svg{width:100%;height:100%;display:block}
-.mark-wrap::after{
-  content:"";position:absolute;top:-25%;bottom:-25%;left:-70%;width:45%;
-  background:linear-gradient(105deg,transparent 0%,rgba(255,238,205,.9) 50%,transparent 100%);
-  transform:skewX(-20deg);pointer-events:none;
+.burger:hover{border-color:var(--gold-1)}
+.burger span{
+  display:block;width:20px;height:2px;background:var(--ink);margin:2.5px 0;
+  transition:transform .35s var(--ease),opacity .25s;
+  transform-origin:center;
 }
-.logo:hover .mark-wrap::after,.footer-brand:hover .mark-wrap::after{animation:gloss .85s var(--ease)}
-@keyframes gloss{from{left:-70%}to{left:145%}}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);background:var(--gold-1)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);background:var(--gold-1)}
 
-nav.main-nav{display:flex;align-items:stretch;gap:clamp(18px,3.2vw,48px);height:100%}
-nav.main-nav > a,nav.main-nav .nav-drop-btn{
-  font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--dim);position:relative;transition:color .25s;white-space:nowrap;
-  display:inline-flex;align-items:center;gap:9px;align-self:center;padding:10px 0 12px;
+/* Menu overlay */
+.menu{
+  position:fixed;inset:0;z-index:55;background:rgba(8,0,61,.96);backdrop-filter:blur(18px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s;
 }
-nav.main-nav > a::after,nav.main-nav .nav-drop-btn::after{
-  content:"";position:absolute;left:20%;right:20%;bottom:4px;height:5px;
-  border-top:1px solid var(--gold-2);border-bottom:1px solid var(--gold-2);
-  opacity:0;transform:scaleX(.4);transition:opacity .3s,transform .35s var(--ease);
+.menu.open{opacity:1;visibility:visible}
+.menu nav{display:flex;flex-direction:column;gap:.4rem;text-align:center}
+.menu-link{
+  font-size:clamp(2rem,6vw,4rem);font-weight:800;letter-spacing:-.01em;
+  padding:.35em .5em;position:relative;color:var(--ink);
+  opacity:0;transform:translateY(24px);transition:color .3s,opacity .5s var(--ease),transform .5s var(--ease);
 }
-nav.main-nav > a:hover,nav.main-nav > a.active,
-nav.main-nav .nav-drop-btn:hover,nav.main-nav .nav-drop-btn.active{color:var(--text)}
-nav.main-nav > a:hover::after,nav.main-nav > a.active::after,
-nav.main-nav .nav-drop-btn:hover::after,nav.main-nav .nav-drop-btn.active::after{opacity:1;transform:scaleX(1)}
-.caret{transition:transform .3s var(--ease)}
-.dropdown.open .caret{transform:rotate(180deg)}
-.dropdown{align-self:stretch;display:flex;align-items:center}
-
-.dropdown-panel{
-  position:absolute;left:0;right:0;top:100%;
-  background:rgba(5,0,43,.97);backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--line);
-  padding:28px clamp(14px,3vw,44px) 34px;display:none;
-}
-.dropdown.open .dropdown-panel{display:block;animation:ddIn .35s var(--ease)}
-@keyframes ddIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-.drop-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
-.drop-head span{font-size:11px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-1)}
-.drop-link{
-  font-size:11.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
-  transition:color .25s;
-}
-.drop-link:hover{color:var(--gold-1)}
-.drop-grid{display:flex;gap:20px;overflow-x:auto;padding:8px 2px 12px;scrollbar-width:thin}
-.drop-slot{flex:none;width:128px;transition:transform .3s var(--ease)}
-.drop-slot:hover{transform:translateY(-6px)}
-.drop-slot .card{border-radius:10px}
-.drop-slot .card-epi{font-size:7.5px}
-.drop-slot .card-title{font-size:11px}
-.drop-slot .card-fant{display:none}
-.drop-slot .card-art{margin-bottom:8px}
-.drop-slot .back-epi{font-size:8px}
-
-/* ---------- THE CARD ---------- */
-.card{
-  position:relative;aspect-ratio:5/7;border-radius:16px;
-  background:linear-gradient(160deg,#100756 0%,#0A0345 60%,#080238 100%);
-  box-shadow:0 0 0 1.5px var(--gold-2), 0 24px 60px rgba(0,0,10,.55);
-  padding:clamp(10px,4.5%,18px);
-  display:flex;flex-direction:column;overflow:hidden;
-  transform-style:preserve-3d;will-change:transform;
-}
-.card::before{ /* inner frame */
-  content:"";position:absolute;inset:7px;border:1px solid var(--gold-soft);border-radius:10px;pointer-events:none;
-}
-.card::after{ /* corner pips */
-  content:"";position:absolute;inset:12px;pointer-events:none;border-radius:8px;
-  background:
-    radial-gradient(circle 2.5px at 0 0,var(--gold-1) 98%,transparent),
-    radial-gradient(circle 2.5px at 100% 0,var(--gold-1) 98%,transparent),
-    radial-gradient(circle 2.5px at 0 100%,var(--gold-1) 98%,transparent),
-    radial-gradient(circle 2.5px at 100% 100%,var(--gold-1) 98%,transparent);
-  background-repeat:no-repeat;
-}
-.card-art{
-  position:relative;border-radius:9px;overflow:hidden;aspect-ratio:16/11;flex:none;
-  box-shadow:inset 0 0 0 1px var(--gold-soft);margin-bottom:6%;
-}
-.card-art svg{position:absolute;inset:0;width:100%;height:100%}
-.card-epi{
-  text-align:center;font-size:clamp(8px,.62em,11px);font-weight:800;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--gold-1);margin-bottom:5px;
-}
-.card-title{
-  text-align:center;font-weight:800;font-size:clamp(13px,1.1em,21px);letter-spacing:-.01em;line-height:1.15;
-  margin-bottom:6px;
-}
-.card-fant{
-  text-align:center;color:var(--dim);font-size:clamp(10px,.78em,13.5px);line-height:1.45;
-  margin-top:auto;padding-bottom:4px;
-}
-.card-foil{
-  position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  background:linear-gradient(115deg,transparent 42%,rgba(255,238,205,.3) 50%,transparent 58%);
-  transform:translateX(-130%);
-}
-.card:hover .card-foil{animation:foil .9s var(--ease)}
-@keyframes foil{to{transform:translateX(130%)}}
-
-/* Face-down card */
-.card.is-back{padding:0;align-items:center;justify-content:center}
-.card.is-back > svg{position:absolute;inset:0;width:100%;height:100%}
-.back-epi{
-  position:absolute;bottom:9%;left:0;right:0;text-align:center;
-  font-size:clamp(8px,.62em,11px);font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-1);
-}
+.menu.open .menu-link{opacity:1;transform:none}
+.menu.open .menu-link:nth-child(2){transition-delay:.06s}
+.menu.open .menu-link:nth-child(3){transition-delay:.12s}
+.menu-link:hover{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.menu-tag{margin-top:2.4rem;color:var(--ink-dim);font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;font-weight:700;
+  opacity:0;transition:opacity .6s .2s}
+.menu.open .menu-tag{opacity:1}
 
 /* ---------- Pages ---------- */
-.page{display:none}
-.page.active{display:block;animation:pageIn .5s var(--ease)}
-@keyframes pageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-section.block{position:relative;max-width:var(--max);margin:0 auto;padding:clamp(70px,9vw,120px) var(--pad)}
+.page{display:none;animation:pageIn .55s var(--ease)}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
-/* ---------- HOME: Today's Draw ---------- */
-.draw{
-  position:relative;min-height:100svh;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:calc(82px + 3vh) var(--pad) 54px;text-align:center;overflow:hidden;
+/* ---------- Hero ---------- */
+.hero{padding:9.5rem 0 5rem;position:relative}
+.hero-card{
+  position:relative;border-radius:22px;overflow:hidden;display:block;
+  border:1px solid var(--line);
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.7);
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .4s;
 }
-.table-glow{
-  position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);
-  width:min(900px,120vw);aspect-ratio:1.6/1;border-radius:50%;pointer-events:none;
-  background:radial-gradient(closest-side,rgba(255,198,106,.14),rgba(255,198,106,.05) 45%,transparent 72%);
+.hero-card:hover{transform:translateY(-6px);border-color:rgba(255,198,106,.45);
+  box-shadow:0 60px 110px -30px rgba(0,0,0,.8)}
+.hero-art{aspect-ratio:16/8.2;width:100%;display:block;background:var(--bg-deep)}
+.hero-overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:clamp(1.5rem,4vw,3.5rem);
+  background:linear-gradient(180deg,transparent 30%,rgba(8,0,61,.55) 68%,rgba(8,0,61,.92) 100%);
 }
-.sparkles{position:absolute;inset:0;pointer-events:none}
-.draw .eyebrow{margin-bottom:8px}
-.draw-motto{
-  font-weight:800;font-size:clamp(24px,3.4vw,42px);letter-spacing:-.015em;line-height:1.05;margin-bottom:clamp(24px,3.5vh,40px);
+.hero-overlay h1{margin:.35em 0 .45em;text-shadow:0 4px 30px rgba(0,0,0,.5)}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-weight:800;font-size:.85rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-1);
 }
-.draw-motto em{
-  font-style:normal;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.draw-card-wrap{position:relative;z-index:2;perspective:1100px}
-.card-lg{width:clamp(250px,30vh,330px);font-size:19px}
-.draw-plate{
-  display:inline-block;margin-bottom:18px;
-  font-size:10.5px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;
-  color:var(--ink-deep);background:var(--gold-grad);
-  padding:8px 20px;border-radius:99px;
-}
-.draw-info{position:relative;z-index:2;margin-top:clamp(20px,3vh,32px);display:flex;flex-direction:column;align-items:center;gap:12px}
-.draw-info h1{font-weight:800;font-size:clamp(26px,3.6vw,42px);letter-spacing:-.02em;line-height:1}
-.draw-fantasy{color:var(--dim);font-size:clamp(15px,1.5vw,18px);font-weight:600;max-width:46ch}
-.draw-release{
-  font-size:11.5px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-1);
-  display:flex;align-items:center;gap:14px;
-}
-.draw-release::before,.draw-release::after{content:"";width:30px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-2))}
-.draw-release::after{background:linear-gradient(90deg,var(--gold-2),transparent)}
-.draw-ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:10px}
-.bulletin{
-  position:relative;z-index:2;margin-top:clamp(22px,3.5vh,36px);
-  font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
-  display:inline-flex;align-items:center;gap:10px;transition:opacity .4s var(--ease);
-}
-.bulletin.swap{opacity:0}
-.bulletin:hover{color:var(--gold-1)}
-.bulletin i{width:6px;height:6px;border-radius:50%;background:var(--gold-grad);flex:none}
-
-/* ---------- The fanned deck ---------- */
-.deck-stage{position:relative;height:clamp(380px,52vw,520px);margin:0 auto;max-width:1000px;perspective:1400px}
-.fan-slot{
-  position:absolute;left:50%;bottom:24px;width:clamp(150px,19vw,208px);margin-left:calc(clamp(150px,19vw,208px) / -2);
-  transform-origin:50% 130%;
-  transition:transform .45s var(--ease),z-index 0s .1s;
-}
-.fan-slot .card{font-size:13px;transition:box-shadow .35s}
-.fan-slot:hover{z-index:20!important}
-.fan-slot:hover .card{box-shadow:0 0 0 1.5px var(--gold-1),0 30px 70px rgba(0,0,10,.65)}
-.deck-stage .fan-slot:nth-child(1){transform:rotate(-22deg) translateY(6px)}
-.deck-stage .fan-slot:nth-child(2){transform:rotate(-13.5deg) translateY(-16px)}
-.deck-stage .fan-slot:nth-child(3){transform:rotate(-4.5deg) translateY(-27px)}
-.deck-stage .fan-slot:nth-child(4){transform:rotate(4.5deg) translateY(-27px)}
-.deck-stage .fan-slot:nth-child(5){transform:rotate(13.5deg) translateY(-16px)}
-.deck-stage .fan-slot:nth-child(6){transform:rotate(22deg) translateY(6px)}
-.deck-stage .fan-slot:nth-child(1):hover{transform:rotate(-22deg) translateY(-30px) scale(1.06)}
-.deck-stage .fan-slot:nth-child(2):hover{transform:rotate(-13.5deg) translateY(-52px) scale(1.06)}
-.deck-stage .fan-slot:nth-child(3):hover{transform:rotate(-4.5deg) translateY(-63px) scale(1.06)}
-.deck-stage .fan-slot:nth-child(4):hover{transform:rotate(4.5deg) translateY(-63px) scale(1.06)}
-.deck-stage .fan-slot:nth-child(5):hover{transform:rotate(13.5deg) translateY(-52px) scale(1.06)}
-.deck-stage .fan-slot:nth-child(6):hover{transform:rotate(22deg) translateY(-30px) scale(1.06)}
-.deck-stage .fan-slot:nth-child(1){z-index:1}.deck-stage .fan-slot:nth-child(2){z-index:2}
-.deck-stage .fan-slot:nth-child(3){z-index:3}.deck-stage .fan-slot:nth-child(4){z-index:4}
-.deck-stage .fan-slot:nth-child(5){z-index:5}.deck-stage .fan-slot:nth-child(6){z-index:6}
-@media(max-width:880px){
-  .deck-stage{height:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:20px;perspective:none}
-  .fan-slot{position:static;width:auto;margin:0;transform:none!important}
+.hero-cta svg{transition:transform .35s var(--ease)}
+.hero-card:hover .hero-cta svg{transform:translateX(6px)}
+.hero-badge{
+  position:absolute;top:clamp(1.2rem,3vw,2.2rem);left:clamp(1.2rem,3vw,2.2rem);
+  background:var(--gold-grad);color:#2A1400;font-weight:800;font-size:.7rem;
+  letter-spacing:.26em;text-transform:uppercase;padding:.55em 1.1em;border-radius:999px;
 }
 
-/* Hand list (scannable index under the fan) */
-.hand-list{max-width:820px;margin:clamp(30px,4vw,50px) auto 0}
-a.hand-row{
-  display:grid;grid-template-columns:64px 1fr auto;gap:clamp(14px,2.5vw,30px);align-items:baseline;
-  padding:18px 10px;border-top:1px solid var(--line);
-  transition:background .3s,padding-left .3s var(--ease);border-radius:8px;
-}
-a.hand-row:last-child{border-bottom:1px solid var(--line)}
-a.hand-row:hover{background:rgba(255,255,255,.03);padding-left:20px}
-.hr-num{font-size:13px;font-weight:800;letter-spacing:.12em;color:var(--gold-2);opacity:.85}
-a.hand-row h3{font-weight:800;font-size:clamp(15.5px,1.6vw,18px);letter-spacing:-.01em;display:inline;transition:color .25s}
-a.hand-row:hover h3{color:var(--gold-1)}
-.hr-fant{color:var(--dim);font-size:14px;display:block;margin-top:2px}
-.hr-tag{
-  font-size:9.5px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-1);
-  box-shadow:inset 0 0 0 1px rgba(255,198,106,.4);border-radius:99px;padding:6px 14px;white-space:nowrap;
-}
+/* ---------- Sections ---------- */
+section{padding:4.5rem 0;position:relative}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--line) 20%,var(--line) 80%,transparent)}
 
-/* ---------- Gold mission band (kept & promoted) ---------- */
-.gold-band{background:var(--gold-grad);color:var(--ink);position:relative;overflow:hidden}
-.gold-band::before{
-  content:"";position:absolute;inset:0;opacity:.16;pointer-events:none;
-  background-image:radial-gradient(circle 1.4px, #0D0059 99%, transparent), radial-gradient(circle 1.4px, #0D0059 99%, transparent);
-  background-size:34px 34px;background-position:0 0,17px 17px;
+/* Highlighted story */
+.story{
+  display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:clamp(1.6rem,4vw,3.5rem);
+  align-items:center;border:1px solid var(--line-soft);border-radius:20px;
+  padding:clamp(1.4rem,3vw,2.6rem);background:linear-gradient(180deg,rgba(22,11,114,.55),rgba(8,0,61,.35));
+  cursor:pointer;transition:border-color .35s,transform .45s var(--ease);
 }
-.gold-inner{position:relative;max-width:900px;margin:0 auto;padding:clamp(70px,9vw,120px) var(--pad);text-align:center}
-.gold-inner .g-eyebrow{
-  font-size:11px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;margin-bottom:24px;
-  display:flex;align-items:center;justify-content:center;gap:16px;
-}
-.gold-inner .g-eyebrow::before,.gold-inner .g-eyebrow::after{content:"";height:1px;width:44px;background:var(--ink);opacity:.5}
-.gold-inner p.mission-text{
-  font-weight:800;font-size:clamp(22px,3.2vw,40px);line-height:1.3;letter-spacing:-.015em;
-}
-.gold-inner p.mission-text b{
-  background:var(--ink);color:var(--gold-1);padding:0 12px;border-radius:8px;white-space:nowrap;
-}
-.btn-ink{
-  position:relative;display:inline-flex;align-items:center;gap:11px;margin-top:clamp(30px,4vw,44px);
-  background:var(--ink);color:var(--gold-1);
-  font-weight:800;font-size:13.5px;letter-spacing:.1em;text-transform:uppercase;
-  padding:16px 32px;border-radius:12px;
-  transition:transform .3s var(--ease),box-shadow .3s;
-}
-.btn-ink::after{content:"";position:absolute;inset:4px;border:1px solid rgba(255,198,106,.35);border-radius:8px;pointer-events:none}
-.btn-ink:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(5,0,43,.35)}
+.story:hover{border-color:rgba(255,198,106,.4);transform:translateY(-4px)}
+.story-art{border-radius:14px;overflow:hidden;border:1px solid var(--line-soft)}
+.story-art svg{display:block;width:100%}
+.story h2{font-size:clamp(1.7rem,3.4vw,2.6rem);margin:.5rem 0 .8rem}
+.story-open{display:inline-flex;align-items:center;gap:.55rem;font-weight:800;font-size:.8rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--gold-1);margin-top:1.1rem}
+.story:hover .story-open svg{transform:translateX(6px)}
+.story-open svg{transition:transform .35s var(--ease)}
 
-/* ---------- The Iso Informant ---------- */
-a.news-item{
-  display:grid;grid-template-columns:64px 112px 1fr auto;gap:clamp(14px,2.6vw,34px);align-items:baseline;
-  padding:24px 10px;border-top:1px solid var(--line);border-radius:8px;
-  transition:background .3s,padding-left .3s var(--ease);
+/* Mission */
+.mission{text-align:center;padding:6.5rem 0}
+.mission p.statement{
+  font-size:clamp(1.5rem,3.4vw,2.5rem);font-weight:700;line-height:1.35;letter-spacing:-.01em;
+  max-width:19em;margin:1.6rem auto 2.6rem;
+  background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
 }
-a.news-item:last-child{border-bottom:1px solid var(--line)}
-a.news-item:hover{background:rgba(255,255,255,.03);padding-left:20px}
-.ni-num{font-size:13px;font-weight:800;letter-spacing:.12em;color:var(--gold-2);opacity:.85}
-.news-date{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-a.news-item h3{font-weight:800;font-size:clamp(16px,1.6vw,19px);margin-bottom:4px;transition:color .25s;letter-spacing:-.01em}
-a.news-item:hover h3{color:var(--gold-1)}
-a.news-item p{color:var(--dim);font-size:14.5px;max-width:62ch}
-.ni-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px;white-space:nowrap}
-.news-cat{font-size:10px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-1)}
-.read-time{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
-@media(max-width:720px){
-  a.news-item{grid-template-columns:1fr;gap:6px}
-  .ni-side{flex-direction:row;align-items:baseline;gap:14px}
-  .ni-num{display:none}
+.btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.95em 2em;border-radius:999px;font-weight:800;font-size:.85rem;
+  letter-spacing:.18em;text-transform:uppercase;cursor:pointer;border:none;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .3s,color .3s;
 }
-.sect-foot{text-align:center;margin-top:clamp(26px,3.5vw,40px)}
-.ghost-link{
-  font-size:12px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);
-  border-bottom:1px solid transparent;padding-bottom:6px;transition:color .25s,border-color .25s;
-}
-.ghost-link:hover{color:var(--gold-1);border-color:var(--gold-1)}
+.btn-gold{background:var(--gold-grad);color:#2A1400;box-shadow:0 12px 34px -12px rgba(228,150,59,.55)}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 18px 44px -12px rgba(228,150,59,.7)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--gold-1);color:var(--gold-1)}
 
-/* ---------- Page heroes ---------- */
-.page-hero{position:relative;max-width:var(--max);margin:0 auto;padding:calc(82px + clamp(56px,8vw,96px)) var(--pad) clamp(24px,3vw,44px);text-align:center}
-.page-hero h1{font-weight:800;font-size:clamp(32px,5vw,60px);line-height:1.02;letter-spacing:-.02em;margin-top:20px}
-.page-hero h1 em{
-  font-style:normal;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+/* ---------- Games grid ---------- */
+.page-head{padding:9.5rem 0 2.5rem}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.6rem;padding-bottom:5rem}
+.game-card{
+  border:1px solid var(--line-soft);border-radius:18px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(22,11,114,.5),rgba(8,0,61,.4));
+  transition:transform .45s var(--ease),border-color .35s;cursor:pointer;
 }
-.page-hero .lede{max-width:56ch;color:var(--dim);font-size:clamp(15px,1.5vw,18px);margin:22px auto 0}
-.page-hero .flourish{margin-top:26px}
+.game-card:hover{transform:translateY(-6px);border-color:rgba(255,198,106,.4)}
+.game-card svg{width:100%;display:block}
+.game-meta{padding:1.4rem 1.5rem 1.6rem}
+.game-meta .status{font-size:.68rem;font-weight:800;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-1)}
+.game-meta h3{font-size:1.35rem;margin:.45rem 0 .5rem}
+.game-meta p{color:var(--ink-dim);font-size:.92rem;line-height:1.6;font-weight:500}
 
-/* ---------- Individual game page ---------- */
-.game-spread{
-  max-width:1040px;margin:0 auto;
-  padding:calc(82px + clamp(30px,5vw,60px)) var(--pad) 0;
-  display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:clamp(34px,5vw,72px);align-items:center;
-}
-.game-spread .draw-card-wrap{justify-self:center;perspective:1100px}
-.game-spread .card{width:100%;font-size:18px}
-.gs-info{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
-.gs-epi{
-  font-size:11px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;color:var(--gold-1);
-}
-.gs-info h1{font-weight:800;font-size:clamp(30px,4vw,50px);letter-spacing:-.02em;line-height:1.02}
-.gs-fantasy{color:var(--dim);font-size:clamp(15px,1.5vw,18px);font-weight:600;max-width:44ch}
-.gs-release{margin-top:8px}
-.gs-release span{display:block;font-size:10.5px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
-.gs-release b{display:block;font-weight:800;font-size:clamp(18px,2vw,25px);letter-spacing:-.01em;text-transform:uppercase}
-.gs-platforms{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-.gs-platforms span{
-  font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
-  box-shadow:inset 0 0 0 1px var(--line);border-radius:99px;padding:7px 15px;color:var(--text);opacity:.9;
-}
-.gs-info .btn{margin-top:10px}
-@media(max-width:840px){
-  .game-spread{grid-template-columns:1fr;text-align:center}
-  .gs-info{align-items:center}
-  .game-spread .card{max-width:300px}
-}
-.game-bio{max-width:820px;padding-top:clamp(40px,5vw,64px)}
-.game-bio .sect-head{margin-bottom:clamp(24px,3vw,36px)}
-.game-bio p{color:#CFC9F2;font-size:clamp(16px,1.35vw,18px);line-height:1.85;margin-bottom:24px}
-.game-bio p:first-of-type{color:var(--text);font-weight:500}
+/* ---------- About ---------- */
+.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,5vw,4.5rem);align-items:start;padding-bottom:2rem}
+.about-copy p{color:var(--ink-dim);line-height:1.8;font-weight:500;margin-bottom:1.2rem}
+.about-copy p strong{color:var(--ink)}
+.values{display:grid;gap:1rem;padding-bottom:5rem}
+.value{border:1px solid var(--line-soft);border-radius:16px;padding:1.5rem 1.6rem;
+  background:linear-gradient(180deg,rgba(22,11,114,.45),rgba(8,0,61,.3))}
+.value h3{font-size:1.05rem;margin-bottom:.4rem;color:var(--gold-1)}
+.value p{color:var(--ink-dim);font-size:.92rem;line-height:1.65;font-weight:500}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
+.stat{border:1px solid var(--line-soft);border-radius:14px;padding:1.2rem;text-align:center}
+.stat b{display:block;font-size:1.8rem;font-weight:800;background:var(--gold-grad);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);font-weight:700}
 
-/* ---------- Media carousel ---------- */
-.showcase{position:relative;max-width:960px;margin:0 auto}
-.capsule{
-  position:relative;overflow:hidden;aspect-ratio:16/9;background:var(--ink-card);
-  border-radius:16px;
-  box-shadow:0 0 0 1.5px var(--gold-2),0 20px 55px rgba(0,0,10,.5);
-}
-.capsule::before{content:"";position:absolute;inset:7px;border:1px solid var(--gold-soft);border-radius:10px;pointer-events:none;z-index:3}
-.capsule .art-layer{position:absolute;inset:0;transition:opacity .35s var(--ease)}
-.capsule .art-layer.fading{opacity:0}
-.capsule svg{position:absolute;inset:0;width:100%;height:100%}
-.arrow{
-  position:absolute;top:50%;transform:translateY(-50%);z-index:4;
-  width:52px;height:52px;display:grid;place-items:center;color:var(--text);border-radius:50%;
-  background:rgba(5,0,43,.75);backdrop-filter:blur(6px);
-  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.25);
-  transition:box-shadow .3s,background .3s,transform .3s var(--ease);
-}
-.arrow:hover{box-shadow:inset 0 0 0 1.5px var(--gold-1);background:rgba(228,150,59,.25)}
-.arrow.left{left:-26px}
-.arrow.right{right:-26px}
-.arrow.left:hover{transform:translateY(-50%) translateX(-3px)}
-.arrow.right:hover{transform:translateY(-50%) translateX(3px)}
-@media(max-width:1060px){.arrow.left{left:12px}.arrow.right{right:12px}}
-.showcase-counter{
-  position:absolute;top:18px;right:22px;z-index:4;
-  font-size:10.5px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--text);background:rgba(5,0,43,.65);box-shadow:inset 0 0 0 1px var(--line);
-  padding:8px 16px;border-radius:99px;backdrop-filter:blur(6px);
-}
-
-/* ---------- Article ---------- */
-.article-hero{max-width:800px;margin:0 auto;padding:calc(82px + clamp(46px,7vw,80px)) var(--pad) clamp(14px,2vw,26px);text-align:center}
-.back-link{
-  font-size:11px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);
-  display:inline-flex;align-items:center;gap:9px;margin-bottom:30px;transition:color .25s;
-}
-.back-link:hover{color:var(--gold-1)}
-.article-hero .eyebrow{margin-bottom:6px}
-.article-hero h1{font-weight:800;font-size:clamp(27px,3.8vw,46px);line-height:1.08;letter-spacing:-.02em;margin:14px 0 16px}
-.article-meta{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
-.article-hero .flourish{margin-top:24px}
-.article-body{max-width:760px;margin:0 auto;padding:clamp(26px,3.5vw,44px) var(--pad) clamp(76px,9vw,116px)}
-.article-body p{color:#CFC9F2;font-size:clamp(16px,1.35vw,18px);line-height:1.9;margin-bottom:26px}
-.article-body p:first-of-type{color:var(--text);font-size:clamp(17px,1.5vw,20px);font-weight:600}
-
-/* ---------- About / Manifesto ---------- */
-.creed-full{max-width:800px;margin:0 auto;padding:clamp(10px,2vw,20px) var(--pad) 0}
-.creed-item{border-top:1px solid var(--line);padding:clamp(32px,4.5vw,50px) 0;text-align:center}
-.creed-item:last-child{border-bottom:1px solid var(--line)}
-.creed-item .ci-num{
-  display:inline-block;font-size:12px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-2);
-  margin-bottom:12px;
-}
-.creed-item h3{font-weight:800;font-size:clamp(20px,2.4vw,29px);letter-spacing:-.015em;margin-bottom:16px}
-.creed-item p{color:#CFC9F2;font-size:clamp(15px,1.3vw,17px);line-height:1.8;max-width:62ch;margin:0 auto 14px}
-.creed-item p:last-child{margin-bottom:0}
-.creed-item p b{
-  background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800;
-}
-.stat-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(5,0,43,.5);margin-top:clamp(64px,8vw,100px)}
-.stat-band-inner{
-  max-width:var(--max);margin:0 auto;padding:clamp(38px,5vw,60px) var(--pad);
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:32px;text-align:center;
-}
-.stat b{
-  display:block;font-weight:800;font-size:clamp(28px,3vw,40px);
-  background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:4px;
-}
-.stat span{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
-.timeline{max-width:820px;margin:0 auto}
-.timeline .t-item{
-  display:grid;grid-template-columns:96px 1fr auto;gap:clamp(16px,3vw,36px);align-items:baseline;
-  padding:24px 10px;border-top:1px solid var(--line);
-}
-.timeline .t-item:last-child{border-bottom:1px solid var(--line)}
-.timeline h3{font-weight:800;font-size:clamp(16px,1.6vw,19px);margin-bottom:4px;letter-spacing:-.01em}
-.timeline p{color:var(--dim);font-size:14.5px;max-width:60ch}
-@media(max-width:700px){.timeline .t-item{grid-template-columns:1fr;gap:6px}.timeline .news-cat{order:-1}}
+/* ---------- Informant ---------- */
+.article-feature{border:1px solid var(--line);border-radius:20px;overflow:hidden;margin-bottom:2rem;
+  background:linear-gradient(180deg,rgba(22,11,114,.55),rgba(8,0,61,.4))}
+.article-feature .body{padding:clamp(1.6rem,3.4vw,2.8rem)}
+.article-feature h2{font-size:clamp(1.8rem,3.6vw,2.8rem);margin:.6rem 0 1rem}
+.article-feature .body p{color:var(--ink-dim);line-height:1.8;font-weight:500;margin-bottom:1.1rem;max-width:62ch}
+.article-feature .body p strong{color:var(--ink)}
+.byline{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--ink-dim)}
+.article-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem;padding-bottom:5rem}
+.article-card{border:1px solid var(--line-soft);border-radius:16px;padding:1.6rem;
+  background:linear-gradient(180deg,rgba(22,11,114,.4),rgba(8,0,61,.3));
+  transition:border-color .3s,transform .4s var(--ease)}
+.article-card:hover{border-color:rgba(255,198,106,.35);transform:translateY(-4px)}
+.article-card h3{font-size:1.15rem;margin:.6rem 0 .55rem;line-height:1.35}
+.article-card p{color:var(--ink-dim);font-size:.9rem;line-height:1.65;font-weight:500}
 
 /* ---------- Footer ---------- */
-footer{border-top:1px solid var(--line);background:rgba(5,0,43,.6);position:relative}
-.footer-inner{
-  position:relative;width:100%;
-  padding:clamp(46px,6vw,68px) clamp(14px,2vw,32px) 38px;
-  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;
+footer{border-top:1px solid var(--line-soft);padding:4.5rem 0 2.5rem;text-align:center;position:relative;z-index:1;
+  background:linear-gradient(180deg,transparent,rgba(8,0,61,.6))}
+.socials{display:flex;justify-content:center;gap:.9rem;margin:2.2rem 0 3rem;flex-wrap:wrap}
+.social{
+  width:48px;height:48px;border-radius:12px;border:1px solid var(--line-soft);
+  display:grid;place-items:center;transition:transform .35s var(--ease),border-color .3s,background .3s;
 }
-.footer-brand{justify-self:start;display:inline-flex}
-.footer-brand .mark-wrap{width:56px;height:56px}
-.footer-center{justify-self:center;display:flex;flex-direction:column;align-items:center;gap:28px}
-.socials{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
-.socials a{
-  position:relative;width:46px;height:46px;display:grid;place-items:center;color:var(--text);border-radius:12px;
-  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.22);
-  transition:color .3s,box-shadow .3s,transform .3s var(--ease),background .3s;
-}
-.socials a::after{content:"";position:absolute;inset:4px;border:1px solid rgba(255,255,255,.1);border-radius:8px;pointer-events:none;transition:border-color .3s}
-.socials a:hover{color:var(--ink-deep);box-shadow:none;background:var(--gold-grad);transform:translateY(-3px)}
-.socials a:hover::after{border-color:rgba(5,0,43,.35)}
-.socials svg{width:20px;height:20px;fill:currentColor}
-.footer-base{
-  position:relative;width:100%;padding:0 clamp(14px,2vw,32px) 36px;text-align:center;
-  font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);opacity:.7;
-}
-.footer-motto{
-  text-align:center;padding-bottom:8px;
-  font-size:11px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;
-  background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
-}
-@media(max-width:820px){
-  .footer-inner{grid-template-columns:1fr;justify-items:center;gap:30px}
-  .footer-brand{justify-self:center}
-}
+.social svg{width:20px;height:20px;fill:var(--ink-dim);transition:fill .3s}
+.social:hover{transform:translateY(-4px);border-color:var(--gold-1);background:rgba(255,198,106,.08)}
+.social:hover svg{fill:var(--gold-1)}
+.copyright{color:var(--ink-dim);font-size:.8rem;font-weight:600;letter-spacing:.06em}
 
-/* ---------- Loading screen ---------- */
-#loader{
-  position:fixed;inset:0;z-index:999;display:grid;place-items:center;
-  background:#05002B;
-  background-image:radial-gradient(900px 700px at 50% 45%, #150A73 0%, #05002B 70%);
-  transition:opacity .65s var(--ease),visibility .65s;
-  cursor:pointer;
+@media (max-width:760px){
+  .story{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(3,1fr)}
 }
-#loader.done{opacity:0;visibility:hidden;pointer-events:none}
-body.is-loading{overflow:hidden}
-.l-stack{display:flex;flex-direction:column;align-items:center;gap:26px}
-.l-mark{
-  position:relative;width:118px;height:118px;
-  clip-path:polygon(50% 8.3%,87.5% 29.2%,87.5% 70.8%,50% 91.7%,12.5% 70.8%,12.5% 29.2%);
-}
-.l-mark svg{width:100%;height:100%;display:block}
-.l-mark::after{
-  content:"";position:absolute;top:-25%;bottom:-25%;left:-70%;width:45%;
-  background:linear-gradient(105deg,transparent 0%,rgba(255,238,205,.95) 50%,transparent 100%);
-  transform:skewX(-20deg);pointer-events:none;
-  animation:gloss .8s var(--ease) 1.15s both;
-}
-.l-draw{stroke-dasharray:1;stroke-dashoffset:1;animation:lDraw .9s var(--ease) forwards}
-.l-draw.p2{animation-delay:.3s}
-@keyframes lDraw{to{stroke-dashoffset:0}}
-.l-facet{opacity:0;animation:lFacet .5s ease .85s forwards}
-@keyframes lFacet{to{opacity:.9}}
-.l-tag{
-  font-size:11px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;
-  background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
-  opacity:0;animation:lTag .6s var(--ease) 1.2s forwards;
-}
-@keyframes lTag{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:reduce){
-  .l-draw{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
-  .l-facet,.l-tag{opacity:1;animation:none}
-  .l-mark::after{animation:none}
-}
-
-/* ---------- Motion / mobile ---------- */
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
   html{scroll-behavior:auto}
-}
-@media(max-width:640px){
-  .header-inner{height:64px}
-  .mark-wrap{width:42px;height:42px}
-  nav.main-nav{gap:14px}
-  nav.main-nav > a,nav.main-nav .nav-drop-btn{font-size:11px;letter-spacing:.12em}
 }
 </style>
 </head>
-<body class="is-loading">
-
-<!-- ================= LOADING SCREEN ================= -->
-<div id="loader" role="status" aria-label="Loading BluIso Games">
-  <div class="l-stack">
-    <span class="l-mark">
-      <svg viewBox="0 0 48 48" aria-hidden="true">
-        <defs><linearGradient id="gLoad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/>
-        </linearGradient></defs>
-        <g fill="none" stroke="url(#gLoad)" stroke-width="2.6" stroke-linejoin="round">
-          <path class="l-draw" pathLength="1" d="M24 4 42 14v20L24 44 6 34V14z"/>
-          <path class="l-draw p2" pathLength="1" d="M6 14l18 10 18-10M24 24v20"/>
-        </g>
-        <path class="l-facet" d="M24 14l8.5 4.8v9L24 32.5l-8.5-4.7v-9z" fill="url(#gLoad)"/>
-      </svg>
-    </span>
-    <span class="l-tag">We deal in fantasies</span>
-  </div>
-</div>
+<body>
 
 <!-- ================= HEADER ================= -->
-<header id="siteHeader">
+<header id="header">
   <div class="header-inner">
-    <a class="logo" href="#/" data-route="home" aria-label="BluIso Games — home">
-      <span class="mark-wrap">
-        <svg viewBox="0 0 48 48" aria-hidden="true">
-          <defs><linearGradient id="gLogo" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/>
-          </linearGradient></defs>
-          <g fill="none" stroke="url(#gLogo)" stroke-width="2.6" stroke-linejoin="round">
-            <path d="M24 4 42 14v20L24 44 6 34V14z"/>
-            <path d="M6 14l18 10 18-10M24 24v20"/>
-          </g>
-          <path d="M24 14l8.5 4.8v9L24 32.5l-8.5-4.7v-9z" fill="url(#gLogo)" opacity=".9"/>
-        </svg>
-      </span>
+    <a class="logo" href="#/" aria-label="BluIso Games — home">
+      <svg viewBox="0 0 44 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="44" y2="48"><stop stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/></linearGradient></defs>
+        <path d="M22 2 42 13v22L22 46 2 35V13L22 2Z" stroke="url(#lg)" stroke-width="2.4" fill="rgba(255,198,106,.06)"/>
+        <path d="M22 2v22M22 24 2 13M22 24l20-11" stroke="url(#lg)" stroke-width="2.4"/>
+        <path d="M22 24 12 18.5v11L22 35V24Z" fill="url(#lg)"/>
+      </svg>
+      <span class="logo-name">BLUISO <span>GAMES</span></span>
     </a>
-    <nav class="main-nav" aria-label="Primary">
-      <div class="dropdown" id="gamesDropdown">
-        <button class="nav-drop-btn" id="gamesDropBtn" aria-expanded="false" aria-haspopup="true">Games
-          <svg class="caret" width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="dropdown-panel" role="menu">
-          <div class="drop-head">
-            <span>The Deck</span>
-            <a class="drop-link" href="#/games" data-route="games">See every card →</a>
-          </div>
-          <div class="drop-grid" id="dropGrid"></div>
-        </div>
-      </div>
-      <a href="#/about" data-route="about">About</a>
-      <a href="#/the-iso-informant" data-route="informant">The Iso Informant</a>
-    </nav>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
-<main>
+<!-- ================= MENU ================= -->
+<div class="menu" id="menu">
+  <div style="text-align:center">
+    <nav>
+      <a class="menu-link" href="#/games">GAMES</a>
+      <a class="menu-link" href="#/about">ABOUT</a>
+      <a class="menu-link" href="#/informant">THE ISO INFORMANT</a>
+    </nav>
+    <div class="menu-tag">Worlds built one block at a time</div>
+  </div>
+</div>
+
 <!-- ================= HOME ================= -->
+<main>
 <div class="page" id="page-home">
-
-  <!-- TODAY'S DRAW -->
-  <section class="draw" id="draw">
-    <div class="table-glow" aria-hidden="true"></div>
-    <svg class="sparkles" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <g fill="#FFC66A">
-        <circle cx="180" cy="150" r="1.5" opacity=".7"/><circle cx="420" cy="90" r="1.1" opacity=".45"/>
-        <circle cx="1220" cy="140" r="1.5" opacity=".7"/><circle cx="990" cy="70" r="1.1" opacity=".4"/>
-        <circle cx="120" cy="520" r="1.2" opacity=".4"/><circle cx="1300" cy="480" r="1.2" opacity=".45"/>
-        <circle cx="260" cy="760" r="1.4" opacity=".5"/><circle cx="1150" cy="790" r="1.4" opacity=".5"/>
-        <circle cx="700" cy="60" r="1.3" opacity=".55"/><circle cx="620" cy="840" r="1.1" opacity=".4"/>
-      </g>
-    </svg>
-    <div class="eyebrow">BluIso Games</div>
-    <div class="draw-motto">We deal in <em>fantasies.</em></div>
-    <span class="draw-plate" id="drawPlate">Today's Draw</span>
-    <div class="draw-card-wrap">
-      <a id="drawCardLink" href="#/games/neon-delta" aria-label="Open Neon Delta"><span id="drawCard"></span></a>
-    </div>
-    <div class="draw-info">
-      <h1 id="drawTitle">Neon Delta</h1>
-      <p class="draw-fantasy" id="drawFantasy"></p>
-      <div class="draw-release" id="drawRelease"></div>
-      <div class="draw-ctas">
-        <a class="btn" id="drawCta" href="#" target="_blank" rel="noopener">Pre-Order Now</a>
-        <a class="btn-line" id="drawOpen" href="#/games/neon-delta">Turn the Card</a>
+  <section class="hero wrap">
+    <a class="hero-card" href="#/games" aria-label="View Cobalt Vale — our featured game">
+      <span class="hero-badge">Featured Title</span>
+      <svg class="hero-art" viewBox="0 0 1600 820" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#0A0050"/><stop offset=".65" stop-color="#160B72"/><stop offset="1" stop-color="#241093"/></linearGradient>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/></linearGradient>
+          <linearGradient id="b1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#3A22C8"/><stop offset="1" stop-color="#1B0D85"/></linearGradient>
+          <linearGradient id="b2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#2C18AE"/><stop offset="1" stop-color="#140966"/></linearGradient>
+        </defs>
+        <rect width="1600" height="820" fill="url(#sky)"/>
+        <g opacity=".5" fill="#EDEBFF">
+          <circle cx="180" cy="110" r="2"/><circle cx="420" cy="70" r="1.6"/><circle cx="700" cy="140" r="2.2"/>
+          <circle cx="980" cy="80" r="1.5"/><circle cx="1240" cy="150" r="2"/><circle cx="1460" cy="90" r="1.7"/>
+          <circle cx="320" cy="210" r="1.4"/><circle cx="1120" cy="220" r="1.6"/><circle cx="860" cy="40" r="1.4"/>
+        </g>
+        <circle cx="1290" cy="180" r="86" fill="url(#g1)" opacity=".95"/>
+        <circle cx="1290" cy="180" r="120" fill="none" stroke="#FFC66A" stroke-opacity=".28" stroke-width="2"/>
+        <circle cx="1290" cy="180" r="160" fill="none" stroke="#FFC66A" stroke-opacity=".14" stroke-width="2"/>
+        <!-- isometric floating island -->
+        <g>
+          <path d="M800 560 480 400 800 240l320 160-320 160Z" fill="url(#b1)"/>
+          <path d="M480 400v90l320 160v-90L480 400Z" fill="url(#b2)"/>
+          <path d="M1120 400v90L800 650v-90l320-160Z" fill="#100554"/>
+          <!-- towers -->
+          <g>
+            <path d="M700 260l60-30 60 30v120l-60 30-60-30V260Z" fill="url(#b2)"/>
+            <path d="M700 260l60 30 60-30-60-30-60 30Z" fill="url(#b1)"/>
+            <path d="M760 290v120" stroke="#0A0050" stroke-width="3"/>
+            <path d="M755 200l5-64 5 64" fill="none" stroke="url(#g1)" stroke-width="4"/>
+            <circle cx="760" cy="130" r="8" fill="url(#g1)"/>
+          </g>
+          <g>
+            <path d="M880 330l50-25 50 25v96l-50 25-50-25v-96Z" fill="url(#b2)"/>
+            <path d="M880 330l50 25 50-25-50-25-50 25Z" fill="url(#b1)"/>
+            <rect x="905" y="360" width="14" height="14" fill="url(#g1)" transform="skewY(26)" opacity=".9"/>
+            <rect x="905" y="390" width="14" height="14" fill="url(#g1)" transform="skewY(26)" opacity=".55"/>
+          </g>
+          <g>
+            <path d="M600 350l44-22 44 22v80l-44 22-44-22v-80Z" fill="url(#b2)"/>
+            <path d="M600 350l44 22 44-22-44-22-44 22Z" fill="url(#b1)"/>
+            <rect x="652" y="368" width="12" height="12" fill="url(#g1)" transform="skewY(-26)" opacity=".85"/>
+          </g>
+          <!-- gold path -->
+          <path d="M800 520 660 450l70-35 140 70-70 35Z" fill="url(#g1)" opacity=".92"/>
+          <path d="M730 415l70-35 34 17-70 35-34-17Z" fill="#FFDCA3"/>
+        </g>
+        <!-- small satellite islands -->
+        <g opacity=".85">
+          <path d="M320 600l90-45 90 45-90 45-90-45Z" fill="url(#b1)"/>
+          <path d="M320 600v34l90 45v-34l-90-45Z" fill="url(#b2)"/>
+          <path d="M500 600v34l-90 45v-34l90-45Z" fill="#100554"/>
+        </g>
+        <g opacity=".85">
+          <path d="M1150 620l80-40 80 40-80 40-80-40Z" fill="url(#b1)"/>
+          <path d="M1150 620v30l80 40v-30l-80-40Z" fill="url(#b2)"/>
+          <path d="M1310 620v30l-80 40v-30l80-40Z" fill="#100554"/>
+          <path d="M1226 596l4-46 4 46" fill="none" stroke="url(#g1)" stroke-width="3.4"/>
+          <circle cx="1230" cy="545" r="6" fill="url(#g1)"/>
+        </g>
+        <path d="M0 820h1600v-60c-260 30-520 44-800 44S260 790 0 760v60Z" fill="#08003D"/>
+      </svg>
+      <div class="hero-overlay">
+        <span class="eyebrow">Now in development</span>
+        <h1 class="display">COBALT<span class="gold-text"> VALE</span></h1>
+        <p class="lede" style="max-width:46ch">An isometric odyssey across floating ruins, where every block you place rewrites the world below.</p>
+        <span class="hero-cta" style="margin-top:1.4rem">Explore the game
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
       </div>
-    </div>
-    <a class="bulletin" id="bulletin" href="#/the-iso-informant"><i></i><span id="bulletinText"></span></a>
+    </a>
   </section>
 
-  <!-- THE DECK -->
-  <section class="block">
-    <div class="sect-head">
-      <div class="eyebrow">The Deck</div>
-      <h2>Six fantasies. One house.</h2>
-      <p class="sub">Every BluIso game begins with a question — what fantasy are we delivering? Each answer becomes a card. Draw one.</p>
-      <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
-    </div>
-    <div class="deck-stage" id="homeDeck"></div>
-    <div class="sect-foot"><a class="ghost-link" href="#/games" data-route="games">See every card →</a></div>
+  <div class="wrap"><div class="rule"></div></div>
+
+  <!-- Highlighted story -->
+  <section class="wrap">
+    <span class="eyebrow">Highlighted story</span>
+    <div style="height:1.4rem"></div>
+    <a class="story" href="#/informant" aria-label="Read the full announcement on The Iso Informant">
+      <div class="story-art">
+        <svg viewBox="0 0 560 360" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#241093"/><stop offset="1" stop-color="#0D0059"/></linearGradient>
+            <linearGradient id="sgold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/></linearGradient>
+          </defs>
+          <rect width="560" height="360" fill="url(#sg)"/>
+          <g opacity=".45" fill="#EDEBFF"><circle cx="70" cy="60" r="1.8"/><circle cx="480" cy="50" r="1.6"/><circle cx="300" cy="30" r="1.5"/><circle cx="150" cy="120" r="1.3"/><circle cx="420" cy="130" r="1.5"/></g>
+          <path d="M280 300 120 220l160-80 160 80-160 80Z" fill="#1B0D85"/>
+          <path d="M120 220v34l160 80v-34l-160-80Z" fill="#140966"/>
+          <path d="M440 220v34l-160 80v-34l160-80Z" fill="#0E0452"/>
+          <path d="M280 178l-52 26 52 26 52-26-52-26Z" fill="url(#sgold)"/>
+          <path d="M280 118l-8 60h16l-8-60Z" fill="url(#sgold)" opacity=".9"/>
+          <circle cx="280" cy="104" r="12" fill="url(#sgold)"/>
+          <circle cx="280" cy="104" r="24" fill="none" stroke="#FFC66A" stroke-opacity=".4" stroke-width="2"/>
+          <circle cx="280" cy="104" r="38" fill="none" stroke="#FFC66A" stroke-opacity=".2" stroke-width="2"/>
+        </svg>
+      </div>
+      <div>
+        <span class="byline">The Iso Informant · Aug 2026</span>
+        <h2>GAME <span class="gold-text">ANNOUNCED!</span></h2>
+        <p class="lede">Cobalt Vale is official. Our biggest world yet — a floating archipelago of isometric ruins, secrets, and skyborne cities — is now in full production at BluIso Games.</p>
+        <span class="story-open">Click to open full article
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </a>
   </section>
 
-  <!-- GOLD MISSION BAND -->
-  <div class="gold-band">
-    <div class="gold-inner">
-      <div class="g-eyebrow">Our Mission</div>
-      <p class="mission-text">BluIso creates <b>immediately engaging</b> action experiences built around unique player fantasies — highly authored games that respect player time, prioritize excitement, and feel unmistakably BluIso.</p>
-      <a class="btn-ink" href="#/about" data-route="about">Read the Manifesto
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </div>
-  </div>
+  <div class="wrap"><div class="rule" style="margin-top:4.5rem"></div></div>
 
-  <!-- THE ISO INFORMANT -->
-  <section class="block">
-    <div class="sect-head">
-      <div class="eyebrow">The Iso Informant</div>
-      <h2>Word from the house</h2>
-      <p class="sub">Patch notes, dev diaries, and the occasional confession from the design floor. Read-times included — every minute should matter.</p>
-      <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
-    </div>
-    <div id="homeNews"></div>
-    <div class="sect-foot"><a class="ghost-link" href="#/the-iso-informant" data-route="informant">All stories →</a></div>
+  <!-- Mission -->
+  <section class="mission wrap">
+    <span class="eyebrow">Our mission</span>
+    <p class="statement">We build worlds one block at a time — handcrafted isometric games with heart, depth, and a golden thread of wonder running through every tile.</p>
+    <a class="btn btn-gold" href="#/about">Learn more
+      <svg width="16" height="12" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5-5 5M17 6H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
   </section>
 </div>
 
-<!-- ================= GAMES / THE DECK ================= -->
+<!-- ================= GAMES ================= -->
 <div class="page" id="page-games">
-  <div class="page-hero">
-    <div class="eyebrow">Games</div>
-    <h1>The <em>Deck</em></h1>
-    <p class="lede">Six fantasies and counting. Shooters, horrors, kingdoms, machines — the genre changes, the philosophy doesn't. Draw a card to open its page.</p>
-    <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
-  </div>
-  <section class="block" style="padding-top:clamp(20px,3vw,40px)">
-    <div class="deck-stage" id="allDeck"></div>
-    <div class="hand-list" id="handList"></div>
+  <section class="page-head wrap">
+    <span class="eyebrow">Our games</span>
+    <h1 class="title-xl" style="margin-top:1rem">Worlds we've <span class="gold-text">built</span></h1>
+    <p class="lede" style="max-width:56ch;margin-top:1rem">Every BluIso title starts the same way: a single isometric tile, and a question about where it could lead.</p>
+  </section>
+  <section class="wrap games-grid" style="padding-top:0">
+
+    <a class="game-card" href="#/informant">
+      <svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="gc1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#241093"/><stop offset="1" stop-color="#0D0059"/></linearGradient>
+        <linearGradient id="gcg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/></linearGradient></defs>
+        <rect width="560" height="300" fill="url(#gc1)"/>
+        <g opacity=".4" fill="#EDEBFF"><circle cx="90" cy="50" r="1.6"/><circle cx="470" cy="40" r="1.5"/><circle cx="280" cy="70" r="1.4"/></g>
+        <path d="M280 250 130 175l150-75 150 75-150 75Z" fill="#1B0D85"/>
+        <path d="M130 175v28l150 75v-28l-150-75Z" fill="#140966"/>
+        <path d="M430 175v28l-150 75v-28l150-75Z" fill="#0E0452"/>
+        <path d="M240 150l40-20 40 20v56l-40 20-40-20v-56Z" fill="#140966"/>
+        <path d="M240 150l40 20 40-20-40-20-40 20Z" fill="#2C18AE"/>
+        <path d="M276 90l4-40 4 40" stroke="url(#gcg)" stroke-width="3.4" fill="none"/>
+        <circle cx="280" cy="44" r="7" fill="url(#gcg)"/>
+        <path d="M280 226l-60-30 30-15 60 30-30 15Z" fill="url(#gcg)" opacity=".9"/>
+      </svg>
+      <div class="game-meta">
+        <span class="status">In development · 2027</span>
+        <h3>Cobalt Vale</h3>
+        <p>Rebuild a shattered sky-kingdom block by block. Exploration, base-craft, and a story told entirely through the world itself.</p>
+      </div>
+    </a>
+
+    <a class="game-card" href="#/informant">
+      <svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="gc2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#160B72"/><stop offset="1" stop-color="#08003D"/></linearGradient>
+        <linearGradient id="gcg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/></linearGradient></defs>
+        <rect width="560" height="300" fill="url(#gc2)"/>
+        <g fill="#1B0D85">
+          <path d="M180 200l50-25 50 25-50 25-50-25Z"/><path d="M280 150l50-25 50 25-50 25-50-25Z"/>
+          <path d="M230 175l50-25 50 25-50 25-50-25Z" fill="#2C18AE"/>
+        </g>
+        <path d="M330 125l-6 6 56 28 6-6-56-28Z" fill="url(#gcg2)"/>
+        <circle cx="395" cy="162" r="10" fill="url(#gcg2)"/>
+        <circle cx="395" cy="162" r="20" fill="none" stroke="#FFC66A" stroke-opacity=".35" stroke-width="2"/>
+        <g opacity=".5" fill="#EDEBFF"><circle cx="120" cy="60" r="1.6"/><circle cx="440" cy="60" r="1.6"/><circle cx="280" cy="40" r="1.8"/></g>
+      </svg>
+      <div class="game-meta">
+        <span class="status">Released · 2024</span>
+        <h3>Lantern Depths</h3>
+        <p>A descent puzzler where light is currency. Guide a lone lanternkeeper through 90 hand-tiled caverns beneath the vale.</p>
+      </div>
+    </a>
+
+    <a class="game-card" href="#/informant">
+      <svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="gc3" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#241093"/><stop offset="1" stop-color="#0D0059"/></linearGradient>
+        <linearGradient id="gcg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/></linearGradient></defs>
+        <rect width="560" height="300" fill="url(#gc3)"/>
+        <g opacity=".4" fill="#EDEBFF"><circle cx="100" cy="45" r="1.5"/><circle cx="460" cy="55" r="1.6"/><circle cx="300" cy="30" r="1.4"/></g>
+        <path d="M120 220h320l-40-20H160l-40 20Z" fill="#140966"/>
+        <path d="M200 200V120l80-40 80 40v80" fill="#1B0D85"/>
+        <path d="M200 120l80 40 80-40-80-40-80 40Z" fill="#2C18AE"/>
+        <path d="M280 160v40" stroke="#0A0050" stroke-width="3"/>
+        <path d="M264 176h32v24h-32z" fill="url(#gcg3)" opacity=".9"/>
+        <path d="M236 96l44-22 44 22" fill="none" stroke="url(#gcg3)" stroke-width="4"/>
+      </svg>
+      <div class="game-meta">
+        <span class="status">Released · 2022</span>
+        <h3>Homestead Hex</h3>
+        <p>Our debut: a cozy settlement sim on a hex-tiled frontier. Trade, terraform, and keep the hearth of your town burning gold.</p>
+      </div>
+    </a>
+
   </section>
 </div>
 
-<!-- ================= INDIVIDUAL GAME ================= -->
-<div class="page" id="page-game">
-  <div class="game-spread">
-    <div class="draw-card-wrap"><span id="gameCard"></span></div>
-    <div class="gs-info">
-      <span class="gs-epi" id="gsEpi"></span>
-      <h1 id="gsTitle"></h1>
-      <p class="gs-fantasy" id="gsFantasy"></p>
-      <div class="gs-release">
-        <span id="gsReleaseLabel"></span>
-        <b id="gsReleaseValue"></b>
-      </div>
-      <div class="gs-platforms" id="gsPlatforms"></div>
-      <a class="btn" id="gsCta" href="#" target="_blank" rel="noopener">Wishlist Now</a>
-    </div>
-  </div>
-
-  <section class="block game-bio" style="padding-bottom:clamp(30px,4vw,50px)">
-    <div class="sect-head">
-      <div class="eyebrow">The Fantasy in Full</div>
-      <div class="flourish" style="margin-top:16px"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
-    </div>
-    <div id="gsBio"></div>
-  </section>
-
-  <section class="block" style="padding-top:0">
-    <div class="sect-head">
-      <div class="eyebrow">Glimpses</div>
-      <h2>Screens &amp; Trailer</h2>
-    </div>
-    <div class="showcase">
-      <button class="arrow left" id="prevMedia" aria-label="Previous media">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 4l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="capsule">
-        <div class="art-layer" id="mediaArt" aria-hidden="true"></div>
-        <span class="showcase-counter" id="mediaCounter"></span>
-      </div>
-      <button class="arrow right" id="nextMedia" aria-label="Next media">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 4l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
-  </section>
-</div>
-
-<!-- ================= ABOUT / MANIFESTO ================= -->
+<!-- ================= ABOUT ================= -->
 <div class="page" id="page-about">
-  <div class="page-hero">
-    <div class="eyebrow">About BluIso Games</div>
-    <h1>The BluIso <em>Manifesto</em></h1>
-    <p class="lede">Founded 2017. Forty-eight developers. One philosophy, written down so we can be held to it.</p>
-    <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
-  </div>
-
-  <div class="creed-full">
-    <div class="creed-item">
-      <span class="ci-num">№ 1</span>
-      <h3>Locked in… immediately.</h3>
-      <p>We believe games should capture players from the very beginning. The first moments matter. The first mechanic matters. The first encounter matters. Players should feel excitement, curiosity, tension, or joy within minutes — not hours.</p>
-      <p><b>We reject the idea that games must become fun eventually.</b></p>
+  <section class="page-head wrap">
+    <span class="eyebrow">About BluIso</span>
+    <h1 class="title-xl" style="margin-top:1rem">A studio with a <span class="gold-text">point of view</span></h1>
+  </section>
+  <section class="wrap about-grid" style="padding-top:0">
+    <div class="about-copy">
+      <p><strong>BluIso Games is an independent video game studio</strong> devoted to one perspective: the isometric view. It's the angle of dioramas and dollhouses, of strategy maps and city grids — the view that lets a player hold an entire world in their hands.</p>
+      <p>We founded the studio on a simple belief: small teams making deliberate choices can build worlds that feel bigger than their file size. Every tile in a BluIso game is placed by a person, every system designed to reward curiosity, and every world stitched through with a golden thread of wonder.</p>
+      <p>From the cozy frontier of <strong>Homestead Hex</strong> to the glowing caverns of <strong>Lantern Depths</strong> — and now the floating ruins of <strong>Cobalt Vale</strong> — we make games you can live inside for a while, and think about long after.</p>
+      <div class="stat-row">
+        <div class="stat"><b>3</b><span>Worlds built</span></div>
+        <div class="stat"><b>2019</b><span>Founded</span></div>
+        <div class="stat"><b>1</b><span>Perspective</span></div>
+      </div>
     </div>
-    <div class="creed-item">
-      <span class="ci-num">№ 2</span>
-      <h3>Action creates engagement.</h3>
-      <p>Action is not limited to combat. Action is momentum. Decision-making. Tension. Discovery. Movement. Risk.</p>
-      <p>Whether it's surviving a slasher, chasing criminals, controlling elemental powers, or fighting with a severed hand, our games are built around active participation.</p>
-      <p><b>Players should always be doing, feeling, deciding, reacting.</b></p>
-    </div>
-    <div class="creed-item">
-      <span class="ci-num">№ 3</span>
-      <h3>Fantasy comes first.</h3>
-      <p>Every BluIso game begins with a question: <b>what fantasy are we delivering?</b></p>
-      <p>The goal is not realism for its own sake. Complexity for its own sake. Systems for their own sake. The goal is making players feel like they are living a unique fantasy that only that game can provide.</p>
-    </div>
-    <div class="creed-item">
-      <span class="ci-num">№ 4</span>
-      <h3>We respect player time.</h3>
-      <p>We do not believe games need five hours to become interesting. We avoid unnecessary friction, excessive tutorials, bloated inventories, complicated build systems, and mechanics that distract from the core experience.</p>
-      <p>Every system should support the fantasy. Every mechanic should support engagement. <b>Every minute should matter.</b></p>
-    </div>
-    <div class="creed-item">
-      <span class="ci-num">№ 5</span>
-      <h3>Games should feel authored.</h3>
-      <p>Our games are not designed by committee or trends. Each project should have a strong identity, a clear voice, and a point of view.</p>
-      <p>We strive to create games that feel handcrafted and intentional — <b>experiences that could only come from BluIso.</b></p>
-    </div>
-    <div class="creed-item">
-      <span class="ci-num">№ 6</span>
-      <h3>Variety is strength.</h3>
-      <p>Genre does not define us. Our games may be shooters, horror games, action adventures, fantasy worlds, platformers, or experiences yet to be imagined.</p>
-      <p>The fantasy changes. The setting changes. The perspective changes. <b>But our philosophy remains the same.</b></p>
-    </div>
-    <div class="creed-item">
-      <span class="ci-num">№ 7</span>
-      <h3>We believe in thrills.</h3>
-      <p>Games should make players lean forward. They should create excitement, tension, satisfaction, wonder, fear, adrenaline, curiosity, and joy.</p>
-      <p>We want players to sit down and quickly realize: <b>"I need to see where this goes."</b></p>
-    </div>
-  </div>
-
-  <div class="gold-band" style="margin-top:clamp(60px,8vw,100px)">
-    <div class="gold-inner">
-      <div class="g-eyebrow">Our Mission</div>
-      <p class="mission-text">BluIso creates <b>immediately engaging</b> action experiences built around unique player fantasies — highly authored games that respect player time, prioritize excitement, and feel unmistakably BluIso.</p>
-    </div>
-  </div>
-
-  <div class="stat-band">
-    <div class="stat-band-inner">
-      <div class="stat"><b>2017</b><span>The house founded</span></div>
-      <div class="stat"><b>6</b><span>Cards in the deck</span></div>
-      <div class="stat"><b>48</b><span>Developers worldwide</span></div>
-      <div class="stat"><b>12M+</b><span>Players locked in</span></div>
-    </div>
-  </div>
-
-  <section class="block">
-    <div class="sect-head">
-      <div class="eyebrow">The road so far</div>
-      <h2>A brief history of the house</h2>
-      <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
-    </div>
-    <div class="timeline">
-      <div class="t-item"><span class="news-date">2017</span><div><h3>Three level designers rent one desk</h3><p>BluIso Games is founded in a shared studio space with a single license of a game engine and a very strong opinion about first impressions.</p></div><span class="news-cat">Origin</span></div>
-      <div class="t-item"><span class="news-date">2019</span><div><h3>Gridlock ships and finds its people</h3><p>Our debut puzzle title sells modestly, then explodes a year later when speedrunners discover the unintended diagonal-dash. We patch it in as a feature.</p></div><span class="news-cat">Milestone</span></div>
-      <div class="t-item"><span class="news-date">2022</span><div><h3>Vaultbreakers goes live</h3><p>Our co-op heist game launches with 40,000 concurrent players on day one and becomes the studio's flagship live title.</p></div><span class="news-cat">Milestone</span></div>
-      <div class="t-item"><span class="news-date">2026</span><div><h3>Neon Delta announced</h3><p>Our most ambitious project — a full open-world city — enters pre-order alongside the launch of BluIso Publishing.</p></div><span class="news-cat">Now</span></div>
+    <div class="values">
+      <div class="value"><h3>Handcrafted, always</h3><p>No procedural filler. If a tile exists in our worlds, someone on the team put it there on purpose.</p></div>
+      <div class="value"><h3>Depth over noise</h3><p>Quiet systems that reward attention. Our games ask questions instead of shouting answers.</p></div>
+      <div class="value"><h3>Players are guests</h3><p>We build worlds worth visiting — no dark patterns, no manipulative economies, no wasted time.</p></div>
+      <div class="value"><h3>The golden thread</h3><p>Every BluIso game hides one strand of gold: a mystery that connects our worlds to each other.</p></div>
     </div>
   </section>
 </div>
 
 <!-- ================= THE ISO INFORMANT ================= -->
 <div class="page" id="page-informant">
-  <div class="page-hero">
-    <div class="eyebrow">The Iso Informant</div>
-    <h1>Word from <em>the house</em></h1>
-    <p class="lede">Patch notes, dev diaries, release dates, and the occasional confession from the design floor. Read-times included — every minute should matter.</p>
-    <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
-  </div>
-  <section class="block" style="padding-top:clamp(18px,3vw,38px)">
-    <div id="allNews"></div>
+  <section class="page-head wrap">
+    <span class="eyebrow">The Iso Informant</span>
+    <h1 class="title-xl" style="margin-top:1rem">News from the <span class="gold-text">studio floor</span></h1>
   </section>
-</div>
-
-<!-- ================= ARTICLE ================= -->
-<div class="page" id="page-article">
-  <div class="article-hero">
-    <a class="back-link" href="#/the-iso-informant" data-route="informant">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      The Iso Informant
-    </a>
-    <div class="eyebrow" id="artCat"></div>
-    <h1 id="artTitle"></h1>
-    <div class="article-meta" id="artDate"></div>
-    <div class="flourish"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.6" fill="#FFC66A"/><circle cx="7" cy="7" r="5.6" stroke="#E4963B" stroke-width="1"/></svg></div>
-  </div>
-  <div class="article-body" id="artBody"></div>
+  <section class="wrap" style="padding-top:0">
+    <article class="article-feature" id="featured-article">
+      <div class="body">
+        <span class="byline">Announcement · August 12, 2026 · BluIso Games</span>
+        <h2>GAME <span class="gold-text">ANNOUNCED:</span> COBALT VALE</h2>
+        <p><strong>Today we're thrilled to announce our third and most ambitious world: Cobalt Vale.</strong> Set among the floating ruins of a kingdom that chose the sky over the ground, Cobalt Vale is an isometric odyssey about restoration — of places, of machines, and of the people who abandoned both.</p>
+        <p>You play the Vale's last Mason, armed with a chisel, a glider, and a ledger of everything the kingdom lost. Every block you place rewrites the world below: reroute a river on one island and a garden blooms on another. The Vale remembers everything you build.</p>
+        <p>Cobalt Vale has been in quiet development for eighteen months and enters full production this fall. It is targeting a 2027 release on PC and consoles. Sharp-eyed players of Lantern Depths may already suspect where the golden thread leads this time.</p>
+        <p>We'll be sharing development diaries right here on The Iso Informant every month until launch. Thank you, as always, for visiting our worlds.</p>
+        <span class="byline" style="color:var(--gold-1)">— The BluIso Team</span>
+      </div>
+    </article>
+    <div class="article-list">
+      <article class="article-card">
+        <span class="byline">Dev Diary · July 2026</span>
+        <h3>How we light an isometric cavern</h3>
+        <p>A technical look back at Lantern Depths' lighting system, and why we simulated every candle by hand.</p>
+      </article>
+      <article class="article-card">
+        <span class="byline">Studio · June 2026</span>
+        <h3>Homestead Hex passes one million settlers</h3>
+        <p>Our debut town-builder reaches a milestone we never dared put on the roadmap. Thank you.</p>
+      </article>
+      <article class="article-card">
+        <span class="byline">Community · May 2026</span>
+        <h3>The golden thread: your best theories</h3>
+        <p>We read every theory about what connects our worlds. A few of you are closer than you know.</p>
+      </article>
+    </div>
+  </section>
 </div>
 </main>
 
 <!-- ================= FOOTER ================= -->
 <footer>
-  <div class="footer-inner">
-    <a class="footer-brand" href="#/" data-route="home" aria-label="BluIso Games — home">
-      <span class="mark-wrap">
-        <svg viewBox="0 0 48 48" aria-hidden="true">
-          <g fill="none" stroke="#FFC66A" stroke-width="2.6" stroke-linejoin="round">
-            <path d="M24 4 42 14v20L24 44 6 34V14z"/><path d="M6 14l18 10 18-10M24 24v20"/>
-          </g>
-          <path d="M24 14l8.5 4.8v9L24 32.5l-8.5-4.7v-9z" fill="#E4963B" opacity=".9"/>
-        </svg>
-      </span>
-    </a>
-
-    <div class="footer-center">
-      <a class="btn" href="mailto:contact@bluisogames.com">Contact Us
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4l6 4.5L14 4M2.5 3h11a1 1 0 011 1v8a1 1 0 01-1 1h-11a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div class="wrap">
+    <span class="eyebrow" style="justify-content:center;display:inline-flex">Get in touch</span>
+    <h2 class="title-xl" style="margin:1rem 0 1.8rem">Say hello to the <span class="gold-text">studio</span></h2>
+    <a class="btn btn-gold" href="mailto:contact@bluisogames.com">Contact us</a>
+    <div class="socials">
+      <a class="social" href="https://www.youtube.com/@bluisogames" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12c0 1.9.2 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.3-1.9.5-3.9.5-5.8s-.2-3.9-.5-5.8ZM9.6 15.6V8.4L15.8 12l-6.2 3.6Z"/></svg>
       </a>
-      <div class="socials" aria-label="Social media">
-        <a href="https://www.youtube.com/@bluisogames" target="_blank" rel="noopener" aria-label="YouTube">
-          <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2 31.3 31.3 0 000 12a31.3 31.3 0 00.5 5.8 3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1A31.3 31.3 0 0024 12a31.3 31.3 0 00-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z"/></svg>
-        </a>
-        <a href="https://www.tiktok.com/@bluisogames" target="_blank" rel="noopener" aria-label="TikTok">
-          <svg viewBox="0 0 24 24"><path d="M19.6 5.8a5.6 5.6 0 01-3.4-3.7 5.8 5.8 0 01-.2-1.4h-3.8v14.6a3.2 3.2 0 11-2.3-3.1V8.3a7 7 0 00-1-.1 7 7 0 107 7V9.2a9.3 9.3 0 005.1 1.5V7a5.6 5.6 0 01-1.4-.2 5.6 5.6 0 01-.9-1z" transform="translate(1.4 1.6)"/></svg>
-        </a>
-        <a href="https://www.facebook.com/bluisogames" target="_blank" rel="noopener" aria-label="Facebook">
-          <svg viewBox="0 0 24 24"><path d="M24 12a12 12 0 10-13.9 11.9v-8.4H7.1V12h3v-2.6c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.3l-.5 3.5h-2.8v8.4A12 12 0 0024 12z"/></svg>
-        </a>
-        <a href="https://www.instagram.com/bluisogames" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2 0 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c0 1.2-.2 1.8-.4 2.2a3.8 3.8 0 01-.9 1.4c-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2 0-1.8-.2-2.2-.4a3.8 3.8 0 01-1.4-.9 3.8 3.8 0 01-.9-1.4c-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c0-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1 0-1.7.2-2.1.4-.5.2-.9.4-1.2.8-.4.3-.6.7-.8 1.2-.2.4-.4 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c0 1.1.2 1.7.4 2.1.2.5.4.9.8 1.2.3.4.7.6 1.2.8.4.2 1 .4 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1 0 1.7-.2 2.1-.4.5-.2.9-.4 1.2-.8.4-.3.6-.7.8-1.2.2-.4.4-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c0-1.1-.2-1.7-.4-2.1a3 3 0 00-.8-1.2 3 3 0 00-1.2-.8c-.4-.2-1-.4-2.1-.4-1.2-.1-1.6-.1-4.7-.1zm0 3a5 5 0 110 10 5 5 0 010-10zm0 8.3a3.3 3.3 0 100-6.6 3.3 3.3 0 000 6.6zm6.4-8.5a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z"/></svg>
-        </a>
-        <a href="https://bsky.app/profile/bluisogames.com" target="_blank" rel="noopener" aria-label="Bluesky">
-          <svg viewBox="0 0 24 24"><path d="M5.2 3.9C7.9 5.9 10.8 10 12 12.2c1.2-2.2 4.1-6.3 6.8-8.3 2-1.5 5.2-2.6 5.2 1 0 .7-.4 6-.7 6.9-.8 3-3.9 3.8-6.6 3.3 4.8.8 6 3.5 3.4 6.2-5 5.1-7.2-1.3-7.9-2.9-.1-.3-.2-.5-.2-.4 0-.1-.1.1-.2.4-.7 1.6-2.9 8-7.9 2.9-2.6-2.7-1.4-5.4 3.4-6.2-2.7.5-5.8-.3-6.6-3.3-.3-.9-.7-6.2-.7-6.9 0-3.6 3.2-2.5 5.2-1z"/></svg>
-        </a>
-        <a href="https://x.com/bluisogames" target="_blank" rel="noopener" aria-label="X (Twitter)">
-          <svg viewBox="0 0 24 24"><path d="M18.9 1.2h3.7l-8.1 9.3L24 23.1h-7.5l-5.9-7.7-6.7 7.7H.2l8.7-9.9L-.1 1.2h7.7l5.3 7 6-7zm-1.3 19.7h2L6.5 3.3h-2.2l13.3 17.6z"/></svg>
-        </a>
-      </div>
+      <a class="social" href="https://www.tiktok.com/@bluisogames" target="_blank" rel="noopener" aria-label="TikTok">
+        <svg viewBox="0 0 24 24"><path d="M19.6 5.8a5.6 5.6 0 0 1-3.4-3.7c-.1-.4-.1-.8-.1-1.2h-3.8v14.7a3.2 3.2 0 1 1-2.3-3.1V8.6a7 7 0 1 0 6.1 6.9V8.5a9.3 9.3 0 0 0 5.1 1.5V6.3c-.5 0-1.1-.2-1.6-.5Z"/></svg>
+      </a>
+      <a class="social" href="https://www.facebook.com/bluisogames" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3v-2.6c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.3l-.5 3.5h-2.8v8.4A12 12 0 0 0 24 12Z"/></svg>
+      </a>
+      <a class="social" href="https://www.instagram.com/bluisogames" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2 0 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.2 1.8-.4 2.2a3.8 3.8 0 0 1-2.3 2.3c-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.2-2.2-.4a3.8 3.8 0 0 1-2.3-2.3c-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1ZM12 0C8.7 0 8.3 0 7 .1 5.7.2 4.9.4 4.1.7a6 6 0 0 0-2.2 1.4A6 6 0 0 0 .7 4.3C.4 5 .2 5.8.1 7.1 0 8.4 0 8.8 0 12s0 3.6.1 4.9c.1 1.3.3 2.1.6 2.9.3.8.7 1.5 1.4 2.2a6 6 0 0 0 2.2 1.4c.8.3 1.6.5 2.9.6 1.3.1 1.7.1 4.9.1s3.6 0 4.9-.1c1.3-.1 2.1-.3 2.9-.6a6 6 0 0 0 2.2-1.4 6 6 0 0 0 1.4-2.2c.3-.8.5-1.6.6-2.9.1-1.3.1-1.7.1-4.9s0-3.6-.1-4.9c-.1-1.3-.3-2.1-.6-2.9a6 6 0 0 0-1.4-2.2A6 6 0 0 0 19.9.7c-.8-.3-1.6-.5-2.9-.6C15.6 0 15.2 0 12 0Zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4Zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8ZM19.8 5.6a1.4 1.4 0 1 1-2.9 0 1.4 1.4 0 0 1 2.9 0Z"/></svg>
+      </a>
+      <a class="social" href="https://bsky.app/profile/bluisogames.com" target="_blank" rel="noopener" aria-label="Bluesky">
+        <svg viewBox="0 0 24 24"><path d="M5.2 2.9C8 5 10.9 9.2 12 11.5c1.1-2.3 4-6.5 6.8-8.6C20.8 1.4 24 .2 24 4c0 .8-.4 6.3-.7 7.2-.9 3.2-4.2 4-7.1 3.5 5.1.9 6.4 3.8 3.6 6.7-5.3 5.6-7.6-1.4-7.7-3.2-.1 1.8-2.4 8.8-7.7 3.2-2.8-2.9-1.5-5.8 3.6-6.7-2.9.5-6.2-.3-7.1-3.5C.4 10.3 0 4.8 0 4 0 .2 3.2 1.4 5.2 2.9Z"/></svg>
+      </a>
+      <a class="social" href="https://x.com/bluisogames" target="_blank" rel="noopener" aria-label="X (Twitter)">
+        <svg viewBox="0 0 24 24"><path d="M18.2 1h3.5l-7.7 8.8L23 22h-7.1l-5.6-7.3L4 22H.5l8.2-9.4L.3 1h7.3l5 6.7L18.2 1Zm-1.2 18.9h2L6.5 3H4.4l12.6 16.9Z"/></svg>
+      </a>
     </div>
-    <span aria-hidden="true"></span>
+    <p class="copyright">©BluIso Games. All Rights Reserved.</p>
   </div>
-  <div class="footer-motto">We deal in fantasies</div>
-  <div class="footer-base">© 2026 BluIso Games. All rights reserved.</div>
 </footer>
 
 <script>
-/* ============ Data ============ */
-const ROMAN = ["I","II","III","IV","V","VI","VII","VIII","IX","X"];
-const GAMES = [
-  {slug:"neon-delta", tag:"Pre-Order", title:"Neon Delta", art:"cityGold", epithet:"The Fixer",
-   fantasy:"Case the city from above. Rob it from every angle.",
-   releaseLabel:"Coming", releaseValue:"Winter 2026", cta:"Pre-Order Now", ctaLink:"https://example.com/preorder/neon-delta",
-   platforms:["PC","PlayStation 5","Xbox Series X|S"],
-   bio:[
-    "Delta City has three rules: everything is for sale, everyone is watching, and nothing on the blueprint is ever quite where the blueprint says. Neon Delta drops you into a fully open metropolis as a fixer building the heist crew of a lifetime — one rooftop, one favor, and one betrayal at a time.",
-    "Every building in the city has an interior. Every interior has a blueprint. And every blueprint has a flaw you can exploit — a vent that was never sealed, a camera with a four-second blind spot, a guard who takes the same cigarette break at 2:40 a.m. Case your target in real time, then execute from every angle at once.",
-    "Built on four years of hand-drawn level design and our new Hour Grid lighting system, Delta City runs from golden dawn to neon midnight in a continuous ninety-minute cycle — and the city you rob at noon is not the city you escape at 3 a.m."
-   ]},
-  {slug:"vaultbreakers", tag:"Live Service", title:"Vaultbreakers", art:"vault", epithet:"The Crew",
-   fantasy:"Be the crew the blueprint fears.",
-   releaseLabel:"Available", releaseValue:"Now — Season 4", cta:"Buy Now", ctaLink:"https://example.com/buy/vaultbreakers",
-   platforms:["PC","PlayStation 5","Xbox Series X|S"],
-   bio:[
-    "One vault. Four specialists. Zero excuses. Vaultbreakers is a co-op heist game where the map is the puzzle — every job hands your crew a live blueprint of the target, and how you carve a path through it is entirely up to you.",
-    "Play as the Ghost, the Wrench, the Face, or the Eye, each with tools that reshape the blueprint itself: cut power grids floor by floor, talk your way past checkpoints, or perch on the map's edge calling guard rotations for your crew in real time.",
-    "Now in Season 4: The Midnight Ledger — a nine-floor raid inside a bank that only exists between midnight and 6 a.m., plus Ranked Infiltration, where two crews hit the same vault at once. Every season, every map, every mode: free for all players since launch."
-   ]},
-  {slug:"gridlock", tag:"Available Now", title:"Gridlock", art:"puzzle", epithet:"The Machine",
-   fantasy:"Think like a machine that only moves when you do.",
-   releaseLabel:"Available", releaseValue:"Now", cta:"Buy Now", ctaLink:"https://example.com/buy/gridlock",
-   platforms:["PC","Mobile","Nintendo Switch"],
-   bio:[
-    "Nothing moves unless you do. Gridlock is a pure puzzle game built from 120 hand-crafted dioramas — tiny clockwork worlds where every step you take ticks the whole machine forward one beat.",
-    "Guards patrol, doors cycle, platforms slide — but only when you move. Standing still is thinking time, and Gridlock gives you all of it you want. The result is a puzzle game that feels like chess played inside a music box.",
-    "Five years after launch, Gridlock is still growing: the legendary diagonal-dash (a speedrunner-discovered bug we canonized into a mechanic) now has its own challenge track, and our annual community design contest ships new dioramas to every platform, free."
-   ]},
-  {slug:"hollow-crown", tag:"Available Now", title:"Hollow Crown: Reckoning", art:"crown", epithet:"The Crown",
-   fantasy:"Hold a kingdom that is sinking beneath you.",
-   releaseLabel:"Available", releaseValue:"Now", cta:"Buy Now", ctaLink:"https://example.com/buy/hollow-crown",
-   platforms:["PC","PlayStation 5","Xbox Series X|S"],
-   bio:[
-    "The castle of Vessel is sinking — one floor per year, swallowed by whatever sleeps beneath it. Hollow Crown: Reckoning is a tactics RPG where every battle map is a literal cross-section of the castle itself, and the ground your squad fights on today will be gone by next season.",
-    "Command a company of the crown's last loyalists through a 60-hour campaign where positioning is everything: collapse ceilings onto entrenched enemies, fight up spiral stairwells, and hold throne rooms that are visibly tilting into the dark.",
-    "With a branching story shaped by which floors — and which soldiers — you choose to save, no two campaigns sink the same way."
-   ]},
-  {slug:"skyline-syndicate", tag:"Available Now", title:"Skyline Syndicate", art:"skyline", epithet:"The Syndicate",
-   fantasy:"Rule a city that never looks up.",
-   releaseLabel:"Available", releaseValue:"Now", cta:"Buy Now", ctaLink:"https://example.com/buy/skyline-syndicate",
-   platforms:["PC"],
-   bio:[
-    "The streets belong to the police. The rooftops belong to you. Skyline Syndicate is a city-management sim with a noir streak, where your criminal empire grows across the tops of buildings — smuggling lines strung between water towers, casinos hidden in penthouse greenhouses, informants perched on fire escapes.",
-    "Balance heat and profit district by district: expand too fast and the spotlights find you; too slow and rival syndicates string their own lines through your sky. Every rooftop you claim reshapes the city's silhouette — literally.",
-    "Featuring a reactive jazz score that thins out as the heat rises, and a city of 4,000 rooftops that has never once been conquered the same way twice."
-   ]},
-  {slug:"project-lantern", tag:"In Development", title:"Project Lantern", art:"lantern", epithet:"The Unrevealed", hidden:true,
-   fantasy:"This card stays face-down. For now.",
-   releaseLabel:"In", releaseValue:"Development", cta:"Wishlist Now", ctaLink:"https://example.com/wishlist/project-lantern",
-   platforms:["Platforms TBA"],
-   bio:[
-    "We can't tell you much about Project Lantern yet. We can tell you it's the smallest team we've ever assembled, working on the strangest idea we've ever greenlit, and that the working build makes people go quiet in a way we've learned to trust.",
-    "It bends our rules in a way none of our games ever has. More at this year's showcase.",
-    "Wishlist it now and you'll be the first to know when the card turns over."
-   ]},
-];
-
-const NEWS = [
-  {slug:"neon-delta-preorders", date:"Jun 28, 2026", cat:"Release", title:"Neon Delta pre-orders are live",
-   desc:"The standard, deluxe, and Grid Architect editions are available now, with early-access weekends for all pre-orders this fall.",
-   body:[
-    "It's real, it's happening, and as of this morning you can put your name on it: Neon Delta pre-orders are now open across PC and console storefronts, in three editions built for three very different kinds of player.",
-    "The Standard Edition gets you the full game at launch this winter. The Deluxe Edition adds the Delta City Architect Pack — a set of exclusive safehouse interiors, three signature vehicles, and the original score. And the Grid Architect Edition, our collector's tier, includes everything above plus a printed atlas of Delta City's full map, signed by the level design team who spent four years drawing it.",
-    "Every pre-order, regardless of edition, includes access to our early-access weekends this fall. These aren't demos — they're full districts of the live city, and your progress carries into launch. We want thousands of players stress-testing rooftops before day one, and we'd rather they be you.",
-    "Neon Delta is the biggest thing this studio has ever attempted: a fully open city where every building has an interior, every interior has a blueprint, and every blueprint has a flaw you can exploit. We can't wait to see what you do with it."
-   ]},
-  {slug:"midnight-ledger", date:"Jun 19, 2026", cat:"Update", title:"Vaultbreakers Season 4: The Midnight Ledger",
-   desc:"A new co-op raid, ranked infiltration, and the biggest map in Vaultbreakers history — free for everyone.",
-   body:[
-    "Season 4 of Vaultbreakers is live today, and it's the largest free update we've ever shipped. The headline: The Midnight Ledger, a four-player raid set inside a bank that only exists between midnight and 6 a.m.",
-    "The Ledger is our most vertical map to date — nine floors of rotating vault architecture where the layout literally reshuffles every in-game hour. Your crew will need to memorize patterns, not routes. Bring a planner, or better yet, be one.",
-    "Season 4 also introduces Ranked Infiltration, a competitive mode where two crews hit the same target simultaneously. First out with the score wins; alert the guards and both crews lose. It's tense, it's mean, and internal playtests have already ended three office friendships.",
-    "As always, everything in this update is free for every Vaultbreakers player. No season pass, no paid unlock, no asterisk. Patch notes with the full balance pass are available in-game. See you at midnight."
-   ]},
-  {slug:"bluiso-publishing", date:"Jun 05, 2026", cat:"Studio", title:"Introducing BluIso Publishing",
-   desc:"We're opening our pipeline, tools, and funding to independent teams building authored action fantasies. Pitches open July 1.",
-   body:[
-    "For nine years we've built games with a small team and a strong opinion. Starting today, we're offering both to other developers: BluIso Publishing is officially open.",
-    "Here's the shape of it. We fund, we provide our internal toolchain — including GridKit, the level editor behind every game we've shipped since Gridlock — and we handle porting, QA, and storefront logistics. You keep your IP. That last sentence is not a typo, and it's not negotiable in your favor or ours: your game stays yours.",
-    "What are we looking for? Projects with a clear fantasy and a point of view. We don't care if it's a farming sim, a horror game, or something that has no genre yet. If the idea is sharp and the first five minutes grab, we want to see it.",
-    "Pitches open July 1 through the contact address at the bottom of this site. Send a one-page pitch and anything playable, however rough. A human on our greenlight team reads every submission — and yes, we've greenlit games off a GIF before."
-   ]},
-  {slug:"lighting-dev-diary", date:"May 22, 2026", cat:"Dev Diary", title:"How we light a city that has no sky",
-   desc:"Our lead environment artist on faking a sunset in a world where the camera never looks up.",
-   body:[
-    "Here's a strange problem: in our games, the player rarely sees the sky. But they absolutely see the sunset. So where does it live? In this dev diary, our lead environment artist walks through how Neon Delta fakes a sky it never shows.",
-    "The answer is that the sunset lives in everything else. Long gold rim-light on the east face of every building. Windows that shift from mirror-blue to ember over ninety real-time minutes. Shadows that stretch across intersections like they're reaching for something. The sky in Neon Delta is a rumor the whole city agrees to spread.",
-    "Technically, this runs on what we internally call the Hour Grid — a global lighting table that every material in the city samples from. One table, four thousand buildings, zero baked lightmaps. When we shift the table two rows, the whole city ages twenty minutes.",
-    "The result is a city that feels like it has weather, time, and a mood — from a camera angle that should make all three impossible. We think it's some of the best work this team has ever done, and we hope you'll feel it before you ever notice it."
-   ]},
-  {slug:"gridlock-3-2", date:"May 08, 2026", cat:"Patch", title:"Gridlock 3.2 — the diagonal-dash turns five",
-   desc:"An anniversary patch for the bug that became a feature, plus 10 new community-designed dioramas.",
-   body:[
-    "Five years ago this week, a speedrunner named pixel_theo clipped a corner in Gridlock's diorama 47, slid diagonally across two tiles, and broke our game — and our understanding of it — forever. Today's 3.2 patch celebrates that accident.",
-    "The diagonal-dash, which we officially canonized as a mechanic back in 2021, now has its own dedicated challenge track: 15 dioramas designed to be impossible without it. They were built by our design team while watching five years of speedrun footage, which we can confirm is the most humbling professional experience available to a level designer.",
-    "The patch also ships 10 new community-designed dioramas from our annual design contest, each credited to its creator on the loading screen, plus the usual round of fixes — including, ironically, three new movement bugs we found while building the dash levels. Two of them were boring. The third one we're keeping. You'll know it when you find it.",
-    "Gridlock 3.2 is free on all platforms today. Happy dashing, and thank you, theo."
-   ]},
-  {slug:"twelve-million", date:"Apr 30, 2026", cat:"Studio", title:"BluIso crosses 12 million players",
-   desc:"A thank-you letter from the founders, and a look at what the next decade holds.",
-   body:[
-    "Sometime last Tuesday, quietly, without a sound effect or an achievement popping, the twelve millionth player logged into a BluIso game. We only noticed on Thursday. We haven't stopped smiling since.",
-    "When the three of us founded this studio in 2017, our business plan was one shared desk, one engine license, and the theory that other people might love immediately engaging games as unreasonably as we did. Twelve million of you have now confirmed the theory. That's not a metric to us — that's twelve million people who sat down, and within minutes, decided they needed to see where it goes.",
-    "So what does the next decade look like? Neon Delta this winter. BluIso Publishing lifting up teams we can't wait for you to meet. And at least one card so small and strange we're not sure it's a game yet — it's the one still face-down on the table, and it'll turn itself over when it's ready.",
-    "Thank you for every heist, every diorama, every impossible dash. Stay locked in. — The founders"
-   ]},
-];
-
-const BULLETINS = [
-  {text:"Neon Delta pre-orders are live", href:"#/the-iso-informant/neon-delta-preorders"},
-  {text:"Vaultbreakers Season 4 is out now", href:"#/the-iso-informant/midnight-ledger"},
-  {text:"BluIso Publishing — pitches open July 1", href:"#/the-iso-informant/bluiso-publishing"},
-];
-
-/* ============ Placeholder key art ============ */
-function artSVG(kind, uid){
-  const gid = "g-" + kind + (uid ? "-" + uid : "");
-  const defs = `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/></linearGradient></defs>`;
-  const base = (bg, inner) => `<svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice">${defs}<rect width="640" height="360" fill="${bg}"/>${inner}</svg>`;
-  const G = `url(#${gid})`;
-  switch(kind){
-    case "cityGold": return base("#1B0B8F", `<circle cx="450" cy="230" r="110" fill="${G}" opacity=".9"/><g fill="#0A0345"><rect x="60" y="180" width="42" height="180"/><rect x="115" y="140" width="34" height="220"/><rect x="500" y="160" width="40" height="200"/><rect x="555" y="200" width="50" height="160"/></g><g fill="#FFC66A" opacity=".5"><rect x="70" y="210" width="7" height="7"/><rect x="125" y="170" width="7" height="7"/><rect x="510" y="190" width="7" height="7"/><rect x="565" y="230" width="7" height="7"/></g>`);
-    case "vault": return base("#160B78", `<g transform="translate(320,180)" fill="none" stroke="${G}" stroke-width="3"><circle r="82"/><circle r="54"/><path d="M0 -82v20M0 62v20M-82 0h20M62 0h20M-58 -58l14 14M44 44l14 14M58 -58l-14 14M-44 44l-14 14"/></g><circle cx="320" cy="180" r="14" fill="${G}"/>`);
-    case "puzzle": return base("#0D0059", `<g transform="translate(320,185)"><g fill="none" stroke="${G}" stroke-width="2.5" stroke-linejoin="round"><rect x="-95" y="-95" width="190" height="190" rx="10"/><path d="M-95 -32h190M-95 32h190M-32 -95v190M32 -95v190"/></g><rect x="-32" y="-32" width="64" height="64" rx="6" fill="${G}" opacity=".5"/></g>`);
-    case "crown": return base("#231085", `<g transform="translate(320,190)" stroke="${G}" stroke-width="3" fill="none" stroke-linejoin="round"><path d="M-90 50 L-90 -30 L-45 10 L0 -60 L45 10 L90 -30 L90 50 Z"/><path d="M-90 68 L90 68"/></g><circle cx="320" cy="130" r="7" fill="${G}"/>`);
-    case "skyline": return base("#05002B", `<g fill="#160B78" stroke="#FFC66A" stroke-width="1"><rect x="80" y="140" width="70" height="220"/><rect x="180" y="90" width="60" height="270"/><rect x="270" y="170" width="90" height="190"/><rect x="390" y="110" width="65" height="250"/><rect x="485" y="180" width="80" height="180"/></g><g fill="#FFC66A" opacity=".7"><rect x="95" y="160" width="7" height="7"/><rect x="195" y="115" width="7" height="7"/><rect x="215" y="150" width="7" height="7"/><rect x="405" y="135" width="7" height="7"/><rect x="500" y="200" width="7" height="7"/><rect x="290" y="195" width="7" height="7"/></g>`);
-    case "lantern": return base("#05002B", `<g transform="translate(320,180)"><circle r="90" fill="${G}" opacity=".12"/><circle r="55" fill="${G}" opacity=".18"/><circle r="26" fill="${G}" opacity=".55"/></g>`);
-    default: return base("#0D0059", "");
-  }
+// ---------- Hash routing ----------
+const pages = {
+  '/': 'page-home',
+  '/games': 'page-games',
+  '/about': 'page-about',
+  '/informant': 'page-informant'
+};
+function route(){
+  const hash = location.hash.replace('#','') || '/';
+  const id = pages[hash] || 'page-home';
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  closeMenu();
+  window.scrollTo({top:0, behavior:'instant'});
 }
-function mediaSVG(kind, i, uid){
-  const crops = ["0 0 640 360","140 60 400 225","40 110 420 236","230 30 380 214"];
-  let s = artSVG(kind, uid).replace('viewBox="0 0 640 360"', `viewBox="${crops[i]}"`);
-  if(i === 0){
-    const play = `<g><circle cx="320" cy="180" r="46" fill="rgba(5,0,43,.55)" stroke="#FFC66A" stroke-width="2.5"/><path d="M306 160l42 20-42 20z" fill="#FFC66A"/></g>`;
-    s = s.replace("</svg>", play + "</svg>");
-  }
-  return s;
-}
+window.addEventListener('hashchange', route);
 
-/* ============ Card back: gold quatrefoil filigree + emblem ============ */
-function cardBackSVG(uid){
-  return `<svg viewBox="0 0 250 350" preserveAspectRatio="none" aria-hidden="true">
-    <defs>
-      <linearGradient id="cbg-${uid}" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#FFC66A"/><stop offset="1" stop-color="#E4963B"/>
-      </linearGradient>
-      <pattern id="cbp-${uid}" width="30" height="30" patternUnits="userSpaceOnUse">
-        <circle cx="0" cy="15" r="10" fill="none" stroke="#E4963B" stroke-width="1" opacity=".4"/>
-        <circle cx="30" cy="15" r="10" fill="none" stroke="#E4963B" stroke-width="1" opacity=".4"/>
-        <circle cx="15" cy="0" r="10" fill="none" stroke="#E4963B" stroke-width="1" opacity=".4"/>
-        <circle cx="15" cy="30" r="10" fill="none" stroke="#E4963B" stroke-width="1" opacity=".4"/>
-        <circle cx="15" cy="15" r="1.4" fill="#FFC66A" opacity=".6"/>
-      </pattern>
-    </defs>
-    <rect width="250" height="350" rx="16" fill="#0A0345"/>
-    <rect x="11" y="11" width="228" height="328" rx="10" fill="url(#cbp-${uid})" stroke="#E4963B" stroke-width="1.2"/>
-    <rect x="17" y="17" width="216" height="316" rx="8" fill="none" stroke="#FFC66A" stroke-width="0.8" opacity=".5"/>
-    <circle cx="125" cy="168" r="52" fill="#0A0345" stroke="url(#cbg-${uid})" stroke-width="1.6"/>
-    <circle cx="125" cy="168" r="59" fill="none" stroke="#E4963B" stroke-width="0.8" opacity=".6"/>
-    <g transform="translate(101,144)">
-      <g fill="none" stroke="url(#cbg-${uid})" stroke-width="2.6" stroke-linejoin="round">
-        <path d="M24 4 42 14v20L24 44 6 34V14z"/><path d="M6 14l18 10 18-10M24 24v20"/>
-      </g>
-      <path d="M24 14l8.5 4.8v9L24 32.5l-8.5-4.7v-9z" fill="url(#cbg-${uid})" opacity=".9"/>
-    </g>
-  </svg>`;
+// ---------- Menu ----------
+const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
+function closeMenu(){
+  burger.classList.remove('open');
+  menu.classList.remove('open');
+  burger.setAttribute('aria-expanded','false');
+  burger.setAttribute('aria-label','Open menu');
 }
-
-/* ============ Card builder ============ */
-function cardHTML(g, i, uid){
-  const epi = "\u2116 " + ROMAN[i] + " \u2014 " + g.epithet;
-  if(g.hidden){
-    return `<div class="card is-back tiltable">${cardBackSVG(uid + i)}
-      <span class="back-epi">${epi}</span>
-      <div class="card-foil"></div>
-    </div>`;
-  }
-  return `<div class="card tiltable">
-    <div class="card-art" aria-hidden="true">${artSVG(g.art, uid + i)}</div>
-    <div class="card-epi">${epi}</div>
-    <div class="card-title">${g.title}</div>
-    <div class="card-fant">\u201C${g.fantasy}\u201D</div>
-    <div class="card-foil"></div>
-  </div>`;
-}
-
-/* ============ Helpers ============ */
-const pad2 = n => String(n).padStart(2,"0");
-function readTime(n){
-  const words = (n.body.join(" ").match(/\S+/g) || []).length;
-  return Math.max(1, Math.round(words / 200)) + " min read";
-}
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const canHover = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
-
-/* ============ Card tilt (3D follow-cursor) ============ */
-function bindTilt(scope){
-  if(reduceMotion || !canHover) return;
-  (scope || document).querySelectorAll(".tiltable").forEach(card=>{
-    if(card.dataset.tiltBound) return;
-    card.dataset.tiltBound = "1";
-    card.addEventListener("mousemove", e=>{
-      const r = card.getBoundingClientRect();
-      const dx = (e.clientX - r.left)/r.width - .5;
-      const dy = (e.clientY - r.top)/r.height - .5;
-      card.style.transform = `rotateY(${dx*10}deg) rotateX(${dy*-10}deg)`;
-    });
-    card.addEventListener("mouseleave", ()=>{ card.style.transform = ""; });
-  });
-}
-
-/* ============ TODAY'S DRAW (flagship front and center) ============ */
-const FLAGSHIP = GAMES[0];
-(function(){
-  document.getElementById("drawCard").innerHTML =
-    cardHTML(FLAGSHIP, 0, "draw").replace('class="card', 'class="card card-lg');
-  document.getElementById("drawCardLink").href = "#/games/" + FLAGSHIP.slug;
-  document.getElementById("drawTitle").textContent = FLAGSHIP.title;
-  document.getElementById("drawFantasy").textContent = "\u201C" + FLAGSHIP.fantasy + "\u201D";
-  document.getElementById("drawRelease").textContent = FLAGSHIP.releaseLabel + " " + FLAGSHIP.releaseValue;
-  const cta = document.getElementById("drawCta");
-  cta.textContent = FLAGSHIP.cta; cta.href = FLAGSHIP.ctaLink;
-  document.getElementById("drawOpen").href = "#/games/" + FLAGSHIP.slug;
-})();
-
-/* Bulletin cycler */
-let bIdx = 0, bTimer = null;
-const bulletinEl = document.getElementById("bulletin");
-const bulletinText = document.getElementById("bulletinText");
-function paintBulletin(){
-  bulletinText.textContent = BULLETINS[bIdx].text;
-  bulletinEl.href = BULLETINS[bIdx].href;
-}
-function cycleBulletin(){
-  bulletinEl.classList.add("swap");
-  setTimeout(()=>{
-    bIdx = (bIdx + 1) % BULLETINS.length;
-    paintBulletin();
-    bulletinEl.classList.remove("swap");
-  }, 400);
-}
-function startBulletin(){
-  paintBulletin();
-  clearInterval(bTimer);
-  if(!reduceMotion) bTimer = setInterval(cycleBulletin, 5000);
-}
-function stopBulletin(){ clearInterval(bTimer); }
-
-/* ============ Deck fans + hand list ============ */
-function fanHTML(uid){
-  return GAMES.map((g,i)=>`<a class="fan-slot" href="#/games/${g.slug}" aria-label="${g.title}">${cardHTML(g,i,uid)}</a>`).join("");
-}
-document.getElementById("homeDeck").innerHTML = fanHTML("hd");
-document.getElementById("allDeck").innerHTML  = fanHTML("ad");
-document.getElementById("handList").innerHTML = GAMES.map((g,i)=>`
-  <a class="hand-row" href="#/games/${g.slug}">
-    <span class="hr-num">\u2116 ${ROMAN[i]}</span>
-    <span><h3>${g.title}</h3><span class="hr-fant">\u201C${g.fantasy}\u201D</span></span>
-    <span class="hr-tag">${g.tag}</span>
-  </a>`).join("");
-
-/* ============ Dropdown mini cards ============ */
-document.getElementById("dropGrid").innerHTML = GAMES.map((g,i)=>`
-  <a class="drop-slot" href="#/games/${g.slug}" role="menuitem" aria-label="${g.title}">${cardHTML(g,i,"dd")}</a>`).join("");
-
-/* ============ News rendering ============ */
-function newsItem(n, i){
-  return `<a class="news-item" href="#/the-iso-informant/${n.slug}">
-    <span class="ni-num">\u2116 ${pad2(i+1)}</span>
-    <span class="news-date">${n.date}</span>
-    <span><h3>${n.title}</h3><p>${n.desc}</p></span>
-    <span class="ni-side"><span class="news-cat">${n.cat}</span><span class="read-time">${readTime(n)}</span></span>
-  </a>`;
-}
-document.getElementById("homeNews").innerHTML = NEWS.slice(0,3).map(newsItem).join("");
-document.getElementById("allNews").innerHTML  = NEWS.map(newsItem).join("");
-
-/* ============ Individual game page ============ */
-let currentGame = null, mIdx = 0, mLock = false;
-const MEDIA_COUNT = 4;
-const mediaArt = document.getElementById("mediaArt");
-function mediaLabel(){ return mIdx === 0 ? "Trailer" : `Screenshot ${mIdx} / ${MEDIA_COUNT-1}`; }
-function paintMedia(){
-  mediaArt.innerHTML = mediaSVG(currentGame.art, mIdx, "media");
-  document.getElementById("mediaCounter").textContent = mediaLabel();
-}
-function stepMedia(dir){
-  if(mLock || !currentGame) return;
-  mLock = true;
-  mediaArt.classList.add("fading");
-  setTimeout(()=>{
-    mIdx = (mIdx + dir + MEDIA_COUNT) % MEDIA_COUNT;
-    paintMedia();
-    mediaArt.classList.remove("fading");
-    setTimeout(()=>mLock=false, 350);
-  }, 280);
-}
-document.getElementById("prevMedia").addEventListener("click", ()=>stepMedia(-1));
-document.getElementById("nextMedia").addEventListener("click", ()=>stepMedia(1));
-document.addEventListener("keydown", e=>{
-  if(currentView().page !== "game") return;
-  if(e.key === "ArrowRight") stepMedia(1);
-  if(e.key === "ArrowLeft") stepMedia(-1);
+burger.addEventListener('click', () => {
+  const open = burger.classList.toggle('open');
+  menu.classList.toggle('open', open);
+  burger.setAttribute('aria-expanded', open);
+  burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
 });
-function renderGame(slug){
-  const gi = GAMES.findIndex(x => x.slug === slug);
-  if(gi < 0) return false;
-  const g = GAMES[gi];
-  currentGame = g; mIdx = 0;
-  const cardWrap = document.getElementById("gameCard");
-  cardWrap.innerHTML = cardHTML(g, gi, "gpg");
-  bindTilt(cardWrap.parentElement);
-  document.getElementById("gsEpi").textContent = "\u2116 " + ROMAN[gi] + " \u2014 " + g.epithet;
-  document.getElementById("gsTitle").textContent = g.title;
-  document.getElementById("gsFantasy").textContent = "\u201C" + g.fantasy + "\u201D";
-  document.getElementById("gsReleaseLabel").textContent = g.releaseLabel;
-  document.getElementById("gsReleaseValue").textContent = g.releaseValue;
-  document.getElementById("gsPlatforms").innerHTML = g.platforms.map(p=>`<span>${p}</span>`).join("");
-  const cta = document.getElementById("gsCta");
-  cta.textContent = g.cta; cta.href = g.ctaLink;
-  document.getElementById("gsBio").innerHTML = g.bio.map(p=>`<p>${p}</p>`).join("");
-  paintMedia();
-  return true;
-}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeMenu(); });
 
-/* ============ Router + dynamic tab titles ============ */
-const ROUTES = {home:"", games:"games", about:"about", informant:"the-iso-informant"};
-function currentView(){
-  const h = location.hash.replace(/^#\/?/, "").replace(/\/$/, "");
-  if(h.startsWith("the-iso-informant/")) return {page:"article", slug:h.split("/")[1]};
-  if(h.startsWith("games/")) return {page:"game", slug:h.split("/")[1]};
-  const key = Object.keys(ROUTES).find(k => ROUTES[k] === h);
-  return {page: key || "home"};
-}
-function renderArticle(slug){
-  const n = NEWS.find(x => x.slug === slug);
-  if(!n) return false;
-  document.getElementById("artCat").textContent = n.cat;
-  document.getElementById("artTitle").textContent = n.title;
-  document.getElementById("artDate").textContent = n.date + " \u00B7 " + readTime(n) + " \u00B7 The Iso Informant";
-  document.getElementById("artBody").innerHTML = n.body.map(p=>`<p>${p}</p>`).join("");
-  return true;
-}
-function setTitle(v){
-  switch(v.page){
-    case "home": document.title = "BluIso Games"; break;
-    case "games": document.title = "Games - BluIso Games"; break;
-    case "about": document.title = "About - BluIso Games"; break;
-    case "informant": document.title = "The Iso Informant - BluIso Games"; break;
-    case "game": {
-      const g = GAMES.find(x => x.slug === v.slug);
-      document.title = g ? g.title + " - BluIso Games" : "Games - BluIso Games";
-      break;
-    }
-    case "article": {
-      const n = NEWS.find(x => x.slug === v.slug);
-      document.title = n ? n.title + " - The Iso Informant" : "The Iso Informant - BluIso Games";
-      break;
-    }
-  }
-}
-function render(){
-  const v = currentView();
-  let pageId = v.page;
-  if(v.page === "article" && !renderArticle(v.slug)) pageId = "informant";
-  if(v.page === "game" && !renderGame(v.slug)) pageId = "games";
-  setTitle(pageId === v.page ? v : {page:pageId});
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.getElementById("page-" + pageId).classList.add("active");
-  const navRoute = pageId === "article" ? "informant" : (pageId === "game" ? "games" : pageId);
-  document.querySelectorAll("nav.main-nav a[data-route]").forEach(a =>
-    a.classList.toggle("active", a.dataset.route === navRoute));
-  document.getElementById("gamesDropBtn").classList.toggle("active", navRoute === "games");
-  closeDropdown();
-  window.scrollTo({top:0, behavior:"instant"});
-  if(pageId === "home") startBulletin(); else stopBulletin();
-}
-window.addEventListener("hashchange", render);
+// ---------- Header scroll state ----------
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 24);
+}, {passive:true});
 
-/* ============ Games dropdown ============ */
-const dd = document.getElementById("gamesDropdown");
-const ddBtn = document.getElementById("gamesDropBtn");
-const headerEl = document.getElementById("siteHeader");
-function openDropdown(){ dd.classList.add("open"); headerEl.classList.add("dd-open"); ddBtn.setAttribute("aria-expanded","true"); }
-function closeDropdown(){ dd.classList.remove("open"); headerEl.classList.remove("dd-open"); ddBtn.setAttribute("aria-expanded","false"); }
-ddBtn.addEventListener("click", e=>{
-  e.stopPropagation();
-  dd.classList.contains("open") ? closeDropdown() : openDropdown();
-});
-let ddCloseTimer;
-if(window.matchMedia("(hover:hover)").matches){
-  dd.addEventListener("mouseenter", ()=>{ clearTimeout(ddCloseTimer); openDropdown(); });
-  dd.addEventListener("mouseleave", ()=>{
-    clearTimeout(ddCloseTimer);
-    ddCloseTimer = setTimeout(closeDropdown, 260);
-  });
-}
-document.addEventListener("click", e=>{ if(!dd.contains(e.target)) closeDropdown(); });
-document.addEventListener("keydown", e=>{ if(e.key === "Escape") closeDropdown(); });
-
-/* ============ Header: bg on scroll + hide while scrolling, return when idle ============ */
-let idleTimer;
-function onScroll(){
-  headerEl.classList.toggle("scrolled", window.scrollY > 24);
-  if(window.scrollY > 140){
-    headerEl.classList.add("hidden");
-    closeDropdown();
-    clearTimeout(idleTimer);
-    idleTimer = setTimeout(()=>headerEl.classList.remove("hidden"), 450);
-  }else{
-    headerEl.classList.remove("hidden");
-    clearTimeout(idleTimer);
-  }
-}
-window.addEventListener("scroll", onScroll, {passive:true});
-onScroll();
-
-bindTilt(document);
-render();
-
-/* ============ Loading screen ============ */
-(function(){
-  const loader = document.getElementById("loader");
-  if(!loader) return;
-  const finish = ()=>{
-    if(loader.classList.contains("done")) return;
-    loader.classList.add("done");
-    document.body.classList.remove("is-loading");
-    setTimeout(()=>loader.remove(), 750);
-  };
-  setTimeout(finish, reduceMotion ? 250 : 2100);
-  loader.addEventListener("click", finish);
-  document.addEventListener("keydown", function skip(e){
-    if(e.key === "Enter" || e.key === "Escape" || e.key === " "){ finish(); document.removeEventListener("keydown", skip); }
-  });
-})();
+route();
 </script>
 </body>
 </html>
